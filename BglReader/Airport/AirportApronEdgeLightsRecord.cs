@@ -9,7 +9,7 @@ public class AirportApronEdgeLightsRecord : BglRecord
 
         NumberOfVertices = reader.ReadUInt16();
         NumberOfEdges = reader.ReadUInt16();
-        LightColor = reader.ReadUInt16();
+        LightColor = reader.ReadUInt32();
         LightIntensity = reader.ReadSingle();
         MaxRenderAltitude = reader.ReadSingle();
         MapVertices(reader);

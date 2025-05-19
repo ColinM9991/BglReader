@@ -62,12 +62,12 @@ public class AirportSubsectionData : BglRecord
 
     private void MapAirportData(BinaryReader reader)
     {
-        var iterationStartPosition = GetRecordStreamPosition();
-        while (reader.BaseStream.Position < iterationStartPosition + Size)
+        var recordFinalPosition = GetRecordStreamPosition() + Size;
+        while (reader.BaseStream.Position < recordFinalPosition)
         {
-            var id = reader.ReadUInt16();
+            var id = (AirportSubsectionDataType?)reader.ReadUInt16();
 
-            BglRecord? record = (AirportSubsectionDataType?)id switch
+            BglRecord? record = id switch
             {
                 AirportSubsectionDataType.Name => new AirportNameRecord(reader),
                 AirportSubsectionDataType.IncludedTowerSceneryObject => new TowerSceneryObjectRecord(reader),
@@ -95,15 +95,17 @@ public class AirportSubsectionData : BglRecord
                 AirportSubsectionDataType.Jetway => new AirportJetwayRecord(reader),
                 AirportSubsectionDataType.Approach => new AirportApproachRecord(reader),
                 AirportSubsectionDataType.Waypoint => new AirportWaypointRecord(reader),
-                AirportSubsectionDataType.BlastFence or AirportSubsectionDataType.BoundaryFence => null,
+                AirportSubsectionDataType.BlastFence or AirportSubsectionDataType.BoundaryFence => new AirportFenceRecord(reader),
                 AirportSubsectionDataType.Unknown => null,
                 _ => null,
             };
 
-            if (record is not null)
-            {
-                Subsections.Add(record);
-            }
+            if (record is null) continue;
+            
+            Subsections.Add(record);
         }
+        
+        reader.BaseStream.Position = recordFinalPosition;
+        return;
     }
 }
