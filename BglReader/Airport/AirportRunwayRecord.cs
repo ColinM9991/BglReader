@@ -3,8 +3,7 @@
 public class AirportRunwayRecord : BglRecord
 {
     public AirportRunwayRecord(
-        BinaryReader reader,
-        long iterationStartPos) : base(reader)
+        BinaryReader reader) : base(reader)
     {
         SurfaceType = (SurfaceType)reader.ReadUInt16();
         RunwayNumber = reader.ReadByte();
@@ -24,7 +23,7 @@ public class AirportRunwayRecord : BglRecord
 
         _ = reader.ReadBytes(16);
 
-        MapSubrecords(reader, iterationStartPos);
+        MapSubrecords(reader);
     }
 
     public SurfaceType SurfaceType { get; set; }
@@ -59,8 +58,9 @@ public class AirportRunwayRecord : BglRecord
 
     public ICollection<BglRecord> Subrecords { get; set; } = new List<BglRecord>();
 
-    private void MapSubrecords(BinaryReader reader, long iterationStartPos)
+    private void MapSubrecords(BinaryReader reader)
     {
+        var iterationStartPos = GetRecordStreamPosition();
         var totalSize = iterationStartPos + Size;
         while (reader.BaseStream.Position < totalSize)
         {

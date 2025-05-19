@@ -3,8 +3,7 @@
 public class AirportApproachRecord : BglRecord
 {
     public AirportApproachRecord(
-        BinaryReader reader,
-        long iterationStartPos) : base(reader)
+        BinaryReader reader) : base(reader)
     {
         Suffix = reader.ReadByte();
         RunwayNumber = reader.ReadByte();
@@ -18,7 +17,7 @@ public class AirportApproachRecord : BglRecord
         Heading = reader.ReadSingle();
         MissedAltitude = reader.ReadSingle();
 
-        MapSubRecords(reader, iterationStartPos);
+        MapSubRecords(reader);
     }
 
     public byte Suffix { get; }
@@ -45,8 +44,9 @@ public class AirportApproachRecord : BglRecord
 
     public ICollection<BglRecord> SubRecords { get; } = new List<BglRecord>();
 
-    private void MapSubRecords(BinaryReader reader, long iterationStartPos)
+    private void MapSubRecords(BinaryReader reader)
     {
+        var iterationStartPos = GetRecordStreamPosition();
         while (reader.BaseStream.Position < iterationStartPos + Size)
         {
             var id = reader.ReadUInt16();
@@ -70,7 +70,7 @@ public class AirportApproachRecord : BglRecord
 public class AirportLegBaseRecord : BglRecord
 {
     public AirportLegBaseRecord(
-        BinaryReader reader) : base(reader)
+        BinaryReader reader, bool rewindStream = true) : base(reader, rewindStream)
     {
         NumberOfLegs = reader.ReadUInt16();
 
@@ -110,8 +110,7 @@ public class AirportTransitionRecord : BglRecord
             Distance = reader.ReadSingle();
         }
         
-        _ = reader.ReadUInt16();
-        LegRecord = new AirportLegBaseRecord(reader);
+        LegRecord = new AirportLegBaseRecord(reader, false);
     }
 
     public byte Type { get; }

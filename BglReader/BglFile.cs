@@ -17,7 +17,7 @@ public class BglFile
 
     public Header Header { get; }
 
-    public Section[] Sections { get; private set; }
+    public Section[] Sections { get; }
 
     private void MapSections(BinaryReader reader)
     {

@@ -1,13 +1,10 @@
 ﻿namespace BglReader.Airport;
 
-public class AirportSubsectionData : ISubsectionData
+public class AirportSubsectionData : BglRecord
 {
     public AirportSubsectionData(
-        BinaryReader reader,
-        long iterationPosition)
+        BinaryReader reader) : base(reader, false)
     {
-        Id = reader.ReadUInt16();
-        Size = reader.ReadUInt32();
         NumberOfRunways = reader.ReadByte();
         NumberOfCom = reader.ReadByte();
         NumberOfStarts = reader.ReadByte();
@@ -26,12 +23,8 @@ public class AirportSubsectionData : ISubsectionData
         FuelTypeInfo = reader.ReadUInt32();
         _ = reader.ReadBytes(8); // Throwaway FSX info + padding
 
-        MapAirportData(reader, iterationPosition);
+        MapAirportData(reader);
     }
-
-    public ushort Id { get; set; }
-
-    public uint Size { get; set; }
 
     public byte NumberOfRunways { get; set; }
 
@@ -67,15 +60,11 @@ public class AirportSubsectionData : ISubsectionData
 
     public ICollection<BglRecord> Subsections { get; set; } = new List<BglRecord>();
 
-    public static ISubsectionData Create(BinaryReader reader, long iterationPosition) =>
-        new AirportSubsectionData(reader, iterationPosition);
-
-    private void MapAirportData(BinaryReader reader, long iterationStartPos)
+    private void MapAirportData(BinaryReader reader)
     {
-        while (reader.BaseStream.Position < iterationStartPos + Size)
+        var iterationStartPosition = GetRecordStreamPosition();
+        while (reader.BaseStream.Position < iterationStartPosition + Size)
         {
-            var iterationPosition = reader.BaseStream.Position;
-
             var id = reader.ReadUInt16();
 
             BglRecord? record = (AirportSubsectionDataType?)id switch
@@ -83,11 +72,10 @@ public class AirportSubsectionData : ISubsectionData
                 AirportSubsectionDataType.Name => new AirportNameRecord(reader),
                 AirportSubsectionDataType.IncludedTowerSceneryObject => new TowerSceneryObjectRecord(reader),
                 AirportSubsectionDataType.Runway or AirportSubsectionDataType.RunwayP3DV4 => new
-                    AirportRunwayRecord(reader,
-                        iterationPosition),
+                    AirportRunwayRecord(reader),
                 AirportSubsectionDataType.Helipad => new HelipadRecord(reader),
                 AirportSubsectionDataType.Start => new AirportRunwayStartRecord(reader),
-                AirportSubsectionDataType.Com => new AirportRunwayComRecord(reader, iterationPosition),
+                AirportSubsectionDataType.Com => new AirportRunwayComRecord(reader),
                 AirportSubsectionDataType.DeleteAirport => new DeleteAirportRecord(reader),
                 AirportSubsectionDataType.ApronFirst or AirportSubsectionDataType.ApronFirstP3DV5 => new
                     AirportApronRecord(
@@ -105,7 +93,7 @@ public class AirportSubsectionData : ISubsectionData
                     or AirportSubsectionDataType.TaxiPathP3DV5 => new AirportTaxiPathRecord(reader),
                 AirportSubsectionDataType.TaxiName => new AirportTaxiName(reader),
                 AirportSubsectionDataType.Jetway => new AirportJetwayRecord(reader),
-                AirportSubsectionDataType.Approach => new AirportApproachRecord(reader, iterationPosition),
+                AirportSubsectionDataType.Approach => new AirportApproachRecord(reader),
                 AirportSubsectionDataType.Waypoint => new AirportWaypointRecord(reader),
                 AirportSubsectionDataType.BlastFence or AirportSubsectionDataType.BoundaryFence => null,
                 AirportSubsectionDataType.Unknown => null,

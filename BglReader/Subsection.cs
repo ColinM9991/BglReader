@@ -32,14 +32,13 @@ public class Subsection
 
     public uint Size { get; set; }
 
-    public ISubsectionData Data { get; set; }
+    public BglRecord Data { get; set; }
 
     public void MapData(SectionType sectionType, BinaryReader reader)
     {
-        var iterationPosition = reader.BaseStream.Position;
         Data = sectionType switch
         {
-            SectionType.Airport => AirportSubsectionData.Create(reader, iterationPosition),
+            SectionType.Airport => new AirportSubsectionData(reader),
             _ => null,
         };
     }
