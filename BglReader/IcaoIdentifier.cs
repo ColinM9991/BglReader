@@ -39,8 +39,7 @@ public struct IcaoIdentifier
             {
                 0 => ' ',
                 > 1 and < 12 => (char)('0' + (value - 2)),
-                > 11 and < 38 => (char)('A' + (value - 12)),
-                _ => throw new ArgumentException(nameof(value)),
+                _ => (char)('A' + (value - 12)),
             };
         }
     }

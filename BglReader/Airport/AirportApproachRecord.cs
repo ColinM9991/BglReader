@@ -19,11 +19,11 @@ public class AirportApproachRecord : BglRecord
         
         var fixFlags = reader.ReadUInt32();
         FixType = (FixType)(fixFlags & 0xF);
-        FixIdentifier = IcaoIdentifier.Parse((fixFlags >> 5) & 0x1FFFFF, true);
+        FixIdentifier = IcaoIdentifier.Parse((fixFlags >> 5) & 0x7FFFFFF);
 
         var regionFlags = reader.ReadUInt32();
-        FixRegion = IcaoIdentifier.Parse(regionFlags & 0x7FF, true);
-        FixAirportIdentifier = IcaoIdentifier.Parse((regionFlags >> 11) & 0x1FFFFF, true);
+        FixRegion = IcaoIdentifier.Parse(regionFlags & 0x7FF);
+        FixAirportIdentifier = IcaoIdentifier.Parse((regionFlags >> 11) & 0x1FFFFF);
         
         Altitude = reader.ReadSingle();
         Heading = reader.ReadSingle();

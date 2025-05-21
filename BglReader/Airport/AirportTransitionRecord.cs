@@ -11,20 +11,20 @@ public class AirportTransitionRecord : BglRecord
         var regionFlags = reader.ReadUInt32();
 
         FixType = (FixType)(fixFlags & 0xF);
-        FixIdentifier = IcaoIdentifier.Parse((fixFlags >> 5) & 0x7FFFFFF, true);
+        FixIdentifier = IcaoIdentifier.Parse((fixFlags >> 5) & 0x7FFFFFF);
         FixRegion = IcaoIdentifier.Parse(regionFlags & 0x7FF);
-        FixAirport = IcaoIdentifier.Parse((regionFlags >> 11) & 0x1FFFFF, true);
+        FixAirport = IcaoIdentifier.Parse((regionFlags >> 11) & 0x1FFFFF);
         
         Altitude = reader.ReadSingle();
 
         if (Type == TransitionType.Dme)
         {
-            DmeIdent = IcaoIdentifier.Parse(reader.ReadUInt32());
+            DmeIdent = IcaoIdentifier.Parse(reader.ReadUInt32(), true);
             
             var dmeRegionFlags = reader.ReadUInt32();
             
-            DmeRegion = IcaoIdentifier.Parse(dmeRegionFlags & 0x7FF, true);
-            DmeAirport = IcaoIdentifier.Parse((dmeRegionFlags >> 11) & 0x1FFFFF, true);
+            DmeRegion = IcaoIdentifier.Parse(dmeRegionFlags & 0x7FF);
+            DmeAirport = IcaoIdentifier.Parse((dmeRegionFlags >> 11) & 0x1FFFFF);
             
             Radial = reader.ReadUInt32();
             Distance = reader.ReadSingle();
