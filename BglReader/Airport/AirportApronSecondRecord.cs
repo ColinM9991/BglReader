@@ -1,5 +1,6 @@
 ﻿namespace BglReader.Airport;
 
+// TODO Flags
 public class AirportApronSecondRecord : AirportApronBaseRecord
 {
     public AirportApronSecondRecord(

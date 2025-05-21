@@ -1,5 +1,6 @@
 namespace BglReader.Airport;
 
+//TODO Flags
 public readonly struct ApproachLeg
 {
     public ApproachLeg(

@@ -1,8 +1,8 @@
-﻿namespace BglReader.Airport;
+﻿namespace BglReader.Navigation;
 
-public class AirportWaypointRecord : BglRecord
+public class WaypointRecord : BglRecord
 {
-    public AirportWaypointRecord(BinaryReader reader) : base(reader)
+    public WaypointRecord(BinaryReader reader) : base(reader, false)
     {
         Type = (WaypointType)reader.ReadByte();
         NumberOfRoutes = reader.ReadByte();
@@ -14,6 +14,8 @@ public class AirportWaypointRecord : BglRecord
         
         Region = IcaoIdentifier.Parse(identFlags & 0x7FF);
         Airport = IcaoIdentifier.Parse((identFlags >> 11) & 0x1FFFFF);
+
+        MapRoutes(reader);
     }
     
     public WaypointType Type { get; }
@@ -29,4 +31,16 @@ public class AirportWaypointRecord : BglRecord
     public IcaoIdentifier Region { get; }
     
     public IcaoIdentifier Airport { get; }
+
+    public ICollection<WaypointRoute> Routes { get; } = new List<WaypointRoute>();
+    
+    private void MapRoutes(BinaryReader reader)
+    {
+        if (NumberOfRoutes == 0) return;
+
+        for (var i = 0; i < NumberOfRoutes; i++)
+        {
+            Routes.Add(new WaypointRoute(reader));
+        }
+    }
 }

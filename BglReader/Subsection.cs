@@ -1,4 +1,5 @@
 ﻿using BglReader.Airport;
+using BglReader.Navigation;
 
 namespace BglReader;
 
@@ -22,24 +23,33 @@ public class Subsection
         Size = reader.ReadUInt32();
     }
 
-    public Qmid QmidA { get; set; }
+    public Qmid QmidA { get; }
 
-    public Qmid? QmidB { get; set; }
+    public Qmid? QmidB { get; }
 
-    public uint RecordsCount { get; set; }
+    public uint RecordsCount { get; }
 
-    public uint Offset { get; set; }
+    public uint Offset { get; }
 
-    public uint Size { get; set; }
+    public uint Size { get; }
 
-    public BglRecord Data { get; set; }
+    public ICollection<BglRecord> Data { get; } = new List<BglRecord>();
 
     public void MapData(SectionType sectionType, BinaryReader reader)
     {
-        Data = sectionType switch
+        var originalPosition = reader.BaseStream.Position;
+        for (var i = 0; i < RecordsCount; i++)
         {
-            SectionType.Airport => new AirportSubsectionData(reader),
-            _ => null,
-        };
+            BglRecord data = sectionType switch
+            {
+                SectionType.Airport => new AirportSubsectionData(reader),
+                SectionType.Waypoint => new WaypointRecord(reader),
+                _ => null,
+            };
+
+            if (data is not null) Data.Add(data);
+        }
+
+        reader.BaseStream.Position = originalPosition + Size;
     }
 }

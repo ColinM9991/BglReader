@@ -1,5 +1,6 @@
 ﻿namespace BglReader.Airport;
 
+// TODO Flags
 public class DeleteAirportRecord : BglRecord
 {
     public DeleteAirportRecord(BinaryReader reader) : base(reader)

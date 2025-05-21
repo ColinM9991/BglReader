@@ -1,5 +1,6 @@
 ﻿namespace BglReader.Airport;
 
+// TODO FLags
 public class AirportRunwayRecord : BglRecord
 {
     public AirportRunwayRecord(

@@ -1,4 +1,6 @@
-﻿namespace BglReader.Airport;
+﻿using BglReader.Navigation;
+
+namespace BglReader.Airport;
 
 public class AirportSubsectionData : BglRecord
 {
@@ -94,7 +96,7 @@ public class AirportSubsectionData : BglRecord
                 AirportSubsectionDataType.TaxiName => new AirportTaxiName(reader),
                 AirportSubsectionDataType.Jetway => new AirportJetwayRecord(reader),
                 AirportSubsectionDataType.Approach => new AirportApproachRecord(reader),
-                AirportSubsectionDataType.Waypoint => new AirportWaypointRecord(reader),
+                AirportSubsectionDataType.Waypoint => new WaypointRecord(reader),
                 AirportSubsectionDataType.BlastFence or AirportSubsectionDataType.BoundaryFence => new AirportFenceRecord(reader),
                 AirportSubsectionDataType.Unknown => null,
                 _ => null,

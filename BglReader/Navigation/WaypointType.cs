@@ -1,4 +1,4 @@
-namespace BglReader.Airport;
+namespace BglReader.Navigation;
 
 public enum WaypointType : byte
 {
