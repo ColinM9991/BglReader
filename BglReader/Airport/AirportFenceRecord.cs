@@ -5,7 +5,8 @@ public class AirportFenceRecord : BglRecord
     public AirportFenceRecord(BinaryReader reader) : base(reader)
     {
         NumberOfVertices = reader.ReadUInt16();
-        _ = reader.ReadBytes(32);
+        Instance = new Guid(reader.ReadBytes(16));
+        Profile = new Guid(reader.ReadBytes(16));
         
         MapVertices(reader);
     }
@@ -22,7 +23,7 @@ public class AirportFenceRecord : BglRecord
     {
         if (NumberOfVertices == 0) return;
 
-        for (int i = 0; i < NumberOfVertices; i++)
+        for (var i = 0; i < NumberOfVertices; i++)
         {
             Vertices.Add(new Coordinate(reader.ReadInt32(), reader.ReadInt32()));
         }

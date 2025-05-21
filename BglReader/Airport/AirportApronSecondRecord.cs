@@ -11,6 +11,7 @@ public class AirportApronSecondRecord : AirportApronBaseRecord
         NumberOfTriangles = reader.ReadUInt16();
         MapVertices(reader);
         MapTriangles(reader);
+        reader.BaseStream.Position = GetRecordEndPosition();
     }
 
     public byte Flags { get; set; }

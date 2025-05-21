@@ -11,11 +11,9 @@ public class AirportWaypointRecord : BglRecord
         Identifier = IcaoIdentifier.Parse(reader.ReadUInt32(), true);
 
         var identFlags = reader.ReadUInt32();
-        var region = identFlags & ((1 << 11) - 1);
-        var airport = (identFlags >> 11) & ((1 << 21) - 1);
         
-        Region = IcaoIdentifier.Parse(region);
-        Airport = IcaoIdentifier.Parse(airport);
+        Region = IcaoIdentifier.Parse(identFlags & 0x7FF);
+        Airport = IcaoIdentifier.Parse((identFlags >> 11) & 0x1FFFFF);
     }
     
     public WaypointType Type { get; }
@@ -31,15 +29,4 @@ public class AirportWaypointRecord : BglRecord
     public IcaoIdentifier Region { get; }
     
     public IcaoIdentifier Airport { get; }
-}
-
-public enum WaypointType : byte
-{
-    Named = 1,
-    Unnamed = 2,
-    VOR = 3,
-    NDB = 4,
-    OffRoute = 5,
-    IAF = 6,
-    FAF = 7
 }

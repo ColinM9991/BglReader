@@ -9,6 +9,8 @@ public struct IcaoIdentifier
 
     public string Identifier { get; set; }
 
+    public override string ToString() => Identifier;
+
     public static IcaoIdentifier Parse(uint code, bool shift = false)
     {
         if (shift)

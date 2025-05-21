@@ -8,5 +8,7 @@ public class AirportApronRecord : AirportApronBaseRecord
         _ = reader.ReadBytes(21);
         NumberOfVertices = reader.ReadUInt16();
         MapVertices(reader);
+
+        reader.BaseStream.Position = GetRecordEndPosition();
     }
 }

@@ -9,7 +9,11 @@ public class DeleteAirportRecord : BglRecord
         NumberOfStarts = reader.ReadByte();
         NumberOfFrequencies = reader.ReadByte();
 
-        reader.ReadBytes((NumberOfRunways * 4) + (NumberOfStarts * 4) + (NumberOfFrequencies * 4));
+        MapRunways(reader);
+        MapStarts(reader);
+        MapFrequencies(reader);
+
+        _ = reader.ReadByte(); // Unused
     }
 
     public ushort DeleteFlags { get; set; }
@@ -19,4 +23,49 @@ public class DeleteAirportRecord : BglRecord
     public byte NumberOfStarts { get; set; }
 
     public byte NumberOfFrequencies { get; set; }
+
+    public ICollection<DeleteRunway> Runways { get; } = new List<DeleteRunway>();
+
+    public ICollection<DeleteStart> Starts { get; } = new List<DeleteStart>();
+
+    public ICollection<DeleteFrequency> Frequencies { get; } = new List<DeleteFrequency>();
+
+    private void MapRunways(BinaryReader reader)
+    {
+        if (NumberOfRunways == 0) return;
+
+        for (var i = 0; i < NumberOfRunways; i++)
+        {
+            Runways.Add(new DeleteRunway(
+                reader.ReadByte(),
+                reader.ReadByte(),
+                reader.ReadByte(),
+                reader.ReadByte()));
+        }
+    }
+
+    private void MapStarts(BinaryReader reader)
+    {
+        if (NumberOfStarts == 0) return;
+
+        for (var i = 0; i < NumberOfStarts; i++)
+        {
+            Starts.Add(new DeleteStart(
+                reader.ReadByte(),
+                reader.ReadByte(),
+                reader.ReadByte()));
+
+            _ = reader.ReadByte(); // TODO validate unused
+        }
+    }
+
+    private void MapFrequencies(BinaryReader reader)
+    {
+        if (NumberOfFrequencies == 0) return;
+
+        for (var i = 0; i < NumberOfFrequencies; i++)
+        {
+            Frequencies.Add(new DeleteFrequency(reader.ReadUInt32()));
+        }
+    }
 }

@@ -1,5 +1,6 @@
 ﻿namespace BglReader.Airport;
 
+// TODO Validate Apron types being used in P3DV5
 public abstract class AirportApronBaseRecord : BglRecord
 {
     public AirportApronBaseRecord(
