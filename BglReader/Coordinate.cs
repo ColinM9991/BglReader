@@ -9,7 +9,7 @@ public struct Coordinate(
         int longitude,
         int elevation) : this(latitude, longitude)
     {
-        Elevation = elevation * 1000;
+        Elevation = elevation;
     }
 
     public double Latitude { get; set; } = 90.0 - latitude * (180.0 / (2 * 0x10000000));

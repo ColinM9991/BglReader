@@ -10,7 +10,7 @@ public class AirportRunwayComRecord : BglRecord
         Type = reader.ReadUInt16();
         Frequency = reader.ReadUInt32() / 1000;
         Name = Encoding.UTF8.GetString(
-            reader.ReadBytes((int)(GetRecordStreamPosition() + Size - reader.BaseStream.Position)));
+            reader.ReadBytes((int)(GetRecordStartPosition() + Size - reader.BaseStream.Position)));
     }
 
     public ushort Type { get; set; }

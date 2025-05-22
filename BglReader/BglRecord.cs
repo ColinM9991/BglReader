@@ -21,7 +21,7 @@ public class BglRecord
 
     public uint Size { get; }
     
-    protected long GetRecordStreamPosition() => _recordStreamPosition;
+    protected long GetRecordStartPosition() => _recordStreamPosition;
 
     protected long GetRecordEndPosition() => _recordStreamPosition + Size;
 }

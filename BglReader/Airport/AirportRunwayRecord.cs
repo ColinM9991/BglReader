@@ -61,7 +61,7 @@ public class AirportRunwayRecord : BglRecord
 
     private void MapSubrecords(BinaryReader reader)
     {
-        var iterationStartPos = GetRecordStreamPosition();
+        var iterationStartPos = GetRecordStartPosition();
         var totalSize = iterationStartPos + Size;
         while (reader.BaseStream.Position < totalSize)
         {
@@ -89,16 +89,5 @@ public class AirportRunwayRecord : BglRecord
                 Subrecords.Add(record);
             }
         }
-    }
-
-    public enum RunwayDesignator : byte
-    {
-        None = 0,
-        Left = 1,
-        Right = 2,
-        Center = 3,
-        Water = 4,
-        A = 5,
-        B = 6,
     }
 }

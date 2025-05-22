@@ -3,10 +3,11 @@
 public class BglFile
 {
     public BglFile(
-        string fileName,
-        BinaryReader reader)
+        FileStream file)
     {
-        FileName = fileName;
+        FileName = Path.GetFileName(file.Name);
+        using var reader = new BinaryReader(file);
+        
         Header = new Header(reader);
         Sections = new Section[Header.NumberOfSections];
         

@@ -9,15 +9,15 @@ public struct WaypointRoute
         Type = (RouteType)reader.ReadByte();
         Name = Encoding.UTF8.GetString(reader.ReadBytes(8));
 
-        Next = new WaypointSegment(reader);
-        Previous = new WaypointSegment(reader);
+        Next = WaypointSegment.Parse(reader);
+        Previous = WaypointSegment.Parse(reader);
     }
 
     public RouteType Type { get; }
 
     public string Name { get; }
     
-    public WaypointSegment Next { get; }
+    public WaypointSegment? Next { get; }
     
-    public WaypointSegment Previous { get; }
+    public WaypointSegment? Previous { get; }
 }

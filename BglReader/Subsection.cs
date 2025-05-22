@@ -37,19 +37,23 @@ public class Subsection
 
     public void MapData(SectionType sectionType, BinaryReader reader)
     {
-        var originalPosition = reader.BaseStream.Position;
+        reader.BaseStream.Position = Offset;
+        
         for (var i = 0; i < RecordsCount; i++)
         {
-            BglRecord data = sectionType switch
+            BglRecord? data = sectionType switch
             {
                 SectionType.Airport => new AirportSubsectionData(reader),
                 SectionType.Waypoint => new WaypointRecord(reader),
+                SectionType.Tacan => new TacanRecord(reader),
+                SectionType.IlsVor => new IlsVorRecord(reader),
+                SectionType.Ndb => new NdbRecord(reader),
                 _ => null,
             };
 
             if (data is not null) Data.Add(data);
         }
 
-        reader.BaseStream.Position = originalPosition + Size;
+        reader.BaseStream.Position = Offset + Size;
     }
 }

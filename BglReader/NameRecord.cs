@@ -1,10 +1,10 @@
 ﻿using System.Text;
 
-namespace BglReader.Airport;
+namespace BglReader;
 
-public class AirportNameRecord : BglRecord
+public class NameRecord : BglRecord
 {
-    public AirportNameRecord(
+    public NameRecord(
         BinaryReader reader) : base(reader)
     {
         Name = Encoding.UTF8.GetString(reader.ReadBytes((int)Size - 6));

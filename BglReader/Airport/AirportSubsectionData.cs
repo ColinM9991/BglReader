@@ -64,14 +64,14 @@ public class AirportSubsectionData : BglRecord
 
     private void MapAirportData(BinaryReader reader)
     {
-        var recordFinalPosition = GetRecordStreamPosition() + Size;
+        var recordFinalPosition = GetRecordStartPosition() + Size;
         while (reader.BaseStream.Position < recordFinalPosition)
         {
             var id = (AirportSubsectionDataType?)reader.ReadUInt16();
 
             BglRecord? record = id switch
             {
-                AirportSubsectionDataType.Name => new AirportNameRecord(reader),
+                AirportSubsectionDataType.Name => new NameRecord(reader),
                 AirportSubsectionDataType.IncludedTowerSceneryObject => new TowerSceneryObjectRecord(reader),
                 AirportSubsectionDataType.Runway or AirportSubsectionDataType.RunwayP3DV4 => new
                     AirportRunwayRecord(reader),
