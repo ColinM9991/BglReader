@@ -16,6 +16,8 @@ public class WaypointRecord : BglRecord
         Airport = IcaoIdentifier.Parse((identFlags >> 11) & 0x1FFFFF);
 
         MapRoutes(reader);
+
+        reader.BaseStream.Position = GetRecordEndPosition();
     }
     
     public WaypointType Type { get; }
