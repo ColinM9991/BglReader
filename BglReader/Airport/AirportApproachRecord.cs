@@ -58,7 +58,7 @@ public class AirportApproachRecord : BglRecord
 
     public float Altitude { get; }
 
-    public float Heading { get; set; }
+    public float Heading { get; }
 
     public float MissedAltitude { get; }
 

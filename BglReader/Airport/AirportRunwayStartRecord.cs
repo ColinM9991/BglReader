@@ -10,11 +10,11 @@ public class AirportRunwayStartRecord : BglRecord
         Heading = reader.ReadSingle();
     }
 
-    public byte RunwayNumber { get; set; }
+    public byte RunwayNumber { get; }
 
-    public byte RunwayInfo { get; set; }
+    public byte RunwayInfo { get; }
 
-    public Coordinate Coordinates { get; set; }
+    public Coordinate Coordinates { get; }
 
-    public float Heading { get; set; }
+    public float Heading { get; }
 }

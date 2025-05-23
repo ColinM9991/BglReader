@@ -15,9 +15,9 @@ public class AirportApronSecondRecord : AirportApronBaseRecord
         reader.BaseStream.Position = GetRecordEndPosition();
     }
 
-    public byte Flags { get; set; }
+    public byte Flags { get; }
 
-    public ushort NumberOfTriangles { get; set; }
+    public ushort NumberOfTriangles { get; }
 
     public ICollection<ApronTriangle> Triangles { get; } = new List<ApronTriangle>();
 

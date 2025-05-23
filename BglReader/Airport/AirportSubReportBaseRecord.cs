@@ -12,13 +12,13 @@ public class AirportSubReportBaseRecord : BglRecord
         Width = reader.ReadSingle();
     }
 
-    public SubReportBaseType Type { get; set; }
+    public SubReportBaseType Type { get; }
 
-    public SurfaceType SurfaceType { get; set; }
+    public SurfaceType SurfaceType { get; }
 
-    public float Length { get; set; }
+    public float Length { get; }
 
-    public float Width { get; set; }
+    public float Width { get; }
 
     public enum SubReportBaseType
     {

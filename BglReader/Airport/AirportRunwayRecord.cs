@@ -27,37 +27,37 @@ public class AirportRunwayRecord : BglRecord
         MapSubrecords(reader);
     }
 
-    public SurfaceType SurfaceType { get; set; }
+    public SurfaceType SurfaceType { get; }
 
-    public byte RunwayNumber { get; set; }
+    public byte RunwayNumber { get; }
 
-    public RunwayDesignator Designator { get; set; }
+    public RunwayDesignator Designator { get; }
 
-    public byte SecondaryRunwayNumber { get; set; }
+    public byte SecondaryRunwayNumber { get; }
 
-    public byte SecondaryRunwayDesignator { get; set; }
+    public byte SecondaryRunwayDesignator { get; }
 
-    public IcaoIdentifier PrimaryIlsIdentifier { get; set; }
+    public IcaoIdentifier PrimaryIlsIdentifier { get; }
 
-    public IcaoIdentifier SecondaryIlsIdentifier { get; set; }
+    public IcaoIdentifier SecondaryIlsIdentifier { get; }
 
-    public Coordinate Coordinates { get; set; }
+    public Coordinate Coordinates { get; }
 
-    public float Length { get; set; }
+    public float Length { get; }
 
-    public float Width { get; set; }
+    public float Width { get; }
 
-    public float Heading { get; set; }
+    public float Heading { get; }
 
-    public float PatternAltitude { get; set; }
+    public float PatternAltitude { get; }
 
-    public ushort MarkingFlags { get; set; }
+    public ushort MarkingFlags { get; }
 
-    public byte LightsFlags { get; set; }
+    public byte LightsFlags { get; }
 
-    public byte PatternFlags { get; set; }
+    public byte PatternFlags { get; }
 
-    public ICollection<BglRecord> Subrecords { get; set; } = new List<BglRecord>();
+    public ICollection<BglRecord> Subrecords { get; } = new List<BglRecord>();
 
     private void MapSubrecords(BinaryReader reader)
     {

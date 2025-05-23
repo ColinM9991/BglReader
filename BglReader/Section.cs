@@ -24,7 +24,7 @@ public class Section
 
     public uint TotalSizeOfSubsections { get; }
 
-    public Subsection[] Subsections { get; set; }
+    public Subsection[] Subsections { get; }
 
     public void AddSubsections(BinaryReader reader)
     {

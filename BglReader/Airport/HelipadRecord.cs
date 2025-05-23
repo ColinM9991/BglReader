@@ -13,17 +13,17 @@ public class HelipadRecord : BglRecord
         Heading = reader.ReadSingle();
     }
 
-    public SurfaceType SurfaceType { get; set; }
+    public SurfaceType SurfaceType { get; }
 
-    public byte Type { get; set; }
+    public byte Type { get; }
 
-    public byte[] Color { get; set; }
+    public byte[] Color { get; }
 
-    public Coordinate Coordinate { get; set; }
+    public Coordinate Coordinate { get; }
 
-    public float Length { get; set; }
+    public float Length { get; }
 
-    public float Width { get; set; }
+    public float Width { get; }
 
-    public float Heading { get; set; }
+    public float Heading { get; }
 }

@@ -16,15 +16,15 @@ public class AirportApronEdgeLightsRecord : BglRecord
         MapLightEdges(reader);
     }
 
-    public ushort NumberOfVertices { get; set; }
+    public ushort NumberOfVertices { get; }
 
-    public ushort NumberOfEdges { get; set; }
+    public ushort NumberOfEdges { get; }
 
-    public uint LightColor { get; set; }
+    public uint LightColor { get; }
 
-    public float LightIntensity { get; set; }
+    public float LightIntensity { get; }
 
-    public float MaxRenderAltitude { get; set; }
+    public float MaxRenderAltitude { get; }
 
     public ICollection<Coordinate> Vertices { get; } = new List<Coordinate>();
 

@@ -10,7 +10,7 @@ public struct BglDateTime
         HighDateTime = highDateTime;
     }
 
-    public uint LowDateTime { get; set; }
+    public uint LowDateTime { get; }
 
-    public uint HighDateTime { get; set; }
+    public uint HighDateTime { get; }
 }

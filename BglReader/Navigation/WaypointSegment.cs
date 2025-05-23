@@ -41,7 +41,7 @@ public struct WaypointSegment
 
         var altitudeMinimum = reader.ReadSingle();
 
-        return (type is WaypointSegmentType.Named or WaypointSegmentType.Ndb or WaypointSegmentType.Vor)
+        return type is WaypointSegmentType.Named or WaypointSegmentType.Ndb or WaypointSegmentType.Vor
             ? new WaypointSegment(type, identifier, region, airportId, altitudeMinimum)
             : null;
     }

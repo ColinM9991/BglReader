@@ -11,13 +11,13 @@ public class AirportVasiSubRecord : BglRecord
         Pitch = reader.ReadSingle();
     }
 
-    public VasiType Type { get; set; }
+    public VasiType Type { get; }
 
-    public float BiasX { get; set; }
+    public float BiasX { get; }
 
-    public float BiasZ { get; set; }
+    public float BiasZ { get; }
 
-    public float Spacing { get; set; }
+    public float Spacing { get; }
 
-    public float Pitch { get; set; }
+    public float Pitch { get; }
 }

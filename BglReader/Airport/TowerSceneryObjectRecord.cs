@@ -8,7 +8,7 @@ public class TowerSceneryObjectRecord : BglRecord
         SceneryObject = reader.ReadBytes((int)ScenerySize);
     }
 
-    public uint ScenerySize { get; set; }
+    public uint ScenerySize { get; }
 
-    public byte[] SceneryObject { get; set; }
+    public byte[] SceneryObject { get; }
 }

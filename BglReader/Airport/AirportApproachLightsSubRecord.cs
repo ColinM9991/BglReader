@@ -8,7 +8,7 @@ public class AirportApproachLightsSubRecord : BglRecord
         NumberOfStrobes = reader.ReadByte();
     }
 
-    public byte Details { get; set; }
+    public byte Details { get; }
 
-    public byte NumberOfStrobes { get; set; }
+    public byte NumberOfStrobes { get; }
 }

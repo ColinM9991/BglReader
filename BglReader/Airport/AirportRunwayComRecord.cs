@@ -13,9 +13,9 @@ public class AirportRunwayComRecord : BglRecord
             reader.ReadBytes((int)(GetRecordStartPosition() + Size - reader.BaseStream.Position)));
     }
 
-    public ushort Type { get; set; }
+    public ushort Type { get; }
 
-    public uint Frequency { get; set; }
+    public uint Frequency { get; }
 
-    public string Name { get; set; }
+    public string Name { get; }
 }

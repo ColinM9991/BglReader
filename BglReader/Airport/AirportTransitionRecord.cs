@@ -57,5 +57,5 @@ public class AirportTransitionRecord : BglRecord
     
     public float Distance { get; }
     
-    public AirportLegBaseRecord LegRecord { get; set; }
+    public AirportLegBaseRecord LegRecord { get; }
 }

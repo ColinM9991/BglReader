@@ -10,7 +10,7 @@ public class AirportMarkingBiasSubReportRecord : BglRecord
         SecondaryMarking = reader.ReadSingle();
     }
 
-    public float PrimaryMarking { get; set; }
+    public float PrimaryMarking { get; }
 
-    public float SecondaryMarking { get; set; }
+    public float SecondaryMarking { get; }
 }

@@ -7,7 +7,7 @@ public struct IcaoIdentifier
         Identifier = identifier;
     }
 
-    public string Identifier { get; set; }
+    public string Identifier { get; }
 
     public override string ToString() => Identifier;
 

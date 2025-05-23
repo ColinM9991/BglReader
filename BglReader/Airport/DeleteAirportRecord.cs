@@ -17,13 +17,13 @@ public class DeleteAirportRecord : BglRecord
         _ = reader.ReadByte(); // Unused
     }
 
-    public ushort DeleteFlags { get; set; }
+    public ushort DeleteFlags { get; }
 
-    public byte NumberOfRunways { get; set; }
+    public byte NumberOfRunways { get; }
 
-    public byte NumberOfStarts { get; set; }
+    public byte NumberOfStarts { get; }
 
-    public byte NumberOfFrequencies { get; set; }
+    public byte NumberOfFrequencies { get; }
 
     public ICollection<DeleteRunway> Runways { get; } = new List<DeleteRunway>();
 

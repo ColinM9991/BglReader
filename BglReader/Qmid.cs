@@ -7,11 +7,11 @@ public struct Qmid
         (U, V, L) = CalculateQmid(value, 0);
     }
 
-    public int L { get; set; }
+    public int L { get; }
 
-    public int U { get; set; }
+    public int U { get; }
 
-    public int V { get; set; }
+    public int V { get; }
 
     private static (int U, int V, int L) CalculateQmid(uint dwordA, uint dwordB)
     {

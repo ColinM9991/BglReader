@@ -28,39 +28,39 @@ public class AirportSubsectionData : BglRecord
         MapAirportData(reader);
     }
 
-    public byte NumberOfRunways { get; set; }
+    public byte NumberOfRunways { get; }
 
-    public byte NumberOfCom { get; set; }
+    public byte NumberOfCom { get; }
 
-    public byte NumberOfStarts { get; set; }
+    public byte NumberOfStarts { get; }
 
-    public byte NumberOfApproaches { get; set; }
+    public byte NumberOfApproaches { get; }
 
-    public byte ApronInfo { get; set; }
+    public byte ApronInfo { get; }
 
-    public byte NumberOfHelipads { get; set; }
+    public byte NumberOfHelipads { get; }
 
-    public uint Longitude { get; set; }
+    public uint Longitude { get; }
 
-    public uint Latitude { get; set; }
+    public uint Latitude { get; }
 
-    public uint Altitude { get; set; }
+    public uint Altitude { get; }
 
-    public uint TowerLongitude { get; set; }
+    public uint TowerLongitude { get; }
 
-    public uint TowerLatitude { get; set; }
+    public uint TowerLatitude { get; }
 
-    public uint TowerAltitude { get; set; }
+    public uint TowerAltitude { get; }
 
-    public float MagneticVariation { get; set; }
+    public float MagneticVariation { get; }
 
-    public IcaoIdentifier IcaoIdentifier { get; set; }
+    public IcaoIdentifier IcaoIdentifier { get; }
 
-    public IcaoIdentifier RegionIdentifier { get; set; }
+    public IcaoIdentifier RegionIdentifier { get; }
 
-    public uint FuelTypeInfo { get; set; }
+    public uint FuelTypeInfo { get; }
 
-    public ICollection<BglRecord> Subsections { get; set; } = new List<BglRecord>();
+    public ICollection<BglRecord> Subsections { get; } = new List<BglRecord>();
 
     private void MapAirportData(BinaryReader reader)
     {

@@ -24,13 +24,13 @@ public class Header
         }
     }
 
-    public MagicNumber MagicNumber { get; set; }
+    public MagicNumber MagicNumber { get; }
     
-    public uint Size { get; set; }
+    public uint Size { get; }
     
-    public BglDateTime DateTime { get; set; }
+    public BglDateTime DateTime { get; }
     
-    public uint NumberOfSections { get; set; }
+    public uint NumberOfSections { get; }
     
-    public Qmid[] Qmids { get; set; } = new Qmid[8];
+    public Qmid[] Qmids { get; } = new Qmid[8];
 }
