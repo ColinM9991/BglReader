@@ -1,6 +1,6 @@
 ﻿namespace BglReader;
 
-public class Section
+public class Section : BglNode
 {
     public Section(
         BinaryReader reader)

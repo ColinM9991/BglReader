@@ -3,7 +3,7 @@ using BglReader.Navigation;
 
 namespace BglReader;
 
-public class Subsection
+public class Subsection : BglNode
 {
     public Subsection(
         SectionType sectionType,
@@ -33,21 +33,25 @@ public class Subsection
 
     public uint Size { get; }
 
-    public ICollection<BglRecord> Data { get; } = new List<BglRecord>();
+    public ICollection<BglNode> Data { get; } = new List<BglNode>();
 
     public void MapData(SectionType sectionType, BinaryReader reader)
     {
         reader.BaseStream.Position = Offset;
-        
+
         for (var i = 0; i < RecordsCount; i++)
         {
-            BglRecord? data = sectionType switch
+            BglNode? data = sectionType switch
             {
                 SectionType.Airport => new AirportSubsectionData(reader),
                 SectionType.Waypoint => new WaypointRecord(reader),
                 SectionType.Tacan => new TacanRecord(reader),
                 SectionType.IlsVor => new IlsVorRecord(reader),
                 SectionType.Ndb => new NdbRecord(reader),
+                SectionType.NdbIcaoIndex
+                    or SectionType.TacanIndex
+                    or SectionType.VorIlsIcaoIndex
+                    or SectionType.WaypointIcaoIndex => new NavigationIndexRecord(sectionType, reader),
                 _ => null,
             };
 

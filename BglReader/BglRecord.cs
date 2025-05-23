@@ -1,6 +1,6 @@
 ﻿namespace BglReader;
 
-public class BglRecord
+public class BglRecord : BglNode
 {
     private readonly long _recordStreamPosition;
     

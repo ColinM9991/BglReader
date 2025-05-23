@@ -7,6 +7,14 @@ public struct Qmid
         (U, V, L) = CalculateQmid(value, 0);
     }
 
+    public Qmid(
+        int u, int v, int l)
+    {
+        U = u;
+        V = v;
+        L = l;
+    }
+
     public int L { get; }
 
     public int U { get; }
