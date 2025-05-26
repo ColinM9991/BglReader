@@ -16,6 +16,8 @@ public class BglRecord : BglNode
         Id = reader.ReadUInt16();
         Size = reader.ReadUInt32();
     }
+
+    protected const int HeaderSize = 6;
     
     public ushort Id { get; }
 

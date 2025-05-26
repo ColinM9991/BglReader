@@ -7,7 +7,7 @@ public class NameRecord : BglRecord
     public NameRecord(
         BinaryReader reader) : base(reader)
     {
-        Name = Encoding.UTF8.GetString(reader.ReadBytes((int)Size - 6));
+        Name = Encoding.UTF8.GetString(reader.ReadBytes((int)Size - HeaderSize));
     }
 
     public string Name { get; }

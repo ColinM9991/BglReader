@@ -55,7 +55,7 @@ public enum SectionType
     TerrainPhotoNov = 0x96,
     TerrainPhotoDec = 0x97,
     TerrainPhotoNight = 0x98,
-    BglRunway = 0xAA,
+    BglRunway = 0xAA, // TODO: consume into byte array
     Tacan = 0xA0,
     TacanIndex = 0xA1,
     FakeTypes = 0x2710,

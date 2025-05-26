@@ -42,17 +42,27 @@ public class Subsection : BglNode
 
     public void MapData(SectionType sectionType, BinaryReader reader)
     {
+        const int nameListSize = 1;
         reader.BaseStream.Position = Offset;
 
-        for (var i = 0; i < RecordsCount; i++)
+        var numberOfRecords = sectionType is SectionType.NameList
+            ? nameListSize
+            : RecordsCount;
+
+        for (var i = 0; i < numberOfRecords; i++)
         {
             BglNode? data = sectionType switch
             {
                 SectionType.Airport => new AirportSubsectionData(reader),
+                SectionType.BglRunway => new BglRunwayRecord(reader),
                 SectionType.Waypoint => new WaypointRecord(reader),
                 SectionType.Tacan => new TacanRecord(reader),
                 SectionType.IlsVor => new IlsVorRecord(reader),
                 SectionType.Ndb => new NdbRecord(reader),
+                SectionType.SceneryObject => null, // TODO
+                SectionType.Marker => null, // TODO
+                SectionType.Boundary => null, // TODO
+                SectionType.Geopol => null, // TODO
                 SectionType.NdbIcaoIndex
                     or SectionType.TacanIndex
                     or SectionType.VorIlsIcaoIndex
@@ -62,7 +72,6 @@ public class Subsection : BglNode
             };
 
             if (data is not null) Data.Add(data);
-            if (sectionType is SectionType.NameList) break;
         }
     }
 }
