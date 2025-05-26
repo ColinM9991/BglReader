@@ -1,4 +1,5 @@
 ﻿using BglReader.Airport;
+using BglReader.NameList;
 using BglReader.Navigation;
 
 namespace BglReader;
@@ -9,24 +10,28 @@ public class Subsection : BglNode
         SectionType sectionType,
         BinaryReader reader)
     {
-        QmidA = new Qmid(reader.ReadUInt32());
+        var dwordA = reader.ReadUInt32();
+        var dwordB = sectionType is SectionType.PopulationDensity or SectionType.TerrainIndex
+            or >= SectionType.TerrainElevation and <= SectionType.TerrainRegion
+            or >= SectionType.TerrainSeasonJan and <= SectionType.TerrainPhotoNight
+            ? reader.ReadUInt32()
+            : 0;
 
-        if (sectionType is SectionType.PopulationDensity or SectionType.TerrainIndex
-            or (>= SectionType.TerrainElevation and <= SectionType.TerrainRegion)
-            or (>= SectionType.TerrainSeasonJan and <= SectionType.TerrainPhotoNight))
-        {
-            QmidB = new Qmid(reader.ReadUInt32());
-        }
+        Qmid = new Qmid(dwordA, dwordB);
 
         RecordsCount = reader.ReadUInt32();
         Offset = reader.ReadUInt32();
         Size = reader.ReadUInt32();
     }
 
-    public Qmid QmidA { get; }
+    public Qmid Qmid { get; }
 
-    public Qmid? QmidB { get; }
-
+    /// <summary>
+    /// Gets the number of records within this subsection.
+    /// </summary>
+    /// <remarks>
+    /// For a NameList, this will be the number of ICAO sub-records.
+    /// </remarks>
     public uint RecordsCount { get; }
 
     public uint Offset { get; }
@@ -52,12 +57,12 @@ public class Subsection : BglNode
                     or SectionType.TacanIndex
                     or SectionType.VorIlsIcaoIndex
                     or SectionType.WaypointIcaoIndex => new NavigationIndexRecord(sectionType, reader),
+                SectionType.NameList => new NameListRecord(reader),
                 _ => null,
             };
 
             if (data is not null) Data.Add(data);
+            if (sectionType is SectionType.NameList) break;
         }
-
-        reader.BaseStream.Position = Offset + Size;
     }
 }

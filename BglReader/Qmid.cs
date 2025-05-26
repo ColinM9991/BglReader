@@ -2,9 +2,9 @@
 
 public struct Qmid
 {
-    public Qmid(uint value)
+    public Qmid(uint dwordA, uint dwordB = 0)
     {
-        (U, V, L) = CalculateQmid(value, 0);
+        (U, V, L) = CalculateQmid(dwordA, dwordB);
     }
 
     public Qmid(
@@ -34,7 +34,7 @@ public struct Qmid
             workDwordB <<= 2;
             workDwordB += (workDwordA & 0xC0000000) >> 30;
 
-            workDwordA += workDwordA;
+            workDwordA *= 4;
             workDwordA += workDwordA;
             cnt--;
         }
@@ -56,8 +56,7 @@ public struct Qmid
 
             workDwordB <<= 2;
             workDwordB += (workDwordA & 0xC0000000) >> 30;
-            workDwordA += workDwordA;
-            workDwordA += workDwordA;
+            workDwordA *= 4;
             cnt--;
         }
 
