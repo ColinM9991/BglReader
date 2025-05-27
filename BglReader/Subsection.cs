@@ -60,9 +60,9 @@ public class Subsection : BglNode
                 SectionType.IlsVor => new IlsVorRecord(reader),
                 SectionType.Ndb => new NdbRecord(reader),
                 SectionType.SceneryObject => null, // TODO
-                SectionType.Marker => null, // TODO
-                SectionType.Boundary => null, // TODO
-                SectionType.Geopol => null, // TODO
+                SectionType.Marker => new MarkerRecord(reader),
+                SectionType.Boundary => new BoundaryRecord(reader),
+                SectionType.Geopol => new GeopolRecord(reader),
                 SectionType.NdbIcaoIndex
                     or SectionType.TacanIndex
                     or SectionType.VorIlsIcaoIndex

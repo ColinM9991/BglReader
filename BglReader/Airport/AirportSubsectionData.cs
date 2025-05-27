@@ -97,16 +97,17 @@ public class AirportSubsectionData : BglRecord
                 AirportSubsectionDataType.Jetway => new AirportJetwayRecord(reader),
                 AirportSubsectionDataType.Approach => new AirportApproachRecord(reader),
                 AirportSubsectionDataType.Waypoint => new WaypointRecord(reader),
-                AirportSubsectionDataType.BlastFence or AirportSubsectionDataType.BoundaryFence => new AirportFenceRecord(reader),
+                AirportSubsectionDataType.BlastFence or AirportSubsectionDataType.BoundaryFence =>
+                    new AirportFenceRecord(reader),
                 AirportSubsectionDataType.Unknown => null,
                 _ => null,
             };
 
             if (record is null) continue;
-            
+
             Subsections.Add(record);
         }
-        
+
         reader.BaseStream.Position = recordFinalPosition;
         return;
     }
