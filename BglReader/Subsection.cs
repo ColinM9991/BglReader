@@ -1,4 +1,5 @@
 ﻿using BglReader.Airport;
+using BglReader.Generic;
 using BglReader.NameList;
 using BglReader.Navigation;
 
@@ -59,7 +60,7 @@ public class Subsection : BglNode
                 SectionType.Tacan => new TacanRecord(reader),
                 SectionType.IlsVor => new IlsVorRecord(reader),
                 SectionType.Ndb => new NdbRecord(reader),
-                SectionType.SceneryObject => null, // TODO
+                SectionType.SceneryObject => SceneryBglRecord.GetSceneryBglRecord(reader),
                 SectionType.Marker => new MarkerRecord(reader),
                 SectionType.Boundary => new BoundaryRecord(reader),
                 SectionType.Geopol => new GeopolRecord(reader),

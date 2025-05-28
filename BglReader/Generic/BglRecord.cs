@@ -1,0 +1,45 @@
+﻿using System.Numerics;
+using System.Runtime.CompilerServices;
+
+namespace BglReader.Generic;
+
+public class BglRecord : BglRecord<uint>
+{
+    protected BglRecord(BinaryReader reader, bool shouldRewindStream = true) : base(reader, shouldRewindStream)
+    {
+    }
+}
+
+public abstract class BglRecord<T> : BglNode
+    where T : INumber<T>
+{
+    private readonly long _recordStreamPosition;
+
+    internal BglRecord(
+        BinaryReader reader,
+        bool shouldRewindStream = true)
+    {
+        if (shouldRewindStream)
+            reader.BaseStream.Position -= 2L;
+
+        _recordStreamPosition = reader.BaseStream.Position;
+
+        Id = reader.ReadUInt16();
+
+        var headerSize = typeof(T) == typeof(uint)
+            ? reader.ReadUInt32()
+            : reader.ReadUInt16();
+
+        Size = T.CreateChecked(headerSize);
+    }
+
+    protected static readonly int HeaderSize = sizeof(ushort) + Unsafe.SizeOf<T>();
+
+    protected ushort Id { get; }
+
+    protected T Size { get; }
+
+    protected long GetRecordStartPosition() => _recordStreamPosition;
+
+    protected long GetRecordEndPosition() => _recordStreamPosition + long.CreateChecked(Size);
+}

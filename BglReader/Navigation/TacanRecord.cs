@@ -1,3 +1,5 @@
+using BglReader.Generic;
+
 namespace BglReader.Navigation;
 
 public class TacanRecord : BglRecord

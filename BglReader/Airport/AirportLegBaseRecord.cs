@@ -1,9 +1,11 @@
+using BglReader.Generic;
+
 namespace BglReader.Airport;
 
 public class AirportLegBaseRecord : BglRecord
 {
     public AirportLegBaseRecord(
-        BinaryReader reader, bool rewindStream = true) : base(reader, rewindStream)
+        BinaryReader reader, bool shouldRewindStream = true) : base(reader, shouldRewindStream)
     {
         NumberOfLegs = reader.ReadUInt16();
 

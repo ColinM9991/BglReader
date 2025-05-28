@@ -1,4 +1,6 @@
-﻿namespace BglReader.Airport;
+﻿using BglReader.Generic;
+
+namespace BglReader.Airport;
 
 // TODO Flags
 public class DeleteAirportRecord : BglRecord

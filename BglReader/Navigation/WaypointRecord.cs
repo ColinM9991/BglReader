@@ -1,4 +1,6 @@
-﻿namespace BglReader.Navigation;
+﻿using BglReader.Generic;
+
+namespace BglReader.Navigation;
 
 public class WaypointRecord : BglRecord
 {

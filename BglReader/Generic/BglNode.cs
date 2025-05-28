@@ -1,4 +1,4 @@
-namespace BglReader;
+namespace BglReader.Generic;
 
 public abstract class BglNode
 {

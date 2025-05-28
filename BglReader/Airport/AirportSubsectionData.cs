@@ -1,4 +1,5 @@
-﻿using BglReader.Navigation;
+﻿using BglReader.Generic;
+using BglReader.Navigation;
 
 namespace BglReader.Airport;
 

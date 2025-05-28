@@ -1,4 +1,6 @@
-namespace BglReader;
+using BglReader.Generic;
+
+namespace BglReader.Airport;
 
 public class BglRunwayRecord : BglRecord
 {

@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using BglReader.Generic;
 
 namespace BglReader.Airport;
 

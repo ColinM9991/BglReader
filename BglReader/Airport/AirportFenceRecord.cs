@@ -1,3 +1,5 @@
+using BglReader.Generic;
+
 namespace BglReader.Airport;
 
 public class AirportFenceRecord : BglRecord

@@ -1,4 +1,6 @@
-﻿namespace BglReader;
+﻿using BglReader.Generic;
+
+namespace BglReader;
 
 public class Section : BglNode
 {

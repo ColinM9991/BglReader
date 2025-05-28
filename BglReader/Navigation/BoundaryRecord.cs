@@ -1,3 +1,5 @@
+using BglReader.Generic;
+
 namespace BglReader.Navigation;
 
 public class BoundaryRecord : BglRecord
@@ -14,7 +16,7 @@ public class BoundaryRecord : BglRecord
         MinimumCoordinates = new Coordinate(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
         MaximumCoordinates = new Coordinate(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
 
-        Name = new NameRecord(reader, shouldRewind: false);
+        Name = new NameRecord(reader, shouldRewindStream: false);
     }
     
     public byte Type { get; }
