@@ -21,7 +21,7 @@ public class IlsVorRecord : BglRecord
 
         Frequency = reader.ReadUInt32();
         Range = reader.ReadSingle();
-        MagneticVariation = reader.ReadSingle();
+        MagneticVariation = (MagneticVariation)reader.ReadSingle();
         Identifier = IcaoIdentifier.Parse(reader.ReadUInt32(), true);
 
         var regionFlags = reader.ReadUInt32();
@@ -50,7 +50,7 @@ public class IlsVorRecord : BglRecord
     
     public float Range { get; }
     
-    public float MagneticVariation { get; }
+    public MagneticVariation MagneticVariation { get; }
     
     public IcaoIdentifier Identifier { get; }
     

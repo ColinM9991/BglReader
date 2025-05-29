@@ -2,6 +2,7 @@ using BglReader.Scenery;
 
 namespace BglReader.Generic;
 
+/// <inheritdoc/>
 public class SceneryBglRecord : BglRecord<ushort>
 {
     protected SceneryBglRecord(BinaryReader reader, bool shouldRewindStream = true) : base(reader, shouldRewindStream)

@@ -10,7 +10,7 @@ public class NdbRecord : BglRecord
         Frequency = reader.ReadUInt32();
         Coordinates = new Coordinate(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
         Range = reader.ReadSingle();
-        MagneticVariation = reader.ReadSingle();
+        MagneticVariation = (MagneticVariation)reader.ReadSingle();
         Identifier = IcaoIdentifier.Parse(reader.ReadUInt32(), true);
 
         var regionFlags = reader.ReadUInt32();
@@ -29,7 +29,7 @@ public class NdbRecord : BglRecord
     
     public float Range { get; }
     
-    public float MagneticVariation { get; }
+    public MagneticVariation MagneticVariation { get; }
     
     public IcaoIdentifier Identifier { get; }
     

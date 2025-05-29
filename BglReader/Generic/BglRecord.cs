@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace BglReader.Generic;
 
+/// <inheritdoc/>
 public class BglRecord : BglRecord<uint>
 {
     protected BglRecord(BinaryReader reader, bool shouldRewindStream = true) : base(reader, shouldRewindStream)
@@ -10,6 +11,10 @@ public class BglRecord : BglRecord<uint>
     }
 }
 
+/// <summary>
+/// A BGL record contains begins with an id and size.
+/// </summary>
+/// <typeparam name="T">The size type. Sceneries use a 2 byte size while all other records use 4 bytes</typeparam>
 public abstract class BglRecord<T> : BglNode
     where T : INumber<T>
 {
@@ -35,9 +40,9 @@ public abstract class BglRecord<T> : BglNode
 
     protected static readonly int HeaderSize = sizeof(ushort) + Unsafe.SizeOf<T>();
 
-    protected ushort Id { get; }
+    public ushort Id { get; }
 
-    protected T Size { get; }
+    public T Size { get; }
 
     protected long GetRecordStartPosition() => _recordStreamPosition;
 

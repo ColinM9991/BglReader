@@ -14,15 +14,11 @@ public class AirportSubsectionData : BglRecord
         NumberOfApproaches = reader.ReadByte();
         ApronInfo = reader.ReadByte();
         NumberOfHelipads = reader.ReadByte();
-        Latitude = reader.ReadUInt32();
-        Longitude = reader.ReadUInt32();
-        Altitude = reader.ReadUInt32();
-        TowerLongitude = reader.ReadUInt32();
-        TowerLatitude = reader.ReadUInt32();
-        TowerAltitude = reader.ReadUInt32();
-        MagneticVariation = reader.ReadSingle();
+        Coordinates = new Coordinate(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
+        TowerCoordinates = new Coordinate(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
+        MagneticVariation = (MagneticVariation)reader.ReadSingle();
         IcaoIdentifier = IcaoIdentifier.Parse(reader.ReadUInt32(), true);
-        RegionIdentifier = IcaoIdentifier.Parse(reader.ReadUInt32(), true);
+        RegionIdentifier = IcaoIdentifier.Parse(reader.ReadUInt32());
         FuelTypeInfo = reader.ReadUInt32();
         _ = reader.ReadBytes(8); // Throwaway FSX info + padding
 
@@ -35,25 +31,17 @@ public class AirportSubsectionData : BglRecord
 
     public byte NumberOfStarts { get; }
 
-    public byte NumberOfApproaches { get; }
+    public uint NumberOfApproaches { get; }
 
     public byte ApronInfo { get; }
 
     public byte NumberOfHelipads { get; }
 
-    public uint Longitude { get; }
+    public Coordinate Coordinates { get; }
 
-    public uint Latitude { get; }
+    public Coordinate TowerCoordinates { get; }
 
-    public uint Altitude { get; }
-
-    public uint TowerLongitude { get; }
-
-    public uint TowerLatitude { get; }
-
-    public uint TowerAltitude { get; }
-
-    public float MagneticVariation { get; }
+    public MagneticVariation MagneticVariation { get; }
 
     public IcaoIdentifier IcaoIdentifier { get; }
 
