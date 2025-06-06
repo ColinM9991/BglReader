@@ -10,6 +10,8 @@ public class AirportTaxiPathRecord : BglRecord
         
         MapTaxiPaths(reader);
     }
+
+    public AirportSubsectionDataType TaxiPathType => (AirportSubsectionDataType)Id;
     
     public ushort NumberOfPaths { get; }
 
@@ -21,19 +23,12 @@ public class AirportTaxiPathRecord : BglRecord
 
         for (var path = 0; path < NumberOfPaths; path++)
         {
-            Paths.Add(new TaxiPath(
-                reader.ReadUInt16(),
-                reader.ReadUInt16(),
-                reader.ReadByte(),
-                reader.ReadByte(),
-                reader.ReadByte(),
-                reader.ReadByte(),
-                reader.ReadSingle(),
-                reader.ReadSingle()));
-
-            _ = reader.ReadBytes(4);
-            _ = reader.ReadBytes(16);
-            _ = reader.ReadBytes(4);
+            var taxiPath =
+                TaxiPathType is AirportSubsectionDataType.TaxiPathP3DV4 or AirportSubsectionDataType.TaxiPathP3DV5
+                    ? new TaxiPathP3D(reader)
+                    : new TaxiPath(reader);
+            
+            Paths.Add(taxiPath);
         }
     }
 }

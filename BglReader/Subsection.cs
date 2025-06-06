@@ -71,7 +71,7 @@ public class Subsection : BglNode
                 SectionType.NameList => new NameListRecord(reader),
                 _ => null,
             };
-
+            
             if (data is not null) Data.Add(data);
         }
     }

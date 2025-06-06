@@ -1,6 +1,6 @@
 ﻿namespace BglReader.Airport;
 
-public readonly struct LightEdge(
+public readonly struct Triangle(
     float distanceBetweenPoints,
     ushort startIndex,
     ushort endIndex)

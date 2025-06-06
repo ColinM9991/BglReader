@@ -4,6 +4,7 @@ namespace BglReader.Airport;
 
 public class AirportApronEdgeLightsRecord : BglRecord
 {
+    // TODO Validate
     public AirportApronEdgeLightsRecord(
         BinaryReader reader) : base(reader)
     {
@@ -30,7 +31,7 @@ public class AirportApronEdgeLightsRecord : BglRecord
 
     public ICollection<Coordinate> Vertices { get; } = new List<Coordinate>();
 
-    public ICollection<LightEdge> Edges { get; } = new List<LightEdge>();
+    public ICollection<Triangle> Edges { get; } = new List<Triangle>();
 
     private void MapVertices(BinaryReader reader)
     {
@@ -50,7 +51,7 @@ public class AirportApronEdgeLightsRecord : BglRecord
 
         for (var edge = 0; edge < NumberOfEdges; edge++)
         {
-            Edges.Add(new LightEdge(
+            Edges.Add(new Triangle(
                 reader.ReadSingle(),
                 reader.ReadUInt16(),
                 reader.ReadUInt16()));

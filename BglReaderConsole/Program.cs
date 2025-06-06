@@ -16,24 +16,21 @@ Console.WriteLine($"Elapsed time: {stopwatch.Elapsed}");
 
 return;
 
-ICollection<BglFile> ProcessFiles(string pattern)
+ICollection<BglFile> ProcessFiles(string pattern) => Directory
+        .EnumerateFiles(Path.Combine(programFiles, "Lockheed Martin", "Prepar3D v5", "Scenery"), pattern,
+            SearchOption.AllDirectories).Select(ReadBglFile).ToList();
+
+BglFile ReadBglFile(string filePath)
 {
-    var bglFiles = new List<BglFile>();
-    foreach (var file in Directory.EnumerateFiles(
-                 Path.Combine(programFiles, "Lockheed Martin", "Prepar3D v5", "Scenery"), pattern,
-                 SearchOption.AllDirectories))
+    using var fileStream = new FileStream(filePath, FileMode.Open);
+
+    try
     {
-        using var fileStream = new FileStream(file, FileMode.Open);
-
-        try
-        {
-            bglFiles.Add(new BglFile(Path.GetFileName(file), fileStream));
-        }
-        catch
-        {
-            Console.WriteLine(fileStream.Name);
-        }
+        return new BglFile(Path.GetFileName(filePath), fileStream);
     }
-
-    return bglFiles;
+    catch
+    {
+        Console.WriteLine(fileStream.Name);
+        throw;
+    }
 }

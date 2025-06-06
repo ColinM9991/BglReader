@@ -24,9 +24,10 @@ public class AirportRunwayRecord : BglRecord
         LightsFlags = reader.ReadByte();
         PatternFlags = reader.ReadByte();
 
-        _ = reader.ReadBytes(16);
+        if ((AirportSubsectionDataType)Id is AirportSubsectionDataType.RunwayP3DV4)
+            Material = new Guid(reader.ReadBytes(16));
 
-        MapSubrecords(reader);
+        MapSubRecords(reader);
     }
 
     public SurfaceType SurfaceType { get; }
@@ -58,14 +59,15 @@ public class AirportRunwayRecord : BglRecord
     public byte LightsFlags { get; }
 
     public byte PatternFlags { get; }
+    
+    public Guid? Material { get; }
 
-    public ICollection<BglRecord> Subrecords { get; } = new List<BglRecord>();
+    public ICollection<BglRecord> SubRecords { get; } = new List<BglRecord>();
 
-    private void MapSubrecords(BinaryReader reader)
+    private void MapSubRecords(BinaryReader reader)
     {
-        var iterationStartPos = GetRecordStartPosition();
-        var totalSize = iterationStartPos + Size;
-        while (reader.BaseStream.Position < totalSize)
+        var endPosition = GetRecordEndPosition();
+        while (reader.BaseStream.Position < endPosition)
         {
             var id = reader.ReadUInt16();
 
@@ -88,7 +90,7 @@ public class AirportRunwayRecord : BglRecord
 
             if (record is not null)
             {
-                Subrecords.Add(record);
+                SubRecords.Add(record);
             }
         }
     }

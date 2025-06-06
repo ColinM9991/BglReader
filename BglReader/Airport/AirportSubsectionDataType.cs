@@ -19,6 +19,8 @@ public enum AirportSubsectionDataType : ushort
     ApronSecondP3DV4 = 0x0041,
     ApronSecondP3DV5 = 0x00B0,
     
+    Polygon = 0x003B,
+    
     ApronEdgeLights = 0x0031,
     
     TaxiwayPoint = 0x001A,
@@ -40,5 +42,4 @@ public enum AirportSubsectionDataType : ushort
     Waypoint = 0x0022,
     BlastFence = 0x0038,
     BoundaryFence = 0x0039,
-    Unknown = 0x003B,
 }

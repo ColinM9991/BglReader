@@ -4,7 +4,7 @@ namespace BglReader.Airport;
 
 public readonly struct TaxiParking
 {
-    public TaxiParking(BinaryReader reader)
+    public TaxiParking(BinaryReader reader, AirportType airportType)
     {
         Info = reader.ReadUInt32();
         Radius = reader.ReadSingle();
@@ -13,11 +13,11 @@ public readonly struct TaxiParking
         TeeOffset2 = reader.ReadSingle();
         TeeOffset3 = reader.ReadSingle();
         TeeOffset4 = reader.ReadSingle();
-        Coordinate = new Coordinate(reader.ReadInt32(), reader.ReadInt32());
+        Coordinate = airportType is AirportType.P3Dv5
+            ? new Coordinate(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32())
+            : new Coordinate(reader.ReadInt32(), reader.ReadInt32());
 
         MapAirlineDesignators(reader);
-        
-        _ = reader.ReadBytes(4);
     }
 
     public uint Info { get; }

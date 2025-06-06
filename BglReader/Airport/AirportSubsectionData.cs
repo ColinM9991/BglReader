@@ -8,34 +8,42 @@ public class AirportSubsectionData : BglRecord
     public AirportSubsectionData(
         BinaryReader reader) : base(reader, false)
     {
-        NumberOfRunways = reader.ReadByte();
-        NumberOfCom = reader.ReadByte();
-        NumberOfStarts = reader.ReadByte();
-        NumberOfApproaches = reader.ReadByte();
-        ApronInfo = reader.ReadByte();
-        NumberOfHelipads = reader.ReadByte();
+        _ = reader.ReadBytes(6); // Number of Runways, Com, Starts, Approaches, Aprons (including Delete Records) and Helipads
         Coordinates = new Coordinate(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
         TowerCoordinates = new Coordinate(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
         MagneticVariation = (MagneticVariation)reader.ReadSingle();
-        IcaoIdentifier = IcaoIdentifier.Parse(reader.ReadUInt32(), true);
-        RegionIdentifier = IcaoIdentifier.Parse(reader.ReadUInt32());
+        Identifier = IcaoIdentifier.Parse(reader.ReadUInt32(), true);
+        Region = IcaoIdentifier.Parse(reader.ReadUInt32());
         FuelTypeInfo = reader.ReadUInt32();
-        _ = reader.ReadBytes(8); // Throwaway FSX info + padding
+
+        _ = reader.ReadByte();
+        TrafficScalar = reader.ReadByte() / 255.0;
+        IsSloped = reader.ReadUInt16() == 1;
+
+        if (Type is AirportType.P3Dv5)
+        {
+            // P3D number of Approaches appears at end of airport section
+            _ = reader.ReadBytes(4);
+        }
 
         MapAirportData(reader);
     }
 
-    public byte NumberOfRunways { get; }
+    public AirportType Type => (AirportType)Id;
 
-    public byte NumberOfCom { get; }
+    public int NumberOfRunways => Subsections.OfType<AirportRunwayRecord>().Count();
 
-    public byte NumberOfStarts { get; }
+    public int NumberOfCom => Subsections.OfType<AirportComRecord>().Count();
 
-    public uint NumberOfApproaches { get; }
+    public int NumberOfStarts => Subsections.OfType<AirportRunwayStartRecord>().Count();
 
-    public byte ApronInfo { get; }
+    public int NumberOfApproaches => Subsections.OfType<AirportApproachRecord>().Count();
 
-    public byte NumberOfHelipads { get; }
+    public int NumberOfAprons => Subsections.OfType<AirportApronRecord>().Count();
+
+    public int NumberOfDeletes => Subsections.OfType<DeleteAirportRecord>().Count();
+
+    public int NumberOfHelipads => Subsections.OfType<HelipadRecord>().Count();
 
     public Coordinate Coordinates { get; }
 
@@ -43,18 +51,21 @@ public class AirportSubsectionData : BglRecord
 
     public MagneticVariation MagneticVariation { get; }
 
-    public IcaoIdentifier IcaoIdentifier { get; }
+    public IcaoIdentifier Identifier { get; }
 
-    public IcaoIdentifier RegionIdentifier { get; }
+    public IcaoIdentifier Region { get; }
 
     public uint FuelTypeInfo { get; }
+
+    public double TrafficScalar { get; }
+
+    public bool IsSloped { get; }
 
     public ICollection<BglRecord> Subsections { get; } = new List<BglRecord>();
 
     private void MapAirportData(BinaryReader reader)
     {
-        var recordFinalPosition = GetRecordStartPosition() + Size;
-        while (reader.BaseStream.Position < recordFinalPosition)
+        while (reader.BaseStream.Position < GetRecordEndPosition())
         {
             var id = (AirportSubsectionDataType?)reader.ReadUInt16();
 
@@ -66,7 +77,7 @@ public class AirportSubsectionData : BglRecord
                     AirportRunwayRecord(reader),
                 AirportSubsectionDataType.Helipad => new HelipadRecord(reader),
                 AirportSubsectionDataType.Start => new AirportRunwayStartRecord(reader),
-                AirportSubsectionDataType.Com => new AirportRunwayComRecord(reader),
+                AirportSubsectionDataType.Com => new AirportComRecord(reader),
                 AirportSubsectionDataType.DeleteAirport => new DeleteAirportRecord(reader),
                 AirportSubsectionDataType.ApronFirst or AirportSubsectionDataType.ApronFirstP3DV5 => new
                     AirportApronRecord(
@@ -79,7 +90,7 @@ public class AirportSubsectionData : BglRecord
                         reader),
                 AirportSubsectionDataType.TaxiwayParking or AirportSubsectionDataType.TaxiwayParkingP3DV5
                     or AirportSubsectionDataType.TaxiwayParkingFS9 =>
-                    new AirportTaxiwayParkingRecord(reader),
+                    new AirportTaxiwayParkingRecord(reader, Type),
                 AirportSubsectionDataType.TaxiPath or AirportSubsectionDataType.TaxiPathP3DV4
                     or AirportSubsectionDataType.TaxiPathP3DV5 => new AirportTaxiPathRecord(reader),
                 AirportSubsectionDataType.TaxiName => new AirportTaxiName(reader),
@@ -88,7 +99,7 @@ public class AirportSubsectionData : BglRecord
                 AirportSubsectionDataType.Waypoint => new WaypointRecord(reader),
                 AirportSubsectionDataType.BlastFence or AirportSubsectionDataType.BoundaryFence =>
                     new AirportFenceRecord(reader),
-                AirportSubsectionDataType.Unknown => null,
+                AirportSubsectionDataType.Polygon => new AirportPolygonRecord(reader),
                 _ => null,
             };
 
@@ -97,7 +108,6 @@ public class AirportSubsectionData : BglRecord
             Subsections.Add(record);
         }
 
-        reader.BaseStream.Position = recordFinalPosition;
-        return;
+        reader.BaseStream.Position = GetRecordEndPosition();
     }
 }
