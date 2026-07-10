@@ -73,13 +73,7 @@ public class AirportApproachRecord : BglRecord
         {
             var id = reader.ReadUInt16();
 
-            BglRecord? record = (AirportApproachDataType)id switch
-            {
-                AirportApproachDataType.ApproachLegs => new AirportLegBaseRecord(reader),
-                AirportApproachDataType.MissedApproachLegs => new AirportLegBaseRecord(reader),
-                AirportApproachDataType.Transition => new AirportTransitionRecord(reader),
-                _ => null,
-            };
+            var record = BglRecordFactory.Create((AirportApproachDataType)id, reader);
 
             if (record is not null)
             {

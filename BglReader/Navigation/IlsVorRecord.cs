@@ -66,14 +66,7 @@ public class IlsVorRecord : BglRecord
         {
             var id = (NavigationDataType)reader.ReadUInt16();
 
-            BglRecord? record = id switch
-            {
-                NavigationDataType.Localizer => new LocalizerRecord(reader),
-                NavigationDataType.GlideSlope => new GlideslopeRecord(reader),
-                NavigationDataType.Dme => new DmeRecord(reader),
-                NavigationDataType.Name => new NameRecord(reader),
-                _ => null
-            };
+            var record = BglRecordFactory.Create(id, reader);
             
             if (record is not null) SubRecords.Add(record);
         }

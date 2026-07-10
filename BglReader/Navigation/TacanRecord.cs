@@ -1,3 +1,4 @@
+using BglReader.Airport;
 using BglReader.Generic;
 
 namespace BglReader.Navigation;
@@ -49,12 +50,7 @@ public class TacanRecord : BglRecord
         {
             var id = (NavigationDataType)reader.ReadUInt16();
 
-            BglRecord? record = id switch
-            {
-                NavigationDataType.Dme => new DmeRecord(reader),
-                NavigationDataType.Name => new NameRecord(reader),
-                _ => null
-            };
+            var record = BglRecordFactory.Create(id, reader);
             
             if (record is not null) SubRecords.Add(record);
         }

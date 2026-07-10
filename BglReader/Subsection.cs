@@ -1,7 +1,4 @@
-﻿using BglReader.Airport;
-using BglReader.Generic;
-using BglReader.NameList;
-using BglReader.Navigation;
+﻿using BglReader.Generic;
 
 namespace BglReader;
 
@@ -52,26 +49,7 @@ public class Subsection : BglNode
 
         for (var i = 0; i < numberOfRecords; i++)
         {
-            BglNode? data = sectionType switch
-            {
-                SectionType.Airport => new AirportSubsectionData(reader),
-                SectionType.BglRunway => new BglRunwayRecord(reader),
-                SectionType.Waypoint => new WaypointRecord(reader),
-                SectionType.Tacan => new TacanRecord(reader),
-                SectionType.IlsVor => new IlsVorRecord(reader),
-                SectionType.Ndb => new NdbRecord(reader),
-                SectionType.SceneryObject => SceneryBglRecord.GetSceneryBglRecord(reader),
-                SectionType.Marker => new MarkerRecord(reader),
-                SectionType.Boundary => new BoundaryRecord(reader),
-                SectionType.Geopol => new GeopolRecord(reader),
-                SectionType.NdbIcaoIndex
-                    or SectionType.TacanIndex
-                    or SectionType.VorIlsIcaoIndex
-                    or SectionType.WaypointIcaoIndex => new NavigationIndexRecord(sectionType, reader),
-                SectionType.NameList => new NameListRecord(reader),
-                _ => null,
-            };
-            
+            var data = BglNodeFactory.Create(sectionType, reader);
             if (data is not null) Data.Add(data);
         }
     }

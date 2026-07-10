@@ -71,22 +71,7 @@ public class AirportRunwayRecord : BglRecord
         {
             var id = reader.ReadUInt16();
 
-            BglRecord? record = (AirportRecordDataType)id switch
-            {
-                AirportRecordDataType.OffsetPrimary or AirportRecordDataType.OffsetSecondary => new
-                    AirportSubReportBaseRecord(reader, AirportSubReportBaseRecord.SubReportBaseType.OffsetThreshold),
-                AirportRecordDataType.BlastPadPrimary or AirportRecordDataType.BlastPadSecondary => new
-                    AirportSubReportBaseRecord(reader, AirportSubReportBaseRecord.SubReportBaseType.BlastPad),
-                AirportRecordDataType.OverrunPrimary or AirportRecordDataType.OverrunSecondary => new
-                    AirportSubReportBaseRecord(reader, AirportSubReportBaseRecord.SubReportBaseType.Overrun),
-                AirportRecordDataType.VasiLeftPrimary or AirportRecordDataType.VasiLeftSecondary
-                    or AirportRecordDataType.VasiRightPrimary
-                    or AirportRecordDataType.VasiRightSecondary => new AirportVasiSubRecord(reader),
-                AirportRecordDataType.ApproachLightsPrimary or AirportRecordDataType.ApproachLightsSecondary =>
-                    new AirportApproachLightsSubRecord(reader),
-                AirportRecordDataType.MarkingBias => new AirportMarkingBiasSubReportRecord(reader),
-                _ => null,
-            };
+            var record = BglRecordFactory.Create((AirportRecordDataType)id, reader);
 
             if (record is not null)
             {

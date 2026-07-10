@@ -1,5 +1,4 @@
 ﻿using BglReader.Generic;
-using BglReader.Navigation;
 
 namespace BglReader.Airport;
 
@@ -67,44 +66,10 @@ public class AirportSubsectionData : BglRecord
     {
         while (reader.BaseStream.Position < GetRecordEndPosition())
         {
-            var id = (AirportSubsectionDataType?)reader.ReadUInt16();
-
-            BglRecord? record = id switch
-            {
-                AirportSubsectionDataType.Name => new NameRecord(reader),
-                AirportSubsectionDataType.IncludedTowerSceneryObject => new TowerSceneryObjectRecord(reader),
-                AirportSubsectionDataType.Runway or AirportSubsectionDataType.RunwayP3DV4 => new
-                    AirportRunwayRecord(reader),
-                AirportSubsectionDataType.Helipad => new HelipadRecord(reader),
-                AirportSubsectionDataType.Start => new AirportRunwayStartRecord(reader),
-                AirportSubsectionDataType.Com => new AirportComRecord(reader),
-                AirportSubsectionDataType.DeleteAirport => new DeleteAirportRecord(reader),
-                AirportSubsectionDataType.ApronFirst or AirportSubsectionDataType.ApronFirstP3DV5 => new
-                    AirportApronRecord(
-                        reader),
-                AirportSubsectionDataType.ApronSecond or AirportSubsectionDataType.ApronSecondP3DV4
-                    or AirportSubsectionDataType.ApronSecondP3DV5 => new AirportApronSecondRecord(reader),
-                AirportSubsectionDataType.ApronEdgeLights => new AirportApronEdgeLightsRecord(reader),
-                AirportSubsectionDataType.TaxiwayPoint or AirportSubsectionDataType.TaxiwayPointP3DV5 => new
-                    AirportTaxiwayPoint(
-                        reader),
-                AirportSubsectionDataType.TaxiwayParking or AirportSubsectionDataType.TaxiwayParkingP3DV5
-                    or AirportSubsectionDataType.TaxiwayParkingFS9 =>
-                    new AirportTaxiwayParkingRecord(reader, Type),
-                AirportSubsectionDataType.TaxiPath or AirportSubsectionDataType.TaxiPathP3DV4
-                    or AirportSubsectionDataType.TaxiPathP3DV5 => new AirportTaxiPathRecord(reader),
-                AirportSubsectionDataType.TaxiName => new AirportTaxiName(reader),
-                AirportSubsectionDataType.Jetway => new AirportJetwayRecord(reader),
-                AirportSubsectionDataType.Approach => new AirportApproachRecord(reader),
-                AirportSubsectionDataType.Waypoint => new WaypointRecord(reader),
-                AirportSubsectionDataType.BlastFence or AirportSubsectionDataType.BoundaryFence =>
-                    new AirportFenceRecord(reader),
-                AirportSubsectionDataType.Polygon => new AirportPolygonRecord(reader),
-                _ => null,
-            };
+            var id = (AirportSubsectionDataType)reader.ReadUInt16();
+            var record = BglRecordFactory.Create(id, Type, reader);
 
             if (record is null) continue;
-
             Subsections.Add(record);
         }
 
