@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BglReader", "BglReader\BglR
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BglReaderConsole", "BglReaderConsole\BglReaderConsole.csproj", "{622D8417-831B-49E5-8059-43FBE39558DC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BglReader.SourceGenerators", "src\BglReader.SourceGenerators\BglReader.SourceGenerators.csproj", "{B98928C8-1B39-431D-8E20-0E466CEBB4BE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{622D8417-831B-49E5-8059-43FBE39558DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{622D8417-831B-49E5-8059-43FBE39558DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{622D8417-831B-49E5-8059-43FBE39558DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B98928C8-1B39-431D-8E20-0E466CEBB4BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B98928C8-1B39-431D-8E20-0E466CEBB4BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B98928C8-1B39-431D-8E20-0E466CEBB4BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B98928C8-1B39-431D-8E20-0E466CEBB4BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -1,3 +1,5 @@
+using BglReader.ValueObjects;
+
 namespace BglReader.Navigation;
 
 public struct WaypointSegment
@@ -28,21 +30,13 @@ public struct WaypointSegment
 
     public static WaypointSegment? Parse(BinaryReader reader)
     {
-        var waypointFlags = reader.ReadUInt32();
-
-        var type = (WaypointSegmentType)(waypointFlags & 0x7);
-
-        var identifier = IcaoIdentifier.Parse((uint)(waypointFlags >> 5) & 0x7FFFFFF);
-
-        var regionFlags = reader.ReadUInt32();
-
-        var region = IcaoIdentifier.Parse(regionFlags & 0x7FF);
-        var airportId = (regionFlags >> 11) & 0x1FFFFF;
+        var waypointFlags = new WaypointSegmentFlags(reader.ReadUInt32());
+        var regionFlags = new WaypointSegmentRegionFlags(reader.ReadUInt32());
 
         var altitudeMinimum = reader.ReadSingle();
 
-        return type is WaypointSegmentType.Named or WaypointSegmentType.Ndb or WaypointSegmentType.Vor
-            ? new WaypointSegment(type, identifier, region, airportId, altitudeMinimum)
+        return waypointFlags.Type is WaypointSegmentType.Named or WaypointSegmentType.Ndb or WaypointSegmentType.Vor
+            ? new WaypointSegment(waypointFlags.Type, waypointFlags.IcaoIdentifier, regionFlags.RegionIdentifier, regionFlags.AirportId, altitudeMinimum)
             : null;
     }
 }

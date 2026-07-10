@@ -1,7 +1,6 @@
 ﻿using System.Text;
-using BglReader.Generic;
 
-namespace BglReader;
+namespace BglReader.Generic;
 
 public class NameRecord : BglRecord
 {

@@ -1,4 +1,5 @@
 ﻿using BglReader.Generic;
+using BglReader.ValueObjects;
 
 namespace BglReader.Navigation;
 
@@ -12,10 +13,7 @@ public class WaypointRecord : BglRecord
         MagneticVariation = (MagneticVariation)reader.ReadSingle();
         Identifier = IcaoIdentifier.Parse(reader.ReadUInt32(), true);
 
-        var identFlags = reader.ReadUInt32();
-        
-        Region = IcaoIdentifier.Parse(identFlags & 0x7FF);
-        Airport = IcaoIdentifier.Parse((identFlags >> 11) & 0x1FFFFF);
+        RegionFlags = new RegionIdentifierFlags(reader.ReadUInt32());
 
         MapRoutes(reader);
 
@@ -32,9 +30,7 @@ public class WaypointRecord : BglRecord
     
     public IcaoIdentifier Identifier { get; }
     
-    public IcaoIdentifier Region { get; }
-    
-    public IcaoIdentifier Airport { get; }
+    public RegionFlags RegionFlags { get; }
 
     public ICollection<WaypointRoute> Routes { get; } = new List<WaypointRoute>();
     

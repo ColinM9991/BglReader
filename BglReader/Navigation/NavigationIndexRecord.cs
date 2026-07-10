@@ -1,4 +1,5 @@
 using BglReader.Generic;
+using BglReader.ValueObjects;
 
 namespace BglReader.Navigation;
 
@@ -11,10 +12,7 @@ public class NavigationIndexRecord : BglNode
         Type = sectionType;
         Identifier = IcaoIdentifier.Parse(reader.ReadUInt32(), true);
 
-        var regionFlags = reader.ReadUInt32();
-        
-        Region = IcaoIdentifier.Parse(regionFlags & 0x7FF);
-        Airport = IcaoIdentifier.Parse((regionFlags >> 11) & 0x1FFFFF);
+        RegionFlags = new RegionIdentifierFlags(reader.ReadUInt32());
 
         Qmid = new Qmid(reader.ReadUInt16(), reader.ReadUInt16(), 9);
     }
@@ -23,9 +21,7 @@ public class NavigationIndexRecord : BglNode
     
     public IcaoIdentifier Identifier { get; }
     
-    public IcaoIdentifier Region { get; }
-    
-    public IcaoIdentifier Airport { get; }
+    public RegionFlags RegionFlags { get; }
     
     public Qmid Qmid { get; }
 }

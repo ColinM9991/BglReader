@@ -1,4 +1,5 @@
 using BglReader.Generic;
+using BglReader.ValueObjects;
 
 namespace BglReader.Airport;
 
@@ -9,13 +10,8 @@ public class AirportTransitionRecord : BglRecord
         Type = (TransitionType)reader.ReadByte();
         NumberOfTransitionLegs = reader.ReadByte();
         
-        var fixFlags = reader.ReadUInt32();
-        var regionFlags = reader.ReadUInt32();
-
-        FixType = (FixType)(fixFlags & 0xF);
-        FixIdentifier = IcaoIdentifier.Parse((fixFlags >> 5) & 0x7FFFFFF);
-        FixRegion = IcaoIdentifier.Parse(regionFlags & 0x7FF);
-        FixAirport = IcaoIdentifier.Parse((regionFlags >> 11) & 0x1FFFFF);
+        FixFlags = new FixFlags(reader.ReadUInt32());
+        FixRegionFlagses = new RegionIdentifierFlags(reader.ReadUInt32());
         
         Altitude = reader.ReadSingle();
 
@@ -23,10 +19,7 @@ public class AirportTransitionRecord : BglRecord
         {
             DmeIdent = IcaoIdentifier.Parse(reader.ReadUInt32(), true);
             
-            var dmeRegionFlags = reader.ReadUInt32();
-            
-            DmeRegion = IcaoIdentifier.Parse(dmeRegionFlags & 0x7FF);
-            DmeAirport = IcaoIdentifier.Parse((dmeRegionFlags >> 11) & 0x1FFFFF);
+            DmeRegionFlagses = new RegionIdentifierFlags(reader.ReadUInt32());
             
             Radial = reader.ReadUInt32();
             Distance = reader.ReadSingle();
@@ -39,21 +32,15 @@ public class AirportTransitionRecord : BglRecord
     
     public byte NumberOfTransitionLegs { get; }
     
-    public FixType FixType { get; }
+    public FixFlags FixFlags { get; }
     
-    public IcaoIdentifier FixIdentifier { get; }
-    
-    public IcaoIdentifier FixRegion { get; }
-    
-    public IcaoIdentifier FixAirport { get; }
+    public RegionFlags FixRegionFlagses { get; }
     
     public float Altitude { get; }
     
     public IcaoIdentifier DmeIdent { get; }
     
-    public IcaoIdentifier DmeRegion { get; }
-    
-    public IcaoIdentifier DmeAirport { get; }
+    public RegionFlags DmeRegionFlagses { get; }
     
     public uint Radial { get; }
     

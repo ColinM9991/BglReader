@@ -2,12 +2,12 @@
 
 public struct IcaoIdentifier
 {
-    public IcaoIdentifier(string identifier)
+    private IcaoIdentifier(string identifier)
     {
         Identifier = identifier;
     }
 
-    public string Identifier { get; }
+    private string Identifier { get; }
 
     public override string ToString() => Identifier;
 
@@ -43,4 +43,6 @@ public struct IcaoIdentifier
             };
         }
     }
+
+    public static explicit operator IcaoIdentifier(uint input) => Parse(input);
 }

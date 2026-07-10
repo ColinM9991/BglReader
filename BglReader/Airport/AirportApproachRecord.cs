@@ -1,4 +1,5 @@
 ﻿using BglReader.Generic;
+using BglReader.ValueObjects;
 
 namespace BglReader.Airport;
 
@@ -9,23 +10,15 @@ public class AirportApproachRecord : BglRecord
     {
         Suffix = reader.ReadByte();
         RunwayNumber = reader.ReadByte();
-        var flags = reader.ReadByte();
-        ApproachType = (ApproachType)(flags & 0xF);
-
-        RunwayDesignator = (flags >> 4) & 0x7;
-        GpsOverlay = (flags & 0x80) == 0x80;
+        ApproachFlags = new ApproachFlags(reader.ReadByte());
 
         NumberOfTransitions = reader.ReadByte();
         NumberOfApproachLegs = reader.ReadByte();
         NumberOfMissedApproachLegs = reader.ReadByte();
         
-        var fixFlags = reader.ReadUInt32();
-        FixType = (FixType)(fixFlags & 0xF);
-        FixIdentifier = IcaoIdentifier.Parse((fixFlags >> 5) & 0x7FFFFFF);
+        FixFlags = new FixFlags(reader.ReadUInt32());
 
-        var regionFlags = reader.ReadUInt32();
-        FixRegion = IcaoIdentifier.Parse(regionFlags & 0x7FF);
-        FixAirportIdentifier = IcaoIdentifier.Parse((regionFlags >> 11) & 0x1FFFFF);
+        FixRegionFlagses = new RegionIdentifierFlags(reader.ReadUInt32());
         
         Altitude = reader.ReadSingle();
         Heading = reader.ReadSingle();
@@ -38,11 +31,7 @@ public class AirportApproachRecord : BglRecord
 
     public byte RunwayNumber { get; }
     
-    public ApproachType ApproachType { get; }
-    
-    public int RunwayDesignator { get; }
-    
-    public bool GpsOverlay { get; }
+    public ApproachFlags ApproachFlags { get; }
 
     public byte NumberOfTransitions { get; }
 
@@ -50,13 +39,9 @@ public class AirportApproachRecord : BglRecord
 
     public byte NumberOfMissedApproachLegs { get; }
     
-    public FixType FixType { get; }
-    
-    public IcaoIdentifier FixIdentifier { get; }
+    public FixFlags FixFlags { get; }
 
-    public IcaoIdentifier FixRegion { get; }
-    
-    public IcaoIdentifier FixAirportIdentifier { get; }
+    public RegionFlags FixRegionFlagses { get; }
 
     public float Altitude { get; }
 

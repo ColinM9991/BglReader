@@ -1,5 +1,6 @@
 using BglReader.Airport;
 using BglReader.Generic;
+using BglReader.ValueObjects;
 
 namespace BglReader.Navigation;
 
@@ -9,13 +10,7 @@ public class IlsVorRecord : BglRecord
     {
         Type = (IlsVorType)reader.ReadByte();
 
-        var flags = reader.ReadByte();
-
-        IsDmeOnly = (flags & 0x1) == 0x0;
-        IsBackcourse = (flags & 0x4) == 0x4;
-        IsGlideslopePresent = (flags & 0x8) == 0x8;
-        IsDmePresent = (flags & 0x10) == 0x10;
-        NavTrue = (flags & 0x20) == 0x20;
+        Flags = new IlsVorFlag(reader.ReadByte());
         
         Coordinates = new Coordinate(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
 
@@ -24,25 +19,14 @@ public class IlsVorRecord : BglRecord
         MagneticVariation = (MagneticVariation)reader.ReadSingle();
         Identifier = IcaoIdentifier.Parse(reader.ReadUInt32(), true);
 
-        var regionFlags = reader.ReadUInt32();
-
-        Region = IcaoIdentifier.Parse(regionFlags & 0x7FF);
-        IlsAirport = IcaoIdentifier.Parse((regionFlags >> 11) & 0x1FFFFF);
+        RegionFlags = new RegionIdentifierFlags(reader.ReadUInt32());
         
         MapSubRecords(reader);
     }
     
     public IlsVorType Type { get; }
     
-    public bool IsDmeOnly { get; }
-    
-    public bool IsBackcourse { get; }
-    
-    public bool IsGlideslopePresent { get; }
-    
-    public bool IsDmePresent { get; }
-    
-    public bool NavTrue { get; }
+    public IlsVorFlag Flags { get; }
     
     public Coordinate Coordinates { get; }
     
@@ -54,9 +38,7 @@ public class IlsVorRecord : BglRecord
     
     public IcaoIdentifier Identifier { get; }
     
-    public IcaoIdentifier Region { get; }
-    
-    public IcaoIdentifier IlsAirport { get; }
+    public RegionFlags RegionFlags { get; }
 
     public ICollection<BglRecord> SubRecords { get; } = new List<BglRecord>();
     

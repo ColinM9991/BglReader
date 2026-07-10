@@ -1,5 +1,6 @@
 using BglReader.Airport;
 using BglReader.Generic;
+using BglReader.ValueObjects;
 
 namespace BglReader.Navigation;
 
@@ -14,10 +15,7 @@ public class NdbRecord : BglRecord
         MagneticVariation = (MagneticVariation)reader.ReadSingle();
         Identifier = IcaoIdentifier.Parse(reader.ReadUInt32(), true);
 
-        var regionFlags = reader.ReadUInt32();
-        
-        Region = IcaoIdentifier.Parse(regionFlags & 0x7FF);
-        Airport = IcaoIdentifier.Parse((regionFlags >> 11) & 0x1FFFFF);
+        RegionFlags = new RegionIdentifierFlags(reader.ReadUInt32());
         
         MapSubRecords(reader);
     }
@@ -34,9 +32,7 @@ public class NdbRecord : BglRecord
     
     public IcaoIdentifier Identifier { get; }
     
-    public IcaoIdentifier Region { get; }
-    
-    public IcaoIdentifier Airport { get; }
+    public RegionFlags RegionFlags { get; }
     
     public ICollection<BglRecord> SubRecords { get; } = new List<BglRecord>();
 

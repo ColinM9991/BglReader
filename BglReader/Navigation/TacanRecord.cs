@@ -1,5 +1,6 @@
 using BglReader.Airport;
 using BglReader.Generic;
+using BglReader.ValueObjects;
 
 namespace BglReader.Navigation;
 
@@ -10,17 +11,13 @@ public class TacanRecord : BglRecord
         Coordinates = new Coordinate(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
         Channel = reader.ReadUInt32();
 
-        var infoFlags = reader.ReadByte();
+        Flags = new TacanFlags(reader.ReadByte());
 
-        Band = (TacanBand)(infoFlags & 0x1);
-        IsDmeOnly = (infoFlags & 0x2) == 0;
         Range = reader.ReadSingle();
         MagneticVariation = (MagneticVariation)reader.ReadSingle();
         Identifier = IcaoIdentifier.Parse(reader.ReadUInt32(), true);
 
-        var regionFlags = reader.ReadUInt32();
-        
-        Region = IcaoIdentifier.Parse(regionFlags & 0x7FF);
+        RegionFlags = new RegionFlags(reader.ReadUInt32());
         MapSubRecords(reader);
     }
     
@@ -28,9 +25,7 @@ public class TacanRecord : BglRecord
     
     public uint Channel { get; }
     
-    public TacanBand Band { get; }
-    
-    public bool IsDmeOnly { get; }
+    public TacanFlags Flags { get; }
     
     public float Range { get; }
     
@@ -38,7 +33,7 @@ public class TacanRecord : BglRecord
     
     public IcaoIdentifier Identifier { get; }
     
-    public IcaoIdentifier Region { get; }
+    public RegionFlags RegionFlags { get; }
     
     public ICollection<BglRecord> SubRecords { get; } = new List<BglRecord>();
     

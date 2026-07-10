@@ -1,4 +1,5 @@
 using BglReader.Generic;
+using BglReader.ValueObjects;
 
 namespace BglReader.Navigation;
 
@@ -7,11 +8,8 @@ public class BoundaryRecord : BglRecord
     public BoundaryRecord(BinaryReader reader) : base(reader, false)
     {
         Type = reader.ReadByte();
-
-        var altitudeTypeFlags = reader.ReadByte();
-
-        MaximumAltitudeType = altitudeTypeFlags & 0xF;
-        MinimumAltitudeType = (altitudeTypeFlags >> 4) & 0xF;
+        
+        Flags = new BoundaryFlags(reader.ReadByte());
 
         MinimumCoordinates = new Coordinate(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
         MaximumCoordinates = new Coordinate(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
@@ -21,9 +19,7 @@ public class BoundaryRecord : BglRecord
     
     public byte Type { get; }
     
-    public int MaximumAltitudeType { get; }
-    
-    public int MinimumAltitudeType { get; }
+    public BoundaryFlags Flags { get; }
     
     public Coordinate MinimumCoordinates { get; }
     
