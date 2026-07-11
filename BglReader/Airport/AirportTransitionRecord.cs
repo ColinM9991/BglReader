@@ -40,7 +40,7 @@ public class AirportTransitionRecord : BglRecord
     
     public IcaoIdentifier DmeIdent { get; }
     
-    public RegionIdentifierFlags DmeRegionFlags { get; }
+    public RegionIdentifierFlags? DmeRegionFlags { get; }
     
     public uint Radial { get; }
     

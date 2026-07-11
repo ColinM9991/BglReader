@@ -2,24 +2,23 @@
 
 namespace BglReader.Airport;
 
-// TODO Flags
 public class DeleteAirportRecord : BglRecord
 {
     public DeleteAirportRecord(BinaryReader reader) : base(reader)
     {
-        DeleteFlags = reader.ReadUInt16();
+        DeleteFlags = new ValueObjects.DeleteFlags(reader.ReadUInt16());
         NumberOfRunways = reader.ReadByte();
         NumberOfStarts = reader.ReadByte();
         NumberOfFrequencies = reader.ReadByte();
 
-        MapRunways(reader);
-        MapStarts(reader);
-        MapFrequencies(reader);
+        Runways = MapRunways(reader).ToList();
+        Starts = MapStarts(reader).ToList();
+        Frequencies = MapFrequencies(reader).ToList();
 
         _ = reader.ReadByte(); // Unused
     }
 
-    public ushort DeleteFlags { get; }
+    public ValueObjects.DeleteFlags DeleteFlags { get; }
 
     public byte NumberOfRunways { get; }
 
@@ -27,48 +26,26 @@ public class DeleteAirportRecord : BglRecord
 
     public byte NumberOfFrequencies { get; }
 
-    public ICollection<DeleteRunway> Runways { get; } = new List<DeleteRunway>();
+    public ICollection<DeleteRunway> Runways { get; }
 
-    public ICollection<DeleteStart> Starts { get; } = new List<DeleteStart>();
+    public ICollection<DeleteStart> Starts { get; }
 
-    public ICollection<DeleteFrequency> Frequencies { get; } = new List<DeleteFrequency>();
+    public ICollection<DeleteFrequency> Frequencies { get; }
 
-    private void MapRunways(BinaryReader reader)
-    {
-        if (NumberOfRunways == 0) return;
+    private IEnumerable<DeleteRunway> MapRunways(BinaryReader reader) => Enumerable.Range(0, NumberOfRunways)
+        .Select(_ => new DeleteRunway(
+            reader.ReadByte(),
+            reader.ReadByte(),
+            reader.ReadByte(),
+            reader.ReadByte()));
 
-        for (var i = 0; i < NumberOfRunways; i++)
-        {
-            Runways.Add(new DeleteRunway(
-                reader.ReadByte(),
-                reader.ReadByte(),
-                reader.ReadByte(),
-                reader.ReadByte()));
-        }
-    }
+    private IEnumerable<DeleteStart> MapStarts(BinaryReader reader) => Enumerable.Range(0, NumberOfStarts).Select(x =>
+        new DeleteStart(
+            reader.ReadByte(),
+            reader.ReadByte(),
+            reader.ReadByte(),
+            reader.ReadByte()));
 
-    private void MapStarts(BinaryReader reader)
-    {
-        if (NumberOfStarts == 0) return;
-
-        for (var i = 0; i < NumberOfStarts; i++)
-        {
-            Starts.Add(new DeleteStart(
-                reader.ReadByte(),
-                reader.ReadByte(),
-                reader.ReadByte()));
-
-            _ = reader.ReadByte(); // TODO validate unused
-        }
-    }
-
-    private void MapFrequencies(BinaryReader reader)
-    {
-        if (NumberOfFrequencies == 0) return;
-
-        for (var i = 0; i < NumberOfFrequencies; i++)
-        {
-            Frequencies.Add(new DeleteFrequency(reader.ReadUInt32()));
-        }
-    }
+    private IEnumerable<DeleteFrequency> MapFrequencies(BinaryReader reader) => Enumerable.Range(0, NumberOfFrequencies)
+        .Select(x => new DeleteFrequency(reader.ReadUInt32()));
 }

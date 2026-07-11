@@ -11,7 +11,7 @@ public class TaxiPath
         TypeFlags = reader.ReadByte();
         RunwayTaxiFlags = reader.ReadByte();
         Bitfield = reader.ReadByte();
-        Surface = reader.ReadByte();
+        Surface = (SurfaceType)reader.ReadByte();
         Width = reader.ReadSingle();
         WeightLimit = reader.ReadSingle();
 
@@ -28,7 +28,7 @@ public class TaxiPath
     
     public byte Bitfield { get; }
     
-    public byte Surface { get; }
+    public SurfaceType Surface { get; }
     
     public float Width { get; }
     

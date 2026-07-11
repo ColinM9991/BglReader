@@ -12,6 +12,6 @@ public partial class ApproachFlags
     [Bits(4, 3)]
     public partial int RunwayDesignator { get; }
     
-    [Bits(7, 1)]
+    [Bits(7)]
     public partial bool HasGpsOverlay { get; }
 }

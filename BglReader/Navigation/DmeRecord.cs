@@ -5,7 +5,7 @@ namespace BglReader.Navigation;
 public class DmeRecord : BglRecord
 {
     public DmeRecord(BinaryReader reader)
-        : base(reader, true)
+        : base(reader)
     {
         _ = reader.ReadBytes(2); // unknown
         

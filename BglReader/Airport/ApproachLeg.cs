@@ -1,6 +1,7 @@
+using BglReader.ValueObjects;
+
 namespace BglReader.Airport;
 
-//TODO Flags
 public readonly struct ApproachLeg
 {
     public ApproachLeg(
@@ -8,11 +9,11 @@ public readonly struct ApproachLeg
     {
         Id = reader.ReadByte();
         AltitudeDescriptor = reader.ReadByte();
-        Flags = reader.ReadUInt16();
-        FixFlags = reader.ReadUInt32();
-        IcaoFlags = reader.ReadUInt32();
-        RecommendedIdentFlags = reader.ReadUInt32();
-        RecommendedAirportFlags = reader.ReadUInt32();
+        Flags = new ValueObjects.ApproachLegFlags(reader.ReadUInt16());
+        FixFlags = new FixFlags(reader.ReadUInt32());
+        IcaoFlags = new RegionIdentifierFlags(reader.ReadUInt32());
+        RecommendedIdentFlags = new FixFlags(reader.ReadUInt32());
+        RecommendedAirportFlags = new RegionIdentifierFlags(reader.ReadUInt32());
         Theta = reader.ReadSingle();
         Rho = reader.ReadSingle();
         Course = reader.ReadSingle();
@@ -25,15 +26,15 @@ public readonly struct ApproachLeg
 
     public byte AltitudeDescriptor { get; }
 
-    public ushort Flags { get; }
+    public ValueObjects.ApproachLegFlags Flags { get; }
 
-    public uint FixFlags { get; }
+    public FixFlags FixFlags { get; }
 
-    public uint IcaoFlags { get; }
+    public RegionIdentifierFlags IcaoFlags { get; }
 
-    public uint RecommendedIdentFlags { get; }
+    public FixFlags RecommendedIdentFlags { get; }
 
-    public uint RecommendedAirportFlags { get; }
+    public RegionIdentifierFlags RecommendedAirportFlags { get; }
 
     public float Theta { get; }
 

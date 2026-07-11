@@ -44,9 +44,9 @@ public partial class AirportFuelFlags
     [Bits(24, 2)]
     public partial FuelAvailability UnknownFuelAvailability { get; }
 
-    [Bits(30, 1)]
+    [Bits(30)]
     public partial bool IsAvgasAvailable { get; }
 
-    [Bits(31, 1)]
+    [Bits(31)]
     public partial bool IsJetFuelAvailable { get; }
 }

@@ -8,21 +8,13 @@ public class AirportTaxiName : BglRecord
     public AirportTaxiName(BinaryReader reader) : base(reader)
     {
         NumberOfRecords = reader.ReadUInt16();
-        
-        MapRecords(reader);
+
+        Records = Enumerable.Range(0, NumberOfRecords)
+            .Select(i => Encoding.UTF8.GetString(reader.ReadBytes(8)))
+            .ToList();
     }
 
     public ushort NumberOfRecords { get; }
 
-    public ICollection<string> Records { get; } = new List<string>();
-
-    private void MapRecords(BinaryReader reader)
-    {
-        if (NumberOfRecords == 0) return;
-
-        for (var record = 0; record < NumberOfRecords; record++)
-        {
-            Records.Add(Encoding.UTF8.GetString(reader.ReadBytes(8)));
-        }
-    }
+    public ICollection<string> Records { get; } = [];
 }

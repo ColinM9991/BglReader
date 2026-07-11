@@ -3,7 +3,7 @@
 [AttributeUsage(AttributeTargets.Property)]
 public sealed class BitsAttribute(
     int offset,
-    int length) : Attribute
+    int length = 1) : Attribute
 {
     public int Offset { get; } = offset;
 
