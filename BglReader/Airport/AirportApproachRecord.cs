@@ -18,7 +18,7 @@ public class AirportApproachRecord : BglRecord
         
         FixFlags = new FixFlags(reader.ReadUInt32());
 
-        FixRegionFlagses = new RegionIdentifierFlags(reader.ReadUInt32());
+        FixRegionFlags = new RegionIdentifierFlags(reader.ReadUInt32());
         
         Altitude = reader.ReadSingle();
         Heading = reader.ReadSingle();
@@ -41,7 +41,7 @@ public class AirportApproachRecord : BglRecord
     
     public FixFlags FixFlags { get; }
 
-    public RegionFlags FixRegionFlagses { get; }
+    public RegionIdentifierFlags FixRegionFlags { get; }
 
     public float Altitude { get; }
 

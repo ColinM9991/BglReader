@@ -62,10 +62,15 @@ namespace BglReader.SourceGenerators
                 .AppendLine()
                 .AppendLine($"public partial class {bitField.Name}")
                 .AppendLine("{")
-                .IncrementIndentation()
-                .AppendLine($"private readonly {bitField.UnderlyingType} _value;")
-                .AppendLine()
-                .AppendLine($"public {bitField.Name}({bitField.UnderlyingType} value)");
+                .IncrementIndentation();
+            
+            if (!bitField.IsInheriting)
+            {
+                source.AppendLine($"protected readonly {bitField.UnderlyingType} _value;")
+                    .AppendLine();
+            }
+
+            source.AppendLine($"public {bitField.Name}({bitField.UnderlyingType} value)");
 
             if (bitField.IsInheriting)
             {
@@ -73,12 +78,16 @@ namespace BglReader.SourceGenerators
                     .AppendLine(": base(value)")
                     .DecrementIndentation();
             }
+
+            source.AppendLine("{");
+            if (!bitField.IsInheriting)
+            {
+                source.IncrementIndentation()
+                    .AppendLine("_value = value;")
+                    .DecrementIndentation();
+            }
             
-            source.AppendLine("{")
-                .IncrementIndentation()
-                .AppendLine("_value = value;")
-                .DecrementIndentation() 
-                .AppendLine("}")
+            source.AppendLine("}")
                 .AppendLine();
 
             foreach (var property in bitField.Properties)
@@ -92,19 +101,19 @@ namespace BglReader.SourceGenerators
                     .AppendLine("{")
                     .IncrementIndentation()
                     .Append("return ");
-                
+
                 if (property.ReturnKind is not SpecialType.System_Boolean)
                     source.Append($"({property.Type})");
-                
-                var bitmask = property.Offset == 0 ?
-                    $"(_value & {mask})"
+
+                var bitmask = property.Offset == 0
+                    ? $"(_value & {mask})"
                     : $"((_value >> {property.Offset}) & {mask})";
-                
+
                 source.Append(bitmask);
-                
+
                 if (property.ReturnKind is SpecialType.System_Boolean)
                     source.Append(" != 0");
-                
+
                 source
                     .AppendLine(";")
                     .DecrementIndentation()

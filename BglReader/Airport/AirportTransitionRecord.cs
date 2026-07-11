@@ -11,7 +11,7 @@ public class AirportTransitionRecord : BglRecord
         NumberOfTransitionLegs = reader.ReadByte();
         
         FixFlags = new FixFlags(reader.ReadUInt32());
-        FixRegionFlagses = new RegionIdentifierFlags(reader.ReadUInt32());
+        FixRegionFlags = new RegionIdentifierFlags(reader.ReadUInt32());
         
         Altitude = reader.ReadSingle();
 
@@ -19,7 +19,7 @@ public class AirportTransitionRecord : BglRecord
         {
             DmeIdent = IcaoIdentifier.Parse(reader.ReadUInt32(), true);
             
-            DmeRegionFlagses = new RegionIdentifierFlags(reader.ReadUInt32());
+            DmeRegionFlags = new RegionIdentifierFlags(reader.ReadUInt32());
             
             Radial = reader.ReadUInt32();
             Distance = reader.ReadSingle();
@@ -34,13 +34,13 @@ public class AirportTransitionRecord : BglRecord
     
     public FixFlags FixFlags { get; }
     
-    public RegionFlags FixRegionFlagses { get; }
+    public RegionIdentifierFlags FixRegionFlags { get; }
     
     public float Altitude { get; }
     
     public IcaoIdentifier DmeIdent { get; }
     
-    public RegionFlags DmeRegionFlagses { get; }
+    public RegionIdentifierFlags DmeRegionFlags { get; }
     
     public uint Radial { get; }
     

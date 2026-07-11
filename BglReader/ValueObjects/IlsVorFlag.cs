@@ -6,7 +6,7 @@ namespace BglReader.ValueObjects;
 public partial class IlsVorFlag
 {
     [Bits(0, 1)]
-    public partial bool IsDmeOnly { get; }
+    public partial bool IsNotDmeOnly { get; }
     
     [Bits(2, 1)]
     public partial bool IsBackCourse { get; }

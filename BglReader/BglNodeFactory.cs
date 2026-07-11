@@ -10,6 +10,7 @@ public static class BglNodeFactory
     public static BglNode? Create(SectionType sectionType, BinaryReader reader) => sectionType switch
     {
         SectionType.Airport => new AirportSubsectionData(reader),
+        SectionType.AirportSummary => new AirportSummaryRecord(reader),
         SectionType.BglRunway => new BglRunwayRecord(reader),
         SectionType.Waypoint => new WaypointRecord(reader),
         SectionType.Tacan => new TacanRecord(reader),
@@ -17,8 +18,8 @@ public static class BglNodeFactory
         SectionType.Ndb => new NdbRecord(reader),
         SectionType.SceneryObject => SceneryBglRecord.GetSceneryBglRecord(reader),
         SectionType.Marker => new MarkerRecord(reader),
-        SectionType.Boundary => new BoundaryRecord(reader),
-        SectionType.Geopol => new GeopolRecord(reader),
+        SectionType.Boundary => new BoundaryRecord(reader), // Unused in APX, AVX, NVX
+        SectionType.Geopol => new GeopolRecord(reader), // Unused in APX, AVX, NVX
         SectionType.NdbIcaoIndex
             or SectionType.TacanIndex
             or SectionType.VorIlsIcaoIndex

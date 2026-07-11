@@ -10,5 +10,5 @@ public partial class TacanFlags
     public partial TacanBand Band { get; }
     
     [Bits(1, 1)]
-    public partial bool IsDmeOnly { get; }
+    public partial bool IsNotDmeOnly { get; }
 }
