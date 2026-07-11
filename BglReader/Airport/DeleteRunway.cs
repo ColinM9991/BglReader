@@ -1,3 +1,5 @@
+using BglReader.Attributes;
+
 namespace BglReader.Airport;
 
 public readonly struct DeleteRunway(
@@ -12,7 +14,15 @@ public readonly struct DeleteRunway(
 
     public byte SecondaryRunway { get; } = runwayNumberSecondary;
 
-    public int PrimaryRunwayDesignator { get; } = runwayDesignator & 0xF; // Todo runway designator?
+    public DeleteRunwayFlags Flags { get; } = new(runwayDesignator);
+}
 
-    public int SecondaryRunwayDesignator { get; } = (runwayDesignator >> 4) & 0xF; // TODO runway designator?
+[BitField(typeof(byte))]
+public partial class DeleteRunwayFlags
+{
+    [Bits(0, 4)]
+    public partial RunwayDesignator PrimaryRunwayDesignator { get; }
+    
+    [Bits(4, 4)]
+    public partial RunwayDesignator SecondaryRunwayDesignator { get; }
 }

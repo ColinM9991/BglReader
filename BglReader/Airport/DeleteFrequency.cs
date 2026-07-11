@@ -1,8 +1,13 @@
+using BglReader.Attributes;
+
 namespace BglReader.Airport;
 
-public readonly struct DeleteFrequency(uint info)
+[BitField(typeof(uint))]
+public partial class DeleteFrequency
 {
-    public uint Type { get; } = (info >> 28) & 0xF;
+    [Bits(28, 4)]
+    public partial ComType Type { get; }
 
-    public uint Frequency { get; } = (info & 0xFFFFFFF) / 1000;
+    [Bits(0, 28)]
+    public partial Frequency Frequency { get; }
 }

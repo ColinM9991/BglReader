@@ -1,16 +1,17 @@
-﻿namespace BglReader.Airport;
+﻿using BglReader.ValueObjects;
 
-// TODO Flags
+namespace BglReader.Airport;
+
 public class TaxiPath
 {
     public TaxiPath(
         BinaryReader reader)
     {
         StartIndex = reader.ReadUInt16();
-        PathFlags = reader.ReadUInt16();
-        TypeFlags = reader.ReadByte();
-        RunwayTaxiFlags = reader.ReadByte();
-        Bitfield = reader.ReadByte();
+        PathFlags = new TaxiPathFlags(reader.ReadUInt16());
+        TypeFlags = new SurfacePointFlags(reader.ReadByte());
+        TaxiNameIndex = reader.ReadByte();
+        EdgeFlags = new SurfaceLineFlags(reader.ReadByte());
         Surface = (SurfaceType)reader.ReadByte();
         Width = reader.ReadSingle();
         WeightLimit = reader.ReadSingle();
@@ -20,29 +21,17 @@ public class TaxiPath
 
     public ushort StartIndex { get; }
     
-    public ushort PathFlags { get; }
+    public TaxiPathFlags PathFlags { get; }
     
-    public byte TypeFlags { get; }
+    public SurfacePointFlags TypeFlags { get; }
     
-    public byte RunwayTaxiFlags { get; }
+    public byte TaxiNameIndex { get; }
     
-    public byte Bitfield { get; }
+    public SurfaceLineFlags EdgeFlags { get; }
     
     public SurfaceType Surface { get; }
     
     public float Width { get; }
     
     public float WeightLimit { get; }
-}
-
-public class TaxiPathP3D : TaxiPath
-{
-    public TaxiPathP3D(BinaryReader reader) : base(reader)
-    {
-        Material = new Guid(reader.ReadBytes(16));
-
-        _ = reader.ReadBytes(4);
-    }
-    
-    public Guid Material { get; }
 }

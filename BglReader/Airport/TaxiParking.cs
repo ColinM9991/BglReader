@@ -6,7 +6,7 @@ public readonly struct TaxiParking
 {
     public TaxiParking(BinaryReader reader, AirportType airportType)
     {
-        Info = reader.ReadUInt32();
+        Info = reader.ReadUInt32(); // TODO Flags
         Radius = reader.ReadSingle();
         Heading = reader.ReadSingle();
         TeeOffset = reader.ReadSingle();

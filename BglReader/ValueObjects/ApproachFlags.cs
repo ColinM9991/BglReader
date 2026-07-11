@@ -10,7 +10,7 @@ public partial class ApproachFlags
     public partial ApproachType Type { get; }
     
     [Bits(4, 3)]
-    public partial int RunwayDesignator { get; }
+    public partial RunwayDesignator RunwayDesignator { get; }
     
     [Bits(7)]
     public partial bool HasGpsOverlay { get; }

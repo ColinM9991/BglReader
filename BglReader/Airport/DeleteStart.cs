@@ -8,7 +8,7 @@ public readonly struct DeleteStart(
 {
     public byte RunwayNumber { get; } = runwayNumber;
 
-    public byte RunwayDesignator { get; } = runwayDesignator;
+    public RunwayDesignator RunwayDesignator { get; } = (RunwayDesignator)runwayDesignator;
 
     public StartType StartType { get; } = (StartType)type;
 }

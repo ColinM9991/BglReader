@@ -6,8 +6,8 @@ namespace BglReader.ValueObjects;
 public partial class ApronFlags
 {
     [Bits(0)]
-    public partial int DrawSurface { get; }
+    public partial bool DrawSurface { get; }
     
     [Bits(1)]
-    public partial int DrawDetail { get; }
+    public partial bool DrawDetail { get; }
 }
