@@ -9,8 +9,8 @@ public class MarkerRecord : BglRecord
         Heading = reader.ReadByte();
         Type = (MarkerType)reader.ReadByte();
         Coordinates = new Coordinate(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
-        Identifier = IcaoIdentifier.Parse(reader.ReadUInt32(), true);
-        Region = IcaoIdentifier.Parse(reader.ReadUInt16());
+        Identifier = new ShiftedIcaoIdentifier(reader.ReadUInt32());
+        Region = new IcaoIdentifier(reader.ReadUInt16());
     }
     
     public ushort Heading { get; }
@@ -19,7 +19,7 @@ public class MarkerRecord : BglRecord
     
     public Coordinate Coordinates { get; }
     
-    public IcaoIdentifier Identifier { get; }
+    public ShiftedIcaoIdentifier Identifier { get; }
     
     public IcaoIdentifier Region { get; }
 }

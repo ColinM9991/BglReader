@@ -11,8 +11,8 @@ public class AirportSubsectionData : BglRecord
         Coordinates = new Coordinate(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
         TowerCoordinates = new Coordinate(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
         MagneticVariation = (MagneticVariation)reader.ReadSingle();
-        Identifier = IcaoIdentifier.Parse(reader.ReadUInt32(), true);
-        Region = IcaoIdentifier.Parse(reader.ReadUInt32());
+        Identifier = new ShiftedIcaoIdentifier(reader.ReadUInt32());
+        Region = new IcaoIdentifier(reader.ReadUInt32());
         FuelTypeInfo = reader.ReadUInt32();
 
         _ = reader.ReadByte();
@@ -50,7 +50,7 @@ public class AirportSubsectionData : BglRecord
 
     public MagneticVariation MagneticVariation { get; }
 
-    public IcaoIdentifier Identifier { get; }
+    public ShiftedIcaoIdentifier Identifier { get; }
 
     public IcaoIdentifier Region { get; }
 

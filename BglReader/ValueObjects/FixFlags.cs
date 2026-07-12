@@ -10,5 +10,5 @@ public partial class FixFlags
     public partial FixType Type { get; }
     
     [Bits(5, 27)]
-    public partial IcaoIdentifier Identifier { get; }
+    public partial ShiftedIcaoIdentifier Identifier { get; }
 }

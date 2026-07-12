@@ -6,10 +6,8 @@ namespace BglReader.ValueObjects;
 public partial class WaypointSegmentRegionFlags
 {
     [Bits(0, 11)]
-    public partial uint Region { get; }
+    public partial IcaoIdentifier Region { get; }
     
     [Bits(11, 21)]
     public partial uint AirportId { get; }
-    
-    public IcaoIdentifier RegionIdentifier => IcaoIdentifier.Parse(Region);
 }

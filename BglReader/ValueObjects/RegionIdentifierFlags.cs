@@ -6,5 +6,5 @@ namespace BglReader.ValueObjects;
 public partial class RegionIdentifierFlags : RegionFlags
 {
     [Bits(11, 21)]
-    public partial IcaoIdentifier Identifier { get; }
+    public partial ShiftedIcaoIdentifier Identifier { get; }
 }

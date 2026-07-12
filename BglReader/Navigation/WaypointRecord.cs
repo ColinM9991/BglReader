@@ -11,7 +11,7 @@ public class WaypointRecord : BglRecord
         NumberOfRoutes = reader.ReadByte();
         Coordinate = new Coordinate(reader.ReadInt32(), reader.ReadInt32());
         MagneticVariation = (MagneticVariation)reader.ReadSingle();
-        Identifier = IcaoIdentifier.Parse(reader.ReadUInt32(), true);
+        Identifier = new ShiftedIcaoIdentifier(reader.ReadUInt32());
 
         RegionFlags = new RegionIdentifierFlags(reader.ReadUInt32());
 
@@ -28,7 +28,7 @@ public class WaypointRecord : BglRecord
     
     public MagneticVariation MagneticVariation { get; }
     
-    public IcaoIdentifier Identifier { get; }
+    public ShiftedIcaoIdentifier Identifier { get; }
     
     public RegionFlags RegionFlags { get; }
 

@@ -1,23 +1,13 @@
 ﻿namespace BglReader;
 
-public struct IcaoIdentifier
+public class IcaoIdentifier(uint value)
 {
-    private IcaoIdentifier(string identifier)
+    private string Value { get; } = Parse(value);
+
+    public override string ToString() => Value;
+
+    private static string Parse(uint code)
     {
-        Identifier = identifier;
-    }
-
-    private string Identifier { get; }
-
-    public override string ToString() => Identifier;
-
-    public static IcaoIdentifier Parse(uint code, bool hasTypeBits = false)
-    {
-        if (hasTypeBits)
-        {
-            code >>= 5;
-        }
-
         Span<char> chars = stackalloc char[5];
         var index = chars.Length;
 
@@ -28,7 +18,7 @@ public struct IcaoIdentifier
         }
         while (code > 0);
 
-        return new IcaoIdentifier(new string(chars[index..]));
+        return new string(chars[index..]);
 
         static char ToIcaoChar(uint value) => value switch
         {
@@ -39,5 +29,5 @@ public struct IcaoIdentifier
         };
     }
 
-    public static explicit operator IcaoIdentifier(uint input) => Parse(input);
+    public static explicit operator IcaoIdentifier(uint input) => new(input);
 }

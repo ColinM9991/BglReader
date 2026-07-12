@@ -10,7 +10,7 @@ public class NavigationIndexRecord : BglNode
         BinaryReader reader)
     {
         Type = sectionType;
-        Identifier = IcaoIdentifier.Parse(reader.ReadUInt32(), true);
+        Identifier = new ShiftedIcaoIdentifier(reader.ReadUInt32());
 
         RegionFlags = new RegionIdentifierFlags(reader.ReadUInt32());
 
@@ -19,7 +19,7 @@ public class NavigationIndexRecord : BglNode
     
     public SectionType Type { get; }
     
-    public IcaoIdentifier Identifier { get; }
+    public ShiftedIcaoIdentifier Identifier { get; }
     
     public RegionFlags RegionFlags { get; }
     

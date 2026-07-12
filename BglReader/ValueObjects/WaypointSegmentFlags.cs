@@ -10,7 +10,5 @@ public partial class WaypointSegmentFlags
     public partial WaypointSegmentType Type { get; }
     
     [Bits(5, 27)]
-    public partial uint Identifier { get; }
-    
-    public IcaoIdentifier IcaoIdentifier => IcaoIdentifier.Parse(Identifier, true);
+    public partial ShiftedIcaoIdentifier Identifier { get; }
 }

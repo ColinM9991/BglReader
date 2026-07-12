@@ -9,8 +9,8 @@ public sealed class AirportSummaryRecord : BglRecord
     {
         ComFlags = new AirportSummaryComFlags(reader.ReadUInt16());
         Coordinate = new Coordinate(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
-        Identifier = IcaoIdentifier.Parse(reader.ReadUInt32(), true);
-        Region = IcaoIdentifier.Parse(reader.ReadUInt32(), true);
+        Identifier = new ShiftedIcaoIdentifier(reader.ReadUInt32());
+        Region = new IcaoIdentifier(reader.ReadUInt32());
         MagneticVariation = new MagneticVariation(reader.ReadSingle());
         LongestRunwayLength = reader.ReadSingle();
         LongestRunwayHeading = reader.ReadSingle();
@@ -23,7 +23,7 @@ public sealed class AirportSummaryRecord : BglRecord
     
     public Coordinate Coordinate { get; }
     
-    public IcaoIdentifier Identifier { get; }
+    public ShiftedIcaoIdentifier Identifier { get; }
     
     public IcaoIdentifier Region { get; }
     

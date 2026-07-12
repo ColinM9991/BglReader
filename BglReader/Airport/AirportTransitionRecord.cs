@@ -17,7 +17,7 @@ public class AirportTransitionRecord : BglRecord
 
         if (Type == TransitionType.Dme)
         {
-            DmeIdent = IcaoIdentifier.Parse(reader.ReadUInt32(), true);
+            DmeIdent = new ShiftedIcaoIdentifier(reader.ReadUInt32());
             
             DmeRegionFlags = new RegionIdentifierFlags(reader.ReadUInt32());
             
@@ -38,7 +38,7 @@ public class AirportTransitionRecord : BglRecord
     
     public float Altitude { get; }
     
-    public IcaoIdentifier DmeIdent { get; }
+    public ShiftedIcaoIdentifier DmeIdent { get; }
     
     public RegionIdentifierFlags? DmeRegionFlags { get; }
     

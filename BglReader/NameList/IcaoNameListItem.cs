@@ -10,8 +10,8 @@ public readonly struct IcaoNameListItem
         StateNameIndex = reader.ReadUInt16() >> 4;
         CityNameIndex = reader.ReadUInt16();
         AirportNameIndex = reader.ReadUInt16();
-        Identifier = IcaoIdentifier.Parse(reader.ReadUInt32(), true);
-        Region = IcaoIdentifier.Parse(reader.ReadUInt32());
+        Identifier = new ShiftedIcaoIdentifier(reader.ReadUInt32());
+        Region = new IcaoIdentifier(reader.ReadUInt32());
         Qmid = new Qmid(reader.ReadUInt16(), reader.ReadUInt16(), 9);
     }
 
@@ -25,7 +25,7 @@ public readonly struct IcaoNameListItem
 
     public ushort AirportNameIndex { get; }
 
-    public IcaoIdentifier Identifier { get; }
+    public ShiftedIcaoIdentifier Identifier { get; }
 
     public IcaoIdentifier Region { get; }
 

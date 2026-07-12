@@ -6,7 +6,7 @@ public struct WaypointSegment
 {
     private WaypointSegment(
         WaypointSegmentType type,
-        IcaoIdentifier identifier,
+        ShiftedIcaoIdentifier identifier,
         IcaoIdentifier region,
         uint airportId,
         float altitudeMinimum)
@@ -20,7 +20,7 @@ public struct WaypointSegment
 
     public WaypointSegmentType Type { get; }
 
-    public IcaoIdentifier Identifier { get; }
+    public ShiftedIcaoIdentifier Identifier { get; }
 
     public IcaoIdentifier Region { get; }
 
@@ -36,7 +36,7 @@ public struct WaypointSegment
         var altitudeMinimum = reader.ReadSingle();
 
         return waypointFlags.Type is WaypointSegmentType.Named or WaypointSegmentType.Ndb or WaypointSegmentType.Vor
-            ? new WaypointSegment(waypointFlags.Type, waypointFlags.IcaoIdentifier, regionFlags.RegionIdentifier, regionFlags.AirportId, altitudeMinimum)
+            ? new WaypointSegment(waypointFlags.Type, waypointFlags.Identifier, regionFlags.Region, regionFlags.AirportId, altitudeMinimum)
             : null;
     }
 }
