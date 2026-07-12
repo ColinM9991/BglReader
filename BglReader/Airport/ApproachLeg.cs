@@ -9,7 +9,7 @@ public readonly struct ApproachLeg
     {
         Id = reader.ReadByte();
         AltitudeDescriptor = reader.ReadByte();
-        Flags = new ValueObjects.ApproachLegFlags(reader.ReadUInt16());
+        Flags = new ApproachLegFlags(reader.ReadUInt16());
         FixFlags = new FixFlags(reader.ReadUInt32());
         IcaoFlags = new RegionIdentifierFlags(reader.ReadUInt32());
         RecommendedIdentFlags = new FixFlags(reader.ReadUInt32());
@@ -26,7 +26,7 @@ public readonly struct ApproachLeg
 
     public byte AltitudeDescriptor { get; }
 
-    public ValueObjects.ApproachLegFlags Flags { get; }
+    public ApproachLegFlags Flags { get; }
 
     public FixFlags FixFlags { get; }
 

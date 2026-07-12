@@ -5,16 +5,18 @@ namespace BglReader.Airport;
 
 public sealed class AirportSummaryRecord : BglRecord
 {
-    public AirportSummaryRecord(BinaryReader reader) : base(reader)
+    public AirportSummaryRecord(BinaryReader reader) : base(reader, false)
     {
         ComFlags = new AirportSummaryComFlags(reader.ReadUInt16());
         Coordinate = new Coordinate(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
-        Identifier = IcaoIdentifier.Parse(reader.ReadUInt32());
-        Region = IcaoIdentifier.Parse(reader.ReadUInt32());
+        Identifier = IcaoIdentifier.Parse(reader.ReadUInt32(), true);
+        Region = IcaoIdentifier.Parse(reader.ReadUInt32(), true);
         MagneticVariation = new MagneticVariation(reader.ReadSingle());
         LongestRunwayLength = reader.ReadSingle();
         LongestRunwayHeading = reader.ReadSingle();
         FuelFlags = new AirportFuelFlags(reader.ReadUInt32());
+
+        _ = reader.ReadBytes((int)(GetRecordStartPosition() + Size - reader.BaseStream.Position));
     }
     
     public AirportSummaryComFlags ComFlags { get; }

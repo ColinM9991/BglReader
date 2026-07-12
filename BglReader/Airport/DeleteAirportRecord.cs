@@ -1,4 +1,5 @@
 ﻿using BglReader.Generic;
+using BglReader.ValueObjects;
 
 namespace BglReader.Airport;
 
@@ -6,7 +7,7 @@ public class DeleteAirportRecord : BglRecord
 {
     public DeleteAirportRecord(BinaryReader reader) : base(reader)
     {
-        DeleteFlags = new ValueObjects.DeleteFlags(reader.ReadUInt16());
+        DeleteFlags = new DeleteFlags(reader.ReadUInt16());
         NumberOfRunways = reader.ReadByte();
         NumberOfStarts = reader.ReadByte();
         NumberOfFrequencies = reader.ReadByte();

@@ -12,5 +12,5 @@ public partial class WaypointSegmentFlags
     [Bits(5, 27)]
     public partial uint Identifier { get; }
     
-    public IcaoIdentifier IcaoIdentifier => IcaoIdentifier.Parse(Identifier);
+    public IcaoIdentifier IcaoIdentifier => IcaoIdentifier.Parse(Identifier, true);
 }

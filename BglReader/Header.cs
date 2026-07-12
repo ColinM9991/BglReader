@@ -16,11 +16,16 @@ public class Header
 
     private void MapQmids(BinaryReader reader)
     {
-        const int qmidSize = 4;
-        var qmids = reader.ReadBytes(32).AsSpan();
-        for (var i = 0; i < Qmids.Length; i += qmidSize)
+        ReadOnlySpan<byte> bytes = reader.ReadBytes(32);
+
+        for (var i = 0; i < 8; i++)
         {
-            Qmids[i] = new Qmid(BitConverter.ToUInt32(qmids.Slice(i, 4)));
+            var value = BitConverter.ToUInt32(bytes[(i * 4)..]);
+
+            if (value == 0)
+                break;
+
+            Qmids[i] = new Qmid(value);
         }
     }
 

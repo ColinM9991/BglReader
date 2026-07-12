@@ -11,37 +11,32 @@ public struct IcaoIdentifier
 
     public override string ToString() => Identifier;
 
-    public static IcaoIdentifier Parse(uint code, bool shift = false)
+    public static IcaoIdentifier Parse(uint code, bool hasTypeBits = false)
     {
-        if (shift)
+        if (hasTypeBits)
         {
             code >>= 5;
         }
 
-        var chars = new List<char>(5);
-        while (code > 37)
+        Span<char> chars = stackalloc char[5];
+        var index = chars.Length;
+
+        do
         {
-            var codedChar = code % 38;
-
-            code = (code - codedChar) / 38;
-            chars.Add(ToIcaoChar(codedChar));
+            chars[--index] = ToIcaoChar(code % 38);
+            code /= 38;
         }
+        while (code > 0);
 
-        chars.Add(ToIcaoChar(code));
+        return new IcaoIdentifier(new string(chars[index..]));
 
-        chars.Reverse();
-
-        return new IcaoIdentifier(string.Join("", chars));
-
-        char ToIcaoChar(uint value)
+        static char ToIcaoChar(uint value) => value switch
         {
-            return value switch
-            {
-                0 => ' ',
-                > 1 and < 12 => (char)('0' + (value - 2)),
-                _ => (char)('A' + (value - 12)),
-            };
-        }
+            0 => ' ',
+            >= 2 and <= 11 => (char)('0' + value - 2),
+            >= 12 and <= 37 => (char)('A' + value - 12),
+            _ => throw new ArgumentOutOfRangeException(nameof(value))
+        };
     }
 
     public static explicit operator IcaoIdentifier(uint input) => Parse(input);
