@@ -2,38 +2,24 @@
 
 namespace BglReader.ValueObjects;
 
-[BitField(typeof(ushort))]
-public partial class RunwayMarkingFlags
+[Flags]
+public enum RunwayMarkingFlags : ushort
 {
-    [Bits(0)] public partial bool Edges { get; }
-
-    [Bits(1)] public partial bool Threshold { get; }
-
-    [Bits(2)] public partial bool FixedDistance { get; }
-
-    [Bits(3)] public partial bool Touchdown { get; }
-
-    [Bits(4)] public partial bool Dashes { get; }
-
-    [Bits(5)] public partial bool Ident { get; }
-
-    [Bits(6)] public partial bool Precision { get; }
-
-    [Bits(7)] public partial bool EdgePavement { get; }
-
-    [Bits(8)] public partial bool SingleEnd { get; }
-
-    [Bits(9)] public partial bool PrimaryClosed { get; }
-
-    [Bits(10)] public partial bool SecondaryClosed { get; }
-
-    [Bits(11)] public partial bool PrimaryStol { get; }
-
-    [Bits(12)] public partial bool SecondaryStol { get; }
-
-    [Bits(13)] public partial bool AlternateThreshold { get; }
-
-    [Bits(14)] public partial bool AlternateFixedDistance { get; }
-
-    [Bits(15)] public partial bool AlternateTouchdown { get; }
+    None                    = 0,
+    Edges                   = 1 << 0,
+    Threshold               = 1 << 1,
+    FixedDistance           = 1 << 2,
+    Touchdown               = 1 << 3,
+    Dashes                  = 1 << 4,
+    Ident                   = 1 << 5,
+    Precision               = 1 << 6,
+    EdgePavement            = 1 << 7,
+    SingleEnd               = 1 << 8,
+    PrimaryClosed           = 1 << 9,
+    SecondaryClosed         = 1 << 10,
+    PrimaryStol             = 1 << 11,
+    SecondaryStol           = 1 << 12,
+    AlternateThreshold      = 1 << 13,
+    AlternateFixedDistance  = 1 << 14,
+    AlternateTouchdown      = 1 << 15
 }

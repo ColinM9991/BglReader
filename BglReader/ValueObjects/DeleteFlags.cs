@@ -2,30 +2,16 @@
 
 namespace BglReader.ValueObjects;
 
-[BitField(typeof(ushort))]
-public partial class DeleteFlags
+[Flags]
+public enum DeleteFlags : ushort
 {
-    [Bits(0)]
-    public partial bool AllApproaches { get; }
-    
-    [Bits(1)]
-    public partial bool AllApronLights { get; }
-    
-    [Bits(2)]
-    public partial bool AllAprons { get; }
-    
-    [Bits(3)]
-    public partial bool AllFrequencies { get; }
-    
-    [Bits(4)]
-    public partial bool AllHelipads { get; }
-    
-    [Bits(5)]
-    public partial bool AllRunways { get; }
-    
-    [Bits(6)]
-    public partial bool AllStarts { get; }
-    
-    [Bits(7)]
-    public partial bool AllTaxiways { get; }
+    None             = 0,
+    AllApproaches    = 1 << 0,
+    AllApronLights   = 1 << 1,
+    AllAprons        = 1 << 2,
+    AllFrequencies   = 1 << 3,
+    AllHelipads      = 1 << 4,
+    AllRunways       = 1 << 5,
+    AllStarts        = 1 << 6,
+    AllTaxiways      = 1 << 7
 }

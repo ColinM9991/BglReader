@@ -9,7 +9,7 @@ public class NdbRecord : BglRecord
     public NdbRecord(BinaryReader reader) : base(reader, false)
     {
         Type = (NdbType)reader.ReadUInt16();
-        Frequency = reader.ReadUInt32();
+        Frequency = (Frequency)reader.ReadUInt32();
         Coordinates = new Coordinate(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
         Range = reader.ReadSingle();
         MagneticVariation = (MagneticVariation)reader.ReadSingle();
@@ -22,7 +22,7 @@ public class NdbRecord : BglRecord
     
     public NdbType Type { get; }
     
-    public uint Frequency { get; }
+    public Frequency Frequency { get; }
     
     public Coordinate Coordinates { get; }
     

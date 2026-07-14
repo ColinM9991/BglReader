@@ -6,7 +6,7 @@ public class AirportApproachLightsSubRecord : BglRecord
 {
     public AirportApproachLightsSubRecord(BinaryReader reader) : base(reader)
     {
-        Details = reader.ReadByte();
+        Details = reader.ReadByte(); // TODO Flags
         NumberOfStrobes = reader.ReadByte();
     }
 

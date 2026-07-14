@@ -7,7 +7,7 @@ public class DeleteAirportRecord : BglRecord
 {
     public DeleteAirportRecord(BinaryReader reader) : base(reader)
     {
-        DeleteFlags = new DeleteFlags(reader.ReadUInt16());
+        DeleteFlags = (DeleteFlags)reader.ReadUInt16();
         NumberOfRunways = reader.ReadByte();
         NumberOfStarts = reader.ReadByte();
         NumberOfFrequencies = reader.ReadByte();

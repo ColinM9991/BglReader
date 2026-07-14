@@ -20,7 +20,7 @@ public class AirportRunwayRecord : BglRecord
         Width = reader.ReadSingle();
         Heading = reader.ReadSingle();
         PatternAltitude = reader.ReadSingle();
-        MarkingFlags = new RunwayMarkingFlags(reader.ReadUInt16());
+        MarkingFlags = (RunwayMarkingFlags)reader.ReadUInt16();
         LightsFlags = new RunwayLightFlags(reader.ReadByte());
         PatternFlags = new RunwayPatternFlags(reader.ReadByte());
 

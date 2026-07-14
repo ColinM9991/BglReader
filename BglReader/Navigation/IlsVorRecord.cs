@@ -14,7 +14,7 @@ public class IlsVorRecord : BglRecord
         
         Coordinates = new Coordinate(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
 
-        Frequency = reader.ReadUInt32();
+        Frequency = (Frequency)reader.ReadUInt32();
         Range = reader.ReadSingle();
         MagneticVariation = (MagneticVariation)reader.ReadSingle();
         Identifier = new ShiftedIcaoIdentifier(reader.ReadUInt32());
@@ -30,7 +30,7 @@ public class IlsVorRecord : BglRecord
     
     public Coordinate Coordinates { get; }
     
-    public uint Frequency { get; }
+    public Frequency Frequency { get; }
     
     public float Range { get; }
     

@@ -1,13 +1,13 @@
 ﻿namespace BglReader;
 
 public struct Coordinate(
-    int latitude,
-    int longitude)
+    int longitude,
+    int latitude)
 {
     public Coordinate(
-        int latitude,
         int longitude,
-        int elevation) : this(latitude, longitude)
+        int latitude,
+        int elevation) : this(longitude, latitude)
     {
         Elevation = elevation / 1000f;
     }

@@ -11,7 +11,6 @@ public class NavigationIndexRecord : BglNode
     {
         Type = sectionType;
         Identifier = new ShiftedIcaoIdentifier(reader.ReadUInt32());
-
         RegionFlags = new RegionIdentifierFlags(reader.ReadUInt32());
 
         Qmid = new Qmid(reader.ReadUInt16(), reader.ReadUInt16(), 9);
