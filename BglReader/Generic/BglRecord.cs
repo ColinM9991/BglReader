@@ -18,8 +18,6 @@ public class BglRecord : BglRecord<uint>
 public abstract class BglRecord<T> : BglNode
     where T : INumber<T>
 {
-    private readonly long _recordStreamPosition;
-
     internal BglRecord(
         BinaryReader reader,
         bool shouldRewindStream = true)
@@ -27,7 +25,7 @@ public abstract class BglRecord<T> : BglNode
         if (shouldRewindStream)
             reader.BaseStream.Position -= 2L;
 
-        _recordStreamPosition = reader.BaseStream.Position;
+        Offset = reader.BaseStream.Position;
 
         Id = reader.ReadUInt16();
 
@@ -39,12 +37,14 @@ public abstract class BglRecord<T> : BglNode
     }
 
     protected static readonly int HeaderSize = sizeof(ushort) + Unsafe.SizeOf<T>();
+    
+    public long Offset { get; }
 
     public ushort Id { get; }
 
     public T Size { get; }
 
-    protected long GetRecordStartPosition() => _recordStreamPosition;
+    protected long GetRecordStartPosition() => Offset;
 
-    protected long GetRecordEndPosition() => _recordStreamPosition + long.CreateChecked(Size);
+    protected long GetRecordEndPosition() => Offset + long.CreateChecked(Size);
 }
