@@ -48,15 +48,15 @@ public class NameListRecord : BglRecord
 
     private void MapList(BinaryReader reader,
         NameListItemType itemType,
-        uint startOffset,
-        uint endOffset,
+        uint thisOFfset,
+        uint nextOffset,
         ushort numberOfRecords)
     {
         if (numberOfRecords == 0) return;
 
-        reader.BaseStream.Position = GetRecordStartPosition() + startOffset;
+        reader.BaseStream.Position = GetRecordStartPosition() + thisOFfset;
 
-        var size = endOffset - startOffset;
+        var size = (nextOffset - 1) - thisOFfset;
 
         var offsets = Enumerable.Range(0, numberOfRecords)
             .Select(x => (Offset: reader.ReadUInt32(), Index: x))
@@ -75,7 +75,7 @@ public class NameListRecord : BglRecord
                 ? (int)orderedValues[i + 1]
                 : bytes.Length;
 
-            var nameString = Encoding.UTF8.GetString(bytes[(int)itemStartOffset..itemEndOffset]);
+            var nameString = Encoding.UTF8.GetString(bytes[(int)itemStartOffset..(itemEndOffset)]);
 
             names[offsets[itemStartOffset]] = nameString;
         }

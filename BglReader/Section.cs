@@ -10,7 +10,7 @@ public class Section : BglNode
         Type = (SectionType)reader.ReadUInt32();
         var subsectionSizeValue = reader.ReadUInt32();
         SubsectionSize = ((subsectionSizeValue & 0x10000) | 0x40000) >> 0x0E;
-        SubsectionsCount = reader.ReadUInt32();
+        SubsectionsCount = reader.ReadInt32();
         SubsectionOffset = reader.ReadUInt32();
         TotalSizeOfSubsections = reader.ReadUInt32();
         Subsections = new Subsection[SubsectionsCount];
@@ -20,7 +20,7 @@ public class Section : BglNode
 
     public uint SubsectionSize { get; }
 
-    public uint SubsectionsCount { get; }
+    public int SubsectionsCount { get; }
 
     public uint SubsectionOffset { get; }
 

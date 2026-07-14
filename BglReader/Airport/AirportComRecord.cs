@@ -16,7 +16,7 @@ public class AirportComRecord : BglRecord
         
         Frequency = (Frequency)reader.ReadUInt32();
         Name = Encoding.UTF8.GetString(
-            reader.ReadBytes((int)(GetRecordStartPosition() + Size - reader.BaseStream.Position))); // TODO Validate whether Name bytes can be non-existent
+            Consume(reader)); // TODO Validate whether Name bytes can be non-existent
     }
 
     public ComType Type { get; }

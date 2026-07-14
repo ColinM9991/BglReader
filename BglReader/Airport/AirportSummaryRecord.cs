@@ -16,7 +16,7 @@ public sealed class AirportSummaryRecord : BglRecord
         LongestRunwayHeading = reader.ReadSingle();
         FuelFlags = new AirportFuelFlags(reader.ReadUInt32());
 
-        _ = reader.ReadBytes((int)(GetRecordStartPosition() + Size - reader.BaseStream.Position));
+        _ = Consume(reader);
     }
     
     public AirportSummaryComFlags ComFlags { get; }

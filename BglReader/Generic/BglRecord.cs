@@ -47,4 +47,8 @@ public abstract class BglRecord<T> : BglNode
     protected long GetRecordStartPosition() => Offset;
 
     protected long GetRecordEndPosition() => Offset + long.CreateChecked(Size);
+
+    protected byte[] Consume(BinaryReader reader) => reader
+        .ReadBytes((int)(GetRecordEndPosition() - reader.BaseStream.Position))
+        .TakeWhile(x => x != 0).ToArray();
 }

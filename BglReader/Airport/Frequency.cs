@@ -1,17 +1,15 @@
 ﻿namespace BglReader.Airport;
 
-public readonly struct Frequency
+public readonly struct Frequency : IEquatable<Frequency>
 {
-    private readonly uint _frequency;
-
     private Frequency(uint frequency)
     {
-        _frequency = frequency / 1000;
+        Value = frequency / 1000;
     }
 
-    public uint Value => _frequency;
+    public uint Value { get; }
 
-    public override string ToString() => $"{_frequency / 1000}.{_frequency % 1000:000}";
+    public override string ToString() => $"{Value / 1000}.{Value % 1000:000}";
 
     public static explicit operator Frequency(uint value) => new(value);
 
@@ -19,5 +17,20 @@ public readonly struct Frequency
     {
         ArgumentOutOfRangeException.ThrowIfLessThan(value, 0);
         return new Frequency((uint)value);
+    }
+
+    public bool Equals(Frequency other)
+    {
+        return Value == other.Value;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        return obj is Frequency other && Equals(other);
+    }
+
+    public override int GetHashCode()
+    {
+        return (int)Value;
     }
 }

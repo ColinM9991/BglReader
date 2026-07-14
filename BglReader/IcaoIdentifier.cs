@@ -18,7 +18,7 @@ public class IcaoIdentifier(uint value)
         }
         while (code > 0);
 
-        return new string(chars[index..]);
+        return new string(chars[index..].Trim());
 
         static char ToIcaoChar(uint value) => value switch
         {
