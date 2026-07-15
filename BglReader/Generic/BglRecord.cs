@@ -16,7 +16,7 @@ public class BglRecord : BglRecord<uint>
 /// </summary>
 /// <typeparam name="T">The size type. Sceneries use a 2 byte size while all other records use 4 bytes</typeparam>
 public abstract class BglRecord<T> : BglNode
-    where T : INumber<T>
+    where T : IBinaryInteger<T>
 {
     internal BglRecord(
         BinaryReader reader,
@@ -28,12 +28,14 @@ public abstract class BglRecord<T> : BglNode
         Offset = reader.BaseStream.Position;
 
         Id = reader.ReadUInt16();
-
-        var headerSize = typeof(T) == typeof(uint)
-            ? reader.ReadUInt32()
-            : reader.ReadUInt16();
-
-        Size = T.CreateChecked(headerSize);
+        Size = ReadSize(reader);
+    }
+    
+    private static T ReadSize(BinaryReader reader)
+    {
+        return typeof(T) == typeof(uint)
+            ? T.CreateChecked(reader.ReadUInt32())
+            : T.CreateChecked(reader.ReadUInt16());
     }
 
     protected static readonly int HeaderSize = sizeof(ushort) + Unsafe.SizeOf<T>();

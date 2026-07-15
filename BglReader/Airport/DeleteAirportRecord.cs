@@ -19,7 +19,7 @@ public class DeleteAirportRecord : BglRecord
         _ = reader.ReadByte(); // Unused
     }
 
-    public ValueObjects.DeleteFlags DeleteFlags { get; }
+    public DeleteFlags DeleteFlags { get; }
 
     public byte NumberOfRunways { get; }
 

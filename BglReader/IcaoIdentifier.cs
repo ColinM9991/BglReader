@@ -1,8 +1,13 @@
 ﻿namespace BglReader;
 
-public class IcaoIdentifier(uint value)
+public record IcaoIdentifier
 {
-    private string Value { get; } = Parse(value);
+    public IcaoIdentifier(uint value)
+    {
+        Value = Parse(value);
+    }
+    
+    private string Value { get; }
 
     public override string ToString() => Value;
 

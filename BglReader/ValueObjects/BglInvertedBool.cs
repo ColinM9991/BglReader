@@ -1,12 +1,12 @@
 ﻿namespace BglReader.ValueObjects;
 
-public readonly struct BglInvertedBool(bool value)
+public readonly record struct BglInvertedBool(bool Value)
 {
-    private readonly bool _value = value;
-    
     public static explicit operator BglInvertedBool(int value) => new(value == 0);
+    
+    public static explicit operator BglInvertedBool(uint value) => new(value == 0);
 
-    public static implicit operator bool(BglInvertedBool bglInvertedBool) => bglInvertedBool._value;
+    public static implicit operator bool(BglInvertedBool bglInvertedBool) => bglInvertedBool.Value;
 
-    public override string ToString() => _value.ToString();
+    public override string ToString() => Value.ToString();
 }
