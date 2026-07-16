@@ -8,7 +8,7 @@ public class TacanRecord : BglRecord
 {
     public TacanRecord(BinaryReader reader) : base(reader, false)
     {
-        Coordinates = new Coordinate(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
+        Coordinates = Coordinate.FromBgl(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
         Channel = reader.ReadUInt32();
 
         Flags = new TacanFlags(reader.ReadByte());

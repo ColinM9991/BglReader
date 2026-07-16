@@ -14,8 +14,8 @@ public readonly struct TaxiParking
         TeeOffset3 = reader.ReadSingle();
         TeeOffset4 = reader.ReadSingle();
         Coordinate = airportType is AirportType.P3Dv5
-            ? new Coordinate(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32())
-            : new Coordinate(reader.ReadInt32(), reader.ReadInt32());
+            ? Coordinate.FromBgl(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32())
+            : Coordinate.FromBgl(reader.ReadInt32(), reader.ReadInt32());
 
         MapAirlineDesignators(reader);
     }

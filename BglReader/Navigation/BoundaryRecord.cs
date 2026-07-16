@@ -11,8 +11,8 @@ public class BoundaryRecord : BglRecord
         
         Flags = new BoundaryFlags(reader.ReadByte());
 
-        MinimumCoordinates = new Coordinate(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
-        MaximumCoordinates = new Coordinate(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
+        MinimumCoordinates = Coordinate.FromBgl(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
+        MaximumCoordinates = Coordinate.FromBgl(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
 
         Name = new NameRecord(reader, shouldRewindStream: false);
     }

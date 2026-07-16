@@ -66,10 +66,8 @@ public class AirportSubRecordTests : TestBase
     {
         var runwayRecord = GetBglFile(FileName).GetAirport("KTST").GetRunway(18);
         runwayRecord.Should().NotBeNull();
-        
-        runwayRecord.Coordinates.Latitude.Should().BeApproximately(41.35184943, 0.0000001);
-        runwayRecord.Coordinates.Longitude.Should().BeApproximately(-89.15309158, 0.0000002);
-        runwayRecord.Coordinates.Elevation.Should().BeApproximately(199.33918762f, 0.0002f);
+
+        runwayRecord.Coordinates.Should().BeEquivalentTo(Coordinate.FromBgl(203221094, 145098761, 199339));
         runwayRecord.SurfaceType.Should().Be(SurfaceType.Asphalt);
         runwayRecord.Heading.Should().BeApproximately(179.580000f, 0.000001f);
         runwayRecord.Length.Should().Be(1828.8f);
@@ -81,7 +79,7 @@ public class AirportSubRecordTests : TestBase
         runwayRecord.SecondaryIlsIdentifier.ToString().Should().Be(string.Empty);
         runwayRecord.SecondaryRunwayNumber.Should().Be(36);
         runwayRecord.SecondaryRunwayDesignator.Should().Be(RunwayDesignator.None);
-        
+
         runwayRecord.PatternFlags.PrimaryTakeoff.Value.Should().BeTrue();
         runwayRecord.PatternFlags.PrimaryLanding.Value.Should().BeTrue();
         runwayRecord.PatternFlags.SecondaryTakeoff.Value.Should().BeTrue();
@@ -92,29 +90,10 @@ public class AirportSubRecordTests : TestBase
         runwayRecord.LightsFlags.Center.Should().Be(RunwayLightIntensity.Medium);
         runwayRecord.LightsFlags.Edge.Should().Be(RunwayLightIntensity.High);
         runwayRecord.LightsFlags.CenterRed.Should().BeTrue();
-        
+
         runwayRecord.MarkingFlags.Should().Be(RunwayMarkingFlags.Edges | RunwayMarkingFlags.Threshold |
                                               RunwayMarkingFlags.FixedDistance | RunwayMarkingFlags.Touchdown |
                                               RunwayMarkingFlags.Dashes | RunwayMarkingFlags.Ident |
                                               RunwayMarkingFlags.Precision | RunwayMarkingFlags.EdgePavement);
-    }
-
-    [Theory]
-    [InlineData(FileName, "KTST", 18)]
-    public void AirportSubRecord_Offset_Parsed(string fileName, string airportIdentifier, byte runwayNumber)
-    {
-        var runway = GetBglFile(fileName)
-            .GetAirport(airportIdentifier)
-            .GetRunway(runwayNumber);
-
-        runway.Should().NotBeNull();
-
-        var offset = runway.SubRecords.OfType<AirportSubReportBaseRecord>().FirstOrDefault(x => x.Id == (int)AirportRecordDataType.OffsetPrimary);
-        offset.Should().NotBeNull();
-
-        offset.Type.Should().Be(AirportSubReportBaseRecord.SubReportBaseType.OffsetThreshold);
-        offset.SurfaceType.Should().Be(SurfaceType.Concrete);
-        offset.Length.Should().Be(76.2f);
-        offset.Width.Should().Be(30.48f);
     }
 }

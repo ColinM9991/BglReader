@@ -39,7 +39,7 @@ public class AirportApronEdgeLightsRecord : BglRecord
 
         for (var vertex = 0; vertex < NumberOfVertices; vertex++)
         {
-            Vertices.Add(new Coordinate(
+            Vertices.Add(Coordinate.FromBgl(
                 reader.ReadInt32(),
                 reader.ReadInt32()));
         }

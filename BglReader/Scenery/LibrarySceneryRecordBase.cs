@@ -6,7 +6,7 @@ public abstract class LibrarySceneryRecordBase : SceneryBglRecord
 {
     protected LibrarySceneryRecordBase(BinaryReader reader) : base(reader)
     {
-        Coordinates = new Coordinate(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
+        Coordinates = Coordinate.FromBgl(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
 
         Flags = (LibraryObjectFlags)reader.ReadUInt16();
         Pitch = reader.ReadUInt16();

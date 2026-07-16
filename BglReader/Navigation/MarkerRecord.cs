@@ -8,7 +8,7 @@ public class MarkerRecord : BglRecord
     {
         Heading = reader.ReadByte();
         Type = (MarkerType)reader.ReadByte();
-        Coordinates = new Coordinate(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
+        Coordinates = Coordinate.FromBgl(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
         Identifier = new ShiftedIcaoIdentifier(reader.ReadUInt32());
         Region = new IcaoIdentifier(reader.ReadUInt16());
     }

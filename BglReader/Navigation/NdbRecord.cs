@@ -10,7 +10,7 @@ public class NdbRecord : BglRecord
     {
         Type = (NdbType)reader.ReadUInt16();
         Frequency = (Frequency)reader.ReadUInt32();
-        Coordinates = new Coordinate(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
+        Coordinates = Coordinate.FromBgl(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
         Range = reader.ReadSingle();
         MagneticVariation = (MagneticVariation)reader.ReadSingle();
         Identifier = new ShiftedIcaoIdentifier(reader.ReadUInt32());

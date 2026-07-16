@@ -9,7 +9,7 @@ public class HelipadRecord : BglRecord
         SurfaceType = (SurfaceType)reader.ReadByte();
         Type = reader.ReadByte();
         Color = reader.ReadBytes(4);
-        Coordinate = new Coordinate(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
+        Coordinate = Coordinate.FromBgl(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
         Length = reader.ReadSingle();
         Width = reader.ReadSingle();
         Heading = reader.ReadSingle();

@@ -23,7 +23,7 @@ public abstract class BglRecord<T> : BglNode
         bool shouldRewindStream = true)
     {
         if (shouldRewindStream)
-            reader.BaseStream.Position -= 2L;
+            reader.BaseStream.Position -= Unsafe.SizeOf<ushort>();
 
         Offset = reader.BaseStream.Position;
 

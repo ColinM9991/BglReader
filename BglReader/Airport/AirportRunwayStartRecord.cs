@@ -8,7 +8,7 @@ public class AirportRunwayStartRecord : BglRecord
     {
         RunwayNumber = reader.ReadByte();
         RunwayInfo = reader.ReadByte();  // TODO Flags
-        Coordinates = new Coordinate(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
+        Coordinates = Coordinate.FromBgl(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
         Heading = reader.ReadSingle();
     }
 

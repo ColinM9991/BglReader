@@ -24,7 +24,7 @@ public class AirportPolygonRecord : BglRecord
 
         for (var vertex = 0; vertex < numberOfVertices; vertex++)
         {
-            Vertices.Add(new Coordinate(
+            Vertices.Add(Coordinate.FromBgl(
                 reader.ReadInt32(),
                 reader.ReadInt32()));
         }

@@ -9,7 +9,7 @@ public class WaypointRecord : BglRecord
     {
         Type = (WaypointType)reader.ReadByte();
         NumberOfRoutes = reader.ReadByte();
-        Coordinate = new Coordinate(reader.ReadInt32(), reader.ReadInt32());
+        Coordinate = Coordinate.FromBgl(reader.ReadInt32(), reader.ReadInt32());
         MagneticVariation = (MagneticVariation)reader.ReadSingle();
         Identifier = new ShiftedIcaoIdentifier(reader.ReadUInt32());
 

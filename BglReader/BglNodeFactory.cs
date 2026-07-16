@@ -9,7 +9,7 @@ public static class BglNodeFactory
 {
     public static BglNode? Create(SectionType sectionType, BinaryReader reader) => sectionType switch
     {
-        SectionType.Airport => new AirportSubsectionData(reader),
+        SectionType.Airport => new AirportRecord(reader),
         SectionType.AirportSummary or SectionType.AirportSummaryP3D => new AirportSummaryRecord(reader),
         SectionType.Waypoint => new WaypointRecord(reader),
         SectionType.Tacan => new TacanRecord(reader),

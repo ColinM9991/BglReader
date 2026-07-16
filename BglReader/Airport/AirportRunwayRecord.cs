@@ -15,7 +15,7 @@ public class AirportRunwayRecord : BglRecord
         SecondaryRunwayDesignator = (RunwayDesignator)reader.ReadByte();
         PrimaryIlsIdentifier = new IcaoIdentifier(reader.ReadUInt32());
         SecondaryIlsIdentifier = new IcaoIdentifier(reader.ReadUInt32());
-        Coordinates = new Coordinate(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
+        Coordinates = Coordinate.FromBgl(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
         Length = reader.ReadSingle();
         Width = reader.ReadSingle();
         Heading = reader.ReadSingle();

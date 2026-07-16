@@ -1,22 +1,24 @@
 ﻿namespace BglReader;
 
-public struct Coordinate(
-    int longitude,
-    int latitude)
+public readonly struct Coordinate(
+    Longitude longitude,
+    Latitude latitude)
 {
     public Coordinate(
-        int longitude,
-        int latitude,
-        int elevation) : this(longitude, latitude)
+        Longitude longitude,
+        Latitude latitude,
+        Elevation elevation) : this(longitude, latitude)
     {
-        Elevation = elevation / 1000f;
+        Elevation = elevation.Value;
     }
 
-    public double Latitude { get; } =
-        90.0 - latitude * (180.0 / 0x20000000);
+    public double Latitude { get; } = latitude.Value;
 
-    public double Longitude { get; } =
-        longitude * (360.0 / 0x30000000) - 180.0;
+    public double Longitude { get; } = longitude.Value;
 
     public float? Elevation { get; } = null;
+    
+    public static Coordinate FromBgl(int longitude, int latitude) => new(BglReader.Longitude.FromDword(longitude), BglReader.Latitude.FromDword(latitude));
+    
+    public static Coordinate FromBgl(int longitude, int latitude, int elevation) => new(BglReader.Longitude.FromDword(longitude), BglReader.Latitude.FromDword(latitude), BglReader.Elevation.FromBgl(elevation));
 }

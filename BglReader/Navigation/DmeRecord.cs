@@ -9,7 +9,7 @@ public class DmeRecord : BglRecord
     {
         _ = reader.ReadBytes(2); // unknown
         
-        Coordinates = new Coordinate(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
+        Coordinates = Coordinate.FromBgl(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
         Range = reader.ReadSingle();
     }
     

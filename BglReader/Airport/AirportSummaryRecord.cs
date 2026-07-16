@@ -8,7 +8,7 @@ public sealed class AirportSummaryRecord : BglRecord
     public AirportSummaryRecord(BinaryReader reader) : base(reader, false)
     {
         ComFlags = new AirportSummaryComFlags(reader.ReadUInt16());
-        Coordinate = new Coordinate(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
+        Coordinate = Coordinate.FromBgl(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
         Identifier = new ShiftedIcaoIdentifier(reader.ReadUInt32());
         Region = new IcaoIdentifier(reader.ReadUInt32());
         MagneticVariation = new MagneticVariation(reader.ReadSingle());

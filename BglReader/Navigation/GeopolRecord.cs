@@ -9,12 +9,12 @@ public class GeopolRecord : BglRecord
     {
         Flags = new GeoPolFlags(reader.ReadUInt16());
         
-        MinimumCoordinates = new Coordinate(reader.ReadInt32(), reader.ReadInt32());
-        MaximumCoordinates = new Coordinate(reader.ReadInt32(), reader.ReadInt32());
+        MinimumCoordinates = Coordinate.FromBgl(reader.ReadInt32(), reader.ReadInt32());
+        MaximumCoordinates = Coordinate.FromBgl(reader.ReadInt32(), reader.ReadInt32());
 
         for (var i = 0; i < Flags.NumberOfVertices; i++)
         {
-            Vertices.Add(new Coordinate(reader.ReadInt32(), reader.ReadInt32()));
+            Vertices.Add(Coordinate.FromBgl(reader.ReadInt32(), reader.ReadInt32()));
         }
     }
     

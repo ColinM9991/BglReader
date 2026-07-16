@@ -10,5 +10,5 @@ public readonly struct TaxiPoint(
 
     public TaxiPointFlag Flag { get; } = (TaxiPointFlag)flag;
 
-    public Coordinate Coordinate { get; } = new(longitude, latitude);
+    public Coordinate Coordinate { get; } = new(Longitude.FromDword(longitude), Latitude.FromDword(latitude));
 }

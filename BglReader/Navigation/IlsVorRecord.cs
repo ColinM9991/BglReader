@@ -12,7 +12,7 @@ public class IlsVorRecord : BglRecord
 
         Flags = new IlsVorFlag(reader.ReadByte());
         
-        Coordinates = new Coordinate(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
+        Coordinates = Coordinate.FromBgl(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
 
         Frequency = (Frequency)reader.ReadUInt32();
         Range = reader.ReadSingle();
@@ -38,7 +38,7 @@ public class IlsVorRecord : BglRecord
     
     public ShiftedIcaoIdentifier Identifier { get; }
     
-    public RegionFlags RegionFlags { get; }
+    public RegionIdentifierFlags RegionFlags { get; }
 
     public ICollection<BglRecord> SubRecords { get; } = new List<BglRecord>();
     

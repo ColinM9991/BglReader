@@ -27,7 +27,7 @@ public class AirportFenceRecord : BglRecord
 
         for (var i = 0; i < NumberOfVertices; i++)
         {
-            Vertices.Add(new Coordinate(reader.ReadInt32(), reader.ReadInt32()));
+            Vertices.Add(Coordinate.FromBgl(reader.ReadInt32(), reader.ReadInt32()));
         }
     }
 }
