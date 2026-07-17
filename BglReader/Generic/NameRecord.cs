@@ -8,7 +8,7 @@ public class NameRecord : BglRecord
         BinaryReader reader,
         bool shouldRewindStream = true) : base(reader, shouldRewindStream)
     {
-        Name = Encoding.UTF8.GetString(reader.ReadBytes((int)Size - HeaderSize));
+        Name = Encoding.UTF8.GetString(Consume(reader));
     }
 
     public string Name { get; }

@@ -10,7 +10,7 @@ public class LocalizerRecord : BglRecord
         RunwayNumber = reader.ReadByte();
         Designator = (RunwayDesignator)reader.ReadByte();
 
-        HeadingDegrees = reader.ReadSingle();
+        Heading = reader.ReadSingle();
         BeamWidthDegrees = reader.ReadSingle();
     }
     
@@ -18,7 +18,7 @@ public class LocalizerRecord : BglRecord
     
     public RunwayDesignator Designator { get; }
     
-    public float HeadingDegrees { get; }
+    public float Heading { get; }
     
     public float BeamWidthDegrees { get; }
 }

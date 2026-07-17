@@ -38,4 +38,9 @@ public static class BglFileExtensions
         public T GetSubRecordByType<T>(AirportRecordDataType type) where T : BglRecord =>
             runway.SubRecords.OfType<T>().Single(x => x.Id == (int)type);
     }
+    
+    extension(IlsVorRecord ilsVorRecord)
+    {
+        public T GetRecordType<T>() where T : BglRecord => ilsVorRecord.SubRecords.OfType<T>().Single();
+    }
 }

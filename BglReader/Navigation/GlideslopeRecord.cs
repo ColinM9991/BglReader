@@ -6,6 +6,7 @@ public class GlideslopeRecord : BglRecord
 {
     public GlideslopeRecord(BinaryReader reader) : base(reader)
     {
+        _ = reader.ReadBytes(2); // TODO Unknown
         Coordinates = Coordinate.FromBgl(
             reader.ReadInt32(),
             reader.ReadInt32(),
