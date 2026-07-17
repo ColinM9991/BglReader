@@ -1,5 +1,6 @@
 ﻿using BglReader.Airport;
 using BglReader.Generic;
+using BglReader.NameList;
 using BglReader.Navigation;
 
 namespace BglReader.UnitTests.Helpers;
@@ -16,6 +17,9 @@ public static class BglFileExtensions
             .GetSubsectionDataByType<IlsVorRecord>(SectionType.IlsVor)
             .Single(x => string.Equals(identifier, x.Identifier.ToString(), StringComparison.OrdinalIgnoreCase));
 
+        public NameListRecord? GetNameLists() =>
+            bglFile.GetSubsectionDataByType<NameListRecord>(SectionType.NameList).FirstOrDefault();
+
         private IEnumerable<Subsection> GetSubsectionsByType(SectionType sectionType) =>
             bglFile.Sections.Where(x => x.Type == sectionType).SelectMany(x => x.Subsections);
 
@@ -25,9 +29,13 @@ public static class BglFileExtensions
 
     extension(AirportRecord subsection)
     {
-        public AirportRunwayRecord GetRunway(byte runwayNumber) => subsection.Subsections
-            .OfType<AirportRunwayRecord>()
+        public AirportRunwayRecord GetRunway(byte runwayNumber) => subsection
+            .GetSubRecordByType<AirportRunwayRecord>()
             .Single(x => x.RunwayNumber == runwayNumber);
+
+        public ICollection<AirportRunwayStartRecord> GetRunwayStarts() => subsection.GetSubRecordByType<AirportRunwayStartRecord>().ToList();
+
+        public ICollection<T> GetSubRecordByType<T>() => subsection.Subsections.OfType<T>().ToList();
     }
 
     extension(AirportRunwayRecord runway)
@@ -38,7 +46,7 @@ public static class BglFileExtensions
         public T GetSubRecordByType<T>(AirportRecordDataType type) where T : BglRecord =>
             runway.SubRecords.OfType<T>().Single(x => x.Id == (int)type);
     }
-    
+
     extension(IlsVorRecord ilsVorRecord)
     {
         public T GetRecordType<T>() where T : BglRecord => ilsVorRecord.SubRecords.OfType<T>().Single();

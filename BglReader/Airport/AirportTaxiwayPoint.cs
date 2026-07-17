@@ -13,7 +13,7 @@ public class AirportTaxiwayPoint : BglRecord
 
     public ushort NumberOfPoints { get; }
 
-    public ICollection<TaxiPoint> Points { get; } = new List<TaxiPoint>();
+    public ICollection<TaxiWayPoint> Points { get; } = new List<TaxiWayPoint>();
 
     public void MapTaxiPoints(BinaryReader reader)
     {
@@ -21,15 +21,12 @@ public class AirportTaxiwayPoint : BglRecord
 
         for (var point = 0; point < NumberOfPoints; point++)
         {
-            var type = reader.ReadByte();
-            var flag = reader.ReadByte();
-            _ = reader.ReadBytes(2);
-            var longitude = reader.ReadInt32();
-            var latitude = reader.ReadInt32();
+            var type = (TaxiPointType)reader.ReadByte();
+            var flag = (TaxiPointFlag)reader.ReadByte();
+            _ = reader.ReadBytes(2); // TODO Padding?
+            var coordinate = Coordinate.FromBgl(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
 
-            _ = reader.ReadBytes(4);
-
-            Points.Add(new TaxiPoint(type, flag, longitude, latitude));
+            Points.Add(new TaxiWayPoint(type, flag, coordinate));
         }
     }
 }

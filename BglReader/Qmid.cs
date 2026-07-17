@@ -1,10 +1,15 @@
 ﻿namespace BglReader;
 
-public struct Qmid
+public record struct Qmid
 {
+    private readonly uint dwordA;
+    private readonly uint dwordB;
     public Qmid(uint dwordA, uint dwordB = 0)
     {
-        (U, V, L) = CalculateQmid(dwordA, dwordB);
+        this.dwordA = dwordA;
+        this.dwordB = dwordB;
+        
+        (U, V, L) = Decode();
     }
 
     public Qmid(
@@ -21,7 +26,7 @@ public struct Qmid
 
     public int V { get; }
 
-    private static (int U, int V, int L) CalculateQmid(uint dwordA, uint dwordB)
+    private (int U, int V, int L) Decode()
     {
         var v = 0;
         var u = 0;
@@ -34,7 +39,7 @@ public struct Qmid
             workDwordB <<= 2;
             workDwordB += (workDwordA & 0xC0000000) >> 30;
 
-            workDwordA *= 4;
+            workDwordA += workDwordA;
             workDwordA += workDwordA;
             cnt--;
         }
@@ -56,7 +61,8 @@ public struct Qmid
 
             workDwordB <<= 2;
             workDwordB += (workDwordA & 0xC0000000) >> 30;
-            workDwordA *= 4;
+            workDwordA += workDwordA;
+            workDwordA += workDwordA;
             cnt--;
         }
 

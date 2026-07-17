@@ -96,4 +96,31 @@ public class AirportSubRecordTests : TestBase
                                               RunwayMarkingFlags.Dashes | RunwayMarkingFlags.Ident |
                                               RunwayMarkingFlags.Precision | RunwayMarkingFlags.EdgePavement);
     }
+
+    [Theory]
+    [InlineData("KTST", 18, RunwayDesignator.None, StartType.Runway, 179.580002, 203221094, 145098761, 199339)]
+    [InlineData("KTST", 36, RunwayDesignator.None, StartType.Runway, 359.580000, 203221094, 145068935, 199339)]
+    public void AirportRunway_Start_Parsed(
+        string airportName,
+        int expectedRunwayNumber,
+        RunwayDesignator expectedRunwayDesignator,
+        StartType expectedStartType,
+        float expectedHeading,
+        int expectedLongitude,
+        int expectedLatitude,
+        int expectedElevation)
+    {
+        var runwayStartRecords = GetBglFile(FileName).GetAirport(airportName).GetRunwayStarts();
+        runwayStartRecords.Should().NotBeEmpty();
+        
+        var runwayStartRecord = runwayStartRecords.FirstOrDefault(x => x.RunwayNumber == expectedRunwayNumber);
+        
+        runwayStartRecord.Should().NotBeNull();
+        
+        var expectedCoordinate = Coordinate.FromBgl(expectedLongitude, expectedLatitude, expectedElevation);
+        runwayStartRecord.Coordinates.Should().BeEquivalentTo(expectedCoordinate);
+        runwayStartRecord.Heading.Should().BeApproximately(expectedHeading, 0.000001f);
+        runwayStartRecord.Flags.Designator.Should().Be(expectedRunwayDesignator);
+        runwayStartRecord.Flags.StartType.Should().Be(expectedStartType);
+    }
 }
