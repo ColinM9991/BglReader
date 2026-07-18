@@ -3,10 +3,9 @@
 public class BglFile
 {
     public BglFile(
-        string fileName,
-        Stream bglStream)
+        FileStream bglStream)
     {
-        FileName = fileName;
+        FileName = bglStream.Name;
         using var reader = new BinaryReader(bglStream);
         
         Header = new Header(reader);
