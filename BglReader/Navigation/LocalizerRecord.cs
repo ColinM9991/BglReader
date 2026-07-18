@@ -5,7 +5,7 @@ namespace BglReader.Navigation;
 
 public class LocalizerRecord : BglRecord
 {
-    public LocalizerRecord(BinaryReader reader) : base(reader)
+    public LocalizerRecord(BglBinaryReader reader) : base(reader)
     {
         RunwayNumber = reader.ReadByte();
         Designator = (RunwayDesignator)reader.ReadByte();

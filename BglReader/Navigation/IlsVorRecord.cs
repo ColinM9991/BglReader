@@ -6,13 +6,13 @@ namespace BglReader.Navigation;
 
 public class IlsVorRecord : BglRecord
 {
-    public IlsVorRecord(BinaryReader reader) : base(reader, false)
+    public IlsVorRecord(BglBinaryReader reader) : base(reader, false)
     {
         Type = (IlsVorType)reader.ReadByte();
 
         Flags = new IlsVorFlag(reader.ReadByte());
         
-        Coordinates = Coordinate.FromBgl(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
+        Coordinates = reader.ReadCoordinates();
 
         Frequency = (Frequency)reader.ReadUInt32();
         Range = reader.ReadSingle();
@@ -42,9 +42,9 @@ public class IlsVorRecord : BglRecord
 
     public ICollection<BglRecord> SubRecords { get; } = new List<BglRecord>();
     
-    public void MapSubRecords(BinaryReader reader)
+    public void MapSubRecords(BglBinaryReader reader)
     {
-        while (reader.BaseStream.Position < GetRecordEndPosition())
+        while (reader.Position < GetRecordEndPosition())
         {
             var id = (NavigationDataType)reader.ReadUInt16();
 

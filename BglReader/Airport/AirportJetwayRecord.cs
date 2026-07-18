@@ -4,7 +4,7 @@ namespace BglReader.Airport;
 
 public class AirportJetwayRecord : BglRecord
 {
-    public AirportJetwayRecord(BinaryReader reader) : base(reader)
+    public AirportJetwayRecord(BglBinaryReader reader) : base(reader)
     {
         ParkingNumber = reader.ReadUInt16();
         GateName = reader.ReadUInt16();

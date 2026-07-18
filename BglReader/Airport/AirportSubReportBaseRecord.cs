@@ -5,7 +5,7 @@ namespace BglReader.Airport;
 public class AirportSubReportBaseRecord : BglRecord
 {
     public AirportSubReportBaseRecord(
-        BinaryReader reader,
+        BglBinaryReader reader,
         SubReportBaseType type) : base(reader)
     {
         Type = type;

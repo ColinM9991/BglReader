@@ -44,7 +44,7 @@ public readonly record struct TaxiParking
 
     public ICollection<string> AirlineDesignators { get; } = new List<string>();
 
-    public static TaxiParking FromBgl(BinaryReader reader, AirportType airportType)
+    public static TaxiParking FromBgl(BglBinaryReader reader, AirportType airportType)
     {
         var flags = new TaxiParkingFlags(reader.ReadUInt32());
         var radius = reader.ReadSingle();
@@ -54,11 +54,11 @@ public readonly record struct TaxiParking
         var teeOffset3 = reader.ReadSingle();
         var teeOffset4 = reader.ReadSingle();
         var coordinate = airportType is AirportType.P3Dv5
-            ? Coordinate.FromBgl(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32())
-            : Coordinate.FromBgl(reader.ReadInt32(), reader.ReadInt32());
+            ? reader.ReadCoordinates()
+            : reader.ReadCoordinates(hasElevation: false);
 
         var airlineDesignators = Enumerable.Range(0, flags.NumberOfAirlineCodes)
-            .Select(_ => Encoding.UTF8.GetString(reader.ReadBytes(4).TakeWhile(x => x != 0).ToArray()));
+            .Select(_ => reader.ReadString(4));
 
         return new TaxiParking(flags, radius, heading, teeOffset, teeOffset2, teeOffset3, teeOffset4, coordinate,
             airlineDesignators);

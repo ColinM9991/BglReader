@@ -28,7 +28,7 @@ public struct WaypointSegment
 
     public float AltitudeMinimum { get; }
 
-    public static WaypointSegment? Parse(BinaryReader reader)
+    public static WaypointSegment? Parse(BglBinaryReader reader)
     {
         var waypointFlags = new WaypointSegmentFlags(reader.ReadUInt32());
         var regionFlags = new WaypointSegmentRegionFlags(reader.ReadUInt32());

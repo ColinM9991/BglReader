@@ -6,7 +6,7 @@ public class AirportApronEdgeLightsRecord : BglRecord
 {
     // TODO Validate
     public AirportApronEdgeLightsRecord(
-        BinaryReader reader) : base(reader)
+        BglBinaryReader reader) : base(reader)
     {
         _ = reader.ReadBytes(2);
 
@@ -15,8 +15,14 @@ public class AirportApronEdgeLightsRecord : BglRecord
         LightColor = reader.ReadUInt32();
         LightIntensity = reader.ReadSingle();
         MaxRenderAltitude = reader.ReadSingle();
-        MapVertices(reader);
-        MapLightEdges(reader);
+        
+        Vertices = Enumerable.Range(0, NumberOfVertices)
+            .Select(_ => reader.ReadCoordinates(hasElevation: false))
+            .ToList();
+        
+        Edges = Enumerable.Range(0, NumberOfEdges)
+            .Select(_ => reader.ReadTriangle())
+            .ToList();
     }
 
     public ushort NumberOfVertices { get; }
@@ -29,32 +35,7 @@ public class AirportApronEdgeLightsRecord : BglRecord
 
     public float MaxRenderAltitude { get; }
 
-    public ICollection<Coordinate> Vertices { get; } = new List<Coordinate>();
+    public ICollection<Coordinate> Vertices { get; }
 
-    public ICollection<Triangle> Edges { get; } = new List<Triangle>();
-
-    private void MapVertices(BinaryReader reader)
-    {
-        if (NumberOfVertices == 0) return;
-
-        for (var vertex = 0; vertex < NumberOfVertices; vertex++)
-        {
-            Vertices.Add(Coordinate.FromBgl(
-                reader.ReadInt32(),
-                reader.ReadInt32()));
-        }
-    }
-
-    private void MapLightEdges(BinaryReader reader)
-    {
-        if (NumberOfEdges == 0) return;
-
-        for (var edge = 0; edge < NumberOfEdges; edge++)
-        {
-            Edges.Add(new Triangle(
-                reader.ReadSingle(),
-                reader.ReadUInt16(),
-                reader.ReadUInt16()));
-        }
-    }
+    public ICollection<Triangle> Edges { get; }
 }

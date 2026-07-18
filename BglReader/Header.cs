@@ -2,7 +2,7 @@
 
 public class Header
 {
-    public Header(BinaryReader reader)
+    public Header(BglBinaryReader reader)
     {
         var magicNumber = reader.ReadBytes(4);
 
@@ -14,7 +14,7 @@ public class Header
         MapQmids(reader);
     }
 
-    private void MapQmids(BinaryReader reader)
+    private void MapQmids(BglBinaryReader reader)
     {
         ReadOnlySpan<byte> bytes = reader.ReadBytes(32);
 

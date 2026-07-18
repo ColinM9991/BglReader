@@ -6,7 +6,7 @@ namespace BglReader.Airport;
 public class AirportApproachRecord : BglRecord
 {
     public AirportApproachRecord(
-        BinaryReader reader) : base(reader)
+        BglBinaryReader reader) : base(reader)
     {
         Suffix = reader.ReadByte();
         RunwayNumber = reader.ReadByte();
@@ -51,10 +51,10 @@ public class AirportApproachRecord : BglRecord
 
     public ICollection<BglRecord> SubRecords { get; } = new List<BglRecord>();
 
-    private void MapSubRecords(BinaryReader reader)
+    private void MapSubRecords(BglBinaryReader reader)
     {
         var iterationStartPos = GetRecordStartPosition();
-        while (reader.BaseStream.Position < iterationStartPos + Size)
+        while (reader.Position < iterationStartPos + Size)
         {
             var id = reader.ReadUInt16();
 

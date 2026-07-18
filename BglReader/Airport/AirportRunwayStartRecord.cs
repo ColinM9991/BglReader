@@ -5,11 +5,11 @@ namespace BglReader.Airport;
 
 public class AirportRunwayStartRecord : BglRecord
 {
-    public AirportRunwayStartRecord(BinaryReader reader) : base(reader)
+    public AirportRunwayStartRecord(BglBinaryReader reader) : base(reader)
     {
         RunwayNumber = reader.ReadByte();
         Flags = new RunwayStartFlags(reader.ReadByte());
-        Coordinates = Coordinate.FromBgl(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
+        Coordinates = reader.ReadCoordinates();
         Heading = reader.ReadSingle();
     }
 

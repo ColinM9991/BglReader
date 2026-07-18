@@ -6,7 +6,7 @@ namespace BglReader.NameList;
 // TODO cleanup and consolidate collections
 public class NameListRecord : BglRecord
 {
-    public NameListRecord(BinaryReader reader) : base(reader, false)
+    public NameListRecord(BglBinaryReader reader) : base(reader, false)
     {
         NumberOfRegionNames = reader.ReadUInt16();
         NumberOfCountryNames = reader.ReadUInt16();
@@ -46,17 +46,17 @@ public class NameListRecord : BglRecord
 
     public ICollection<IcaoNameListItem> IcaoNames { get; } = new List<IcaoNameListItem>();
 
-    private void MapList(BinaryReader reader,
+    private void MapList(BglBinaryReader reader,
         NameListItemType itemType,
-        uint thisOFfset,
+        uint thisOffset,
         uint nextOffset,
         ushort numberOfRecords)
     {
         if (numberOfRecords == 0) return;
 
-        reader.BaseStream.Position = GetRecordStartPosition() + thisOFfset;
+        reader.Seek(GetRecordStartPosition() + thisOffset);
 
-        var size = (nextOffset - 1) - thisOFfset;
+        var size = (nextOffset - 1) - thisOffset;
 
         var offsets = Enumerable.Range(0, numberOfRecords)
             .Select(x => (Offset: reader.ReadUInt32(), Index: x))
@@ -83,11 +83,11 @@ public class NameListRecord : BglRecord
         Names[itemType] = names;
     }
 
-    private void MapIcaoList(BinaryReader reader, uint startOffset, ushort numberOfRecords)
+    private void MapIcaoList(BglBinaryReader reader, uint startOffset, ushort numberOfRecords)
     {
         if (numberOfRecords == 0) return;
 
-        reader.BaseStream.Position = GetRecordStartPosition() + startOffset;
+        reader.Seek(GetRecordStartPosition() + startOffset);
 
         for (var i = 0; i < numberOfRecords; i++)
         {

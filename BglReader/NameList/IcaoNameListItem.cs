@@ -3,7 +3,7 @@ namespace BglReader.NameList;
 public readonly struct IcaoNameListItem
 {
     public IcaoNameListItem(
-        BinaryReader reader)
+        BglBinaryReader reader)
     {
         RegionNameIndex = reader.ReadByte();
         CountryNameIndex = reader.ReadByte();

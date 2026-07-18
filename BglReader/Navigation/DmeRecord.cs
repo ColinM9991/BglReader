@@ -4,12 +4,12 @@ namespace BglReader.Navigation;
 
 public class DmeRecord : BglRecord
 {
-    public DmeRecord(BinaryReader reader)
+    public DmeRecord(BglBinaryReader reader)
         : base(reader)
     {
-        _ = reader.ReadBytes(2); // unknown
+        _ = reader.ReadBytes(2); // TODO unknown
         
-        Coordinates = Coordinate.FromBgl(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
+        Coordinates = reader.ReadCoordinates();
         Range = reader.ReadSingle();
     }
     

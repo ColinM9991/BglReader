@@ -5,7 +5,7 @@ namespace BglReader.Airport.Taxi;
 public class TaxiPath
 {
     public TaxiPath(
-        BinaryReader reader)
+        BglBinaryReader reader)
     {
         StartIndex = reader.ReadUInt16();
         PathFlags = new TaxiPathFlags(reader.ReadUInt16());

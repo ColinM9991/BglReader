@@ -5,11 +5,11 @@ namespace BglReader.Airport;
 public class AirportRecord : BglRecord
 {
     public AirportRecord(
-        BinaryReader reader) : base(reader, false)
+        BglBinaryReader reader) : base(reader, false)
     {
         _ = reader.ReadBytes(6); // Number of Runways, Com, Starts, Approaches, Aprons (including Delete Records) and Helipads
-        Coordinates = Coordinate.FromBgl(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
-        TowerCoordinates = Coordinate.FromBgl(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
+        Coordinates = reader.ReadCoordinates();
+        TowerCoordinates = reader.ReadCoordinates();
         MagneticVariation = (MagneticVariation)reader.ReadSingle();
         Identifier = new ShiftedIcaoIdentifier(reader.ReadUInt32());
         Region = new IcaoIdentifier(reader.ReadUInt32());
@@ -62,9 +62,9 @@ public class AirportRecord : BglRecord
 
     public ICollection<BglRecord> Subsections { get; } = new List<BglRecord>();
 
-    private void MapAirportData(BinaryReader reader)
+    private void MapAirportData(BglBinaryReader reader)
     {
-        while (reader.BaseStream.Position < GetRecordEndPosition())
+        while (reader.Position < GetRecordEndPosition())
         {
             var id = (AirportSubsectionDataType)reader.ReadUInt16();
             var record = BglRecordFactory.Create(id, Type, reader);
@@ -72,7 +72,5 @@ public class AirportRecord : BglRecord
             if (record is null) continue;
             Subsections.Add(record);
         }
-
-        reader.BaseStream.Position = GetRecordEndPosition();
     }
 }

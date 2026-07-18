@@ -5,10 +5,10 @@ namespace BglReader.Generic;
 public class NameRecord : BglRecord
 {
     public NameRecord(
-        BinaryReader reader,
+        BglBinaryReader reader,
         bool shouldRewindStream = true) : base(reader, shouldRewindStream)
     {
-        Name = Encoding.UTF8.GetString(Consume(reader));
+        Name = reader.ReadString((int)GetRemainingBytes());
     }
 
     public string Name { get; }

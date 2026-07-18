@@ -5,16 +5,16 @@ namespace BglReader.Navigation;
 
 public class GeopolRecord : BglRecord
 {
-    public GeopolRecord(BinaryReader reader) : base(reader)
+    public GeopolRecord(BglBinaryReader reader) : base(reader)
     {
         Flags = new GeoPolFlags(reader.ReadUInt16());
         
-        MinimumCoordinates = Coordinate.FromBgl(reader.ReadInt32(), reader.ReadInt32());
-        MaximumCoordinates = Coordinate.FromBgl(reader.ReadInt32(), reader.ReadInt32());
+        MinimumCoordinates = reader.ReadCoordinates(hasElevation: false);
+        MaximumCoordinates = reader.ReadCoordinates(hasElevation: false);
 
         for (var i = 0; i < Flags.NumberOfVertices; i++)
         {
-            Vertices.Add(Coordinate.FromBgl(reader.ReadInt32(), reader.ReadInt32()));
+            Vertices.Add(reader.ReadCoordinates(hasElevation: false));
         }
     }
     

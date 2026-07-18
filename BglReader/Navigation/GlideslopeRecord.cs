@@ -4,13 +4,10 @@ namespace BglReader.Navigation;
 
 public class GlideslopeRecord : BglRecord
 {
-    public GlideslopeRecord(BinaryReader reader) : base(reader)
+    public GlideslopeRecord(BglBinaryReader reader) : base(reader)
     {
         _ = reader.ReadBytes(2); // TODO Unknown
-        Coordinates = Coordinate.FromBgl(
-            reader.ReadInt32(),
-            reader.ReadInt32(),
-            reader.ReadInt32());
+        Coordinates = reader.ReadCoordinates();
 
         Range = reader.ReadSingle();
         Pitch = reader.ReadSingle();

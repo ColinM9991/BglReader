@@ -6,7 +6,7 @@ namespace BglReader.Airport;
 public class AirportRunwayRecord : BglRecord
 {
     public AirportRunwayRecord(
-        BinaryReader reader) : base(reader)
+        BglBinaryReader reader) : base(reader)
     {
         SurfaceType = (SurfaceType)reader.ReadUInt16();
         RunwayNumber = reader.ReadByte();
@@ -15,7 +15,7 @@ public class AirportRunwayRecord : BglRecord
         SecondaryRunwayDesignator = (RunwayDesignator)reader.ReadByte();
         PrimaryIlsIdentifier = new IcaoIdentifier(reader.ReadUInt32());
         SecondaryIlsIdentifier = new IcaoIdentifier(reader.ReadUInt32());
-        Coordinates = Coordinate.FromBgl(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
+        Coordinates = reader.ReadCoordinates();
         Length = reader.ReadSingle();
         Width = reader.ReadSingle();
         Heading = reader.ReadSingle();
@@ -64,10 +64,10 @@ public class AirportRunwayRecord : BglRecord
 
     public ICollection<BglRecord> SubRecords { get; } = new List<BglRecord>();
 
-    private void MapSubRecords(BinaryReader reader)
+    private void MapSubRecords(BglBinaryReader reader)
     {
         var endPosition = GetRecordEndPosition();
-        while (reader.BaseStream.Position < endPosition)
+        while (reader.Position < endPosition)
         {
             var id = reader.ReadUInt16();
 

@@ -6,7 +6,7 @@ public class TaxiSignSceneryRecord : LibrarySceneryRecordBase
 {
     private const int MemorySizeBytes = 12;
 
-    public TaxiSignSceneryRecord(BinaryReader reader) : base(reader)
+    public TaxiSignSceneryRecord(BglBinaryReader reader) : base(reader)
     {
         NumberOfSigns = reader.ReadUInt32();
 
@@ -66,9 +66,9 @@ public sealed record TaxiWaySign(
     byte Size,
     byte Justification);
 
-public static class BinaryReaderExtensions
+public static class BglBinaryReaderExtensions
 {
-    extension(BinaryReader reader)
+    extension(BglBinaryReader reader)
     {
         public byte[] ReadUntilNull()
         {

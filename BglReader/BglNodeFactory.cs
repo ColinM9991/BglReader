@@ -7,7 +7,7 @@ namespace BglReader;
 
 public static class BglNodeFactory
 {
-    public static BglNode? Create(SectionType sectionType, BinaryReader reader) => sectionType switch
+    public static BglNode? Create(SectionType sectionType, BglBinaryReader reader) => sectionType switch
     {
         SectionType.Airport => new AirportRecord(reader),
         SectionType.AirportSummary or SectionType.AirportSummaryP3D => new AirportSummaryRecord(reader),

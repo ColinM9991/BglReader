@@ -4,7 +4,7 @@ namespace BglReader.Airport;
 
 public class AirportVasiSubRecord : BglRecord
 {
-    public AirportVasiSubRecord(BinaryReader reader) : base(reader)
+    public AirportVasiSubRecord(BglBinaryReader reader) : base(reader)
     {
         Type = (VasiType)reader.ReadUInt16();
         BiasX = reader.ReadSingle();

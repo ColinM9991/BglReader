@@ -5,11 +5,11 @@ namespace BglReader.Navigation;
 
 public class WaypointRecord : BglRecord
 {
-    public WaypointRecord(BinaryReader reader) : base(reader, false)
+    public WaypointRecord(BglBinaryReader reader) : base(reader, false)
     {
         Type = (WaypointType)reader.ReadByte();
         NumberOfRoutes = reader.ReadByte();
-        Coordinate = Coordinate.FromBgl(reader.ReadInt32(), reader.ReadInt32());
+        Coordinate = reader.ReadCoordinates(hasElevation: false);
         MagneticVariation = (MagneticVariation)reader.ReadSingle();
         Identifier = new ShiftedIcaoIdentifier(reader.ReadUInt32());
 
@@ -17,7 +17,7 @@ public class WaypointRecord : BglRecord
 
         MapRoutes(reader);
 
-        reader.BaseStream.Position = GetRecordEndPosition();
+        reader.Position = GetRecordEndPosition();
     }
     
     public WaypointType Type { get; }
@@ -34,7 +34,7 @@ public class WaypointRecord : BglRecord
 
     public ICollection<WaypointRoute> Routes { get; } = new List<WaypointRoute>();
     
-    private void MapRoutes(BinaryReader reader)
+    private void MapRoutes(BglBinaryReader reader)
     {
         if (NumberOfRoutes == 0) return;
 

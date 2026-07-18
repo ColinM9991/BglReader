@@ -5,7 +5,7 @@ namespace BglReader.Airport;
 public class AirportApronSecondRecord : AirportApronBaseRecord
 {
     public AirportApronSecondRecord(
-        BinaryReader reader) : base(reader)
+        BglBinaryReader reader) : base(reader)
     {
         Flags = new ApronFlags(reader.ReadByte());
         _ = reader.ReadBytes(20);
@@ -13,7 +13,6 @@ public class AirportApronSecondRecord : AirportApronBaseRecord
         NumberOfTriangles = reader.ReadUInt16();
         MapVertices(reader);
         MapTriangles(reader);
-        reader.BaseStream.Position = GetRecordEndPosition();
     }
 
     public ApronFlags Flags { get; }
@@ -22,7 +21,7 @@ public class AirportApronSecondRecord : AirportApronBaseRecord
 
     public ICollection<ApronTriangle> Triangles { get; } = new List<ApronTriangle>();
 
-    private void MapTriangles(BinaryReader reader)
+    private void MapTriangles(BglBinaryReader reader)
     {
         if (NumberOfTriangles == 0) return;
 

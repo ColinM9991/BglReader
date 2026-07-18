@@ -3,12 +3,10 @@
 public class AirportApronRecord : AirportApronBaseRecord
 {
     public AirportApronRecord(
-        BinaryReader reader) : base(reader)
+        BglBinaryReader reader) : base(reader)
     {
         _ = reader.ReadBytes(21);
         NumberOfVertices = reader.ReadUInt16();
         MapVertices(reader);
-
-        reader.BaseStream.Position = GetRecordEndPosition();
     }
 }

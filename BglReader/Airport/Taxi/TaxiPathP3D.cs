@@ -2,7 +2,7 @@
 
 public class TaxiPathP3D : TaxiPath
 {
-    public TaxiPathP3D(BinaryReader reader) : base(reader)
+    public TaxiPathP3D(BglBinaryReader reader) : base(reader)
     {
         Material = new Guid(reader.ReadBytes(16));
 

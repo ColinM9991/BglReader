@@ -4,9 +4,9 @@ namespace BglReader.Scenery;
 
 public abstract class LibrarySceneryRecordBase : SceneryBglRecord
 {
-    protected LibrarySceneryRecordBase(BinaryReader reader) : base(reader)
+    protected LibrarySceneryRecordBase(BglBinaryReader reader) : base(reader)
     {
-        Coordinates = Coordinate.FromBgl(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
+        Coordinates = reader.ReadCoordinates();
 
         Flags = (LibraryObjectFlags)reader.ReadUInt16();
         Pitch = reader.ReadUInt16();

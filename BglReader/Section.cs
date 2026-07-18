@@ -5,7 +5,7 @@ namespace BglReader;
 public class Section : BglNode
 {
     public Section(
-        BinaryReader reader)
+        BglBinaryReader reader)
     {
         Type = (SectionType)reader.ReadUInt32();
         var subsectionSizeValue = reader.ReadUInt32();
@@ -28,7 +28,7 @@ public class Section : BglNode
 
     public Subsection[] Subsections { get; }
 
-    public void AddSubsections(BinaryReader reader)
+    public void AddSubsections(BglBinaryReader reader)
     {
         for (var i = 0; i < SubsectionsCount; i++)
         {

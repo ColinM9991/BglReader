@@ -7,7 +7,7 @@ public class NavigationIndexRecord : BglNode
 {
     public NavigationIndexRecord(
         SectionType sectionType,
-        BinaryReader reader)
+        BglBinaryReader reader)
     {
         Type = sectionType;
         Identifier = new ShiftedIcaoIdentifier(reader.ReadUInt32());

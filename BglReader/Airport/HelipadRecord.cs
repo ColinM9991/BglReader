@@ -4,12 +4,12 @@ namespace BglReader.Airport;
 
 public class HelipadRecord : BglRecord
 {
-    public HelipadRecord(BinaryReader reader) : base(reader)
+    public HelipadRecord(BglBinaryReader reader) : base(reader)
     {
         SurfaceType = (SurfaceType)reader.ReadByte();
         Type = reader.ReadByte();
         Color = reader.ReadBytes(4);
-        Coordinate = Coordinate.FromBgl(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
+        Coordinate = reader.ReadCoordinates();
         Length = reader.ReadSingle();
         Width = reader.ReadSingle();
         Heading = reader.ReadSingle();

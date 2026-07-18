@@ -4,11 +4,11 @@ namespace BglReader.Navigation;
 
 public class MarkerRecord : BglRecord
 {
-    public MarkerRecord(BinaryReader reader) : base(reader, false)
+    public MarkerRecord(BglBinaryReader reader) : base(reader, false)
     {
         Heading = reader.ReadByte();
         Type = (MarkerType)reader.ReadByte();
-        Coordinates = Coordinate.FromBgl(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
+        Coordinates = reader.ReadCoordinates();
         Identifier = new ShiftedIcaoIdentifier(reader.ReadUInt32());
         Region = new IcaoIdentifier(reader.ReadUInt16());
     }

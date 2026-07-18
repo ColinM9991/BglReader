@@ -5,7 +5,7 @@ namespace BglReader.Airport;
 public readonly struct ApproachLeg
 {
     public ApproachLeg(
-        BinaryReader reader)
+        BglBinaryReader reader)
     {
         Id = reader.ReadByte();
         AltitudeDescriptor = reader.ReadByte();

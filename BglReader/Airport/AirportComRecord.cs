@@ -6,7 +6,7 @@ namespace BglReader.Airport;
 public class AirportComRecord : BglRecord
 {
     public AirportComRecord(
-        BinaryReader reader) : base(reader)
+        BglBinaryReader reader) : base(reader)
     {
         // P3D uses 2 bytes for the Type.
         // While the legacy types begin at 0x0001 (ATIS), P3Dv5 adds 0x0700 (0x0701 being ATIS)
@@ -15,8 +15,7 @@ public class AirportComRecord : BglRecord
         _ = reader.ReadByte();
         
         Frequency = (Frequency)reader.ReadUInt32();
-        Name = Encoding.UTF8.GetString(
-            Consume(reader));
+        Name = reader.ReadString((int)GetRemainingBytes());
     }
 
     public ComType Type { get; }

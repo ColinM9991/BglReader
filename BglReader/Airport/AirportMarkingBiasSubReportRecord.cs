@@ -4,7 +4,7 @@ namespace BglReader.Airport;
 
 public class AirportMarkingBiasSubReportRecord : BglRecord
 {
-    public AirportMarkingBiasSubReportRecord(BinaryReader reader) : base(reader)
+    public AirportMarkingBiasSubReportRecord(BglBinaryReader reader) : base(reader)
     {
         _ = reader.ReadUInt16();
 

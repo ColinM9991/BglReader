@@ -7,7 +7,7 @@ namespace BglReader.Airport;
 
 public static class BglRecordFactory
 {
-    public static BglRecord? Create(AirportSubsectionDataType type, AirportType airportType, BinaryReader reader) =>
+    public static BglRecord? Create(AirportSubsectionDataType type, AirportType airportType, BglBinaryReader reader) =>
         type switch
         {
             AirportSubsectionDataType.Name => new NameRecord(reader),
@@ -42,7 +42,7 @@ public static class BglRecordFactory
             _ => null,
         };
 
-    public static BglRecord? Create(AirportApproachDataType approachDataType, BinaryReader reader) =>
+    public static BglRecord? Create(AirportApproachDataType approachDataType, BglBinaryReader reader) =>
         approachDataType switch
         {
             AirportApproachDataType.ApproachLegs => new AirportLegBaseRecord(reader),
@@ -51,7 +51,7 @@ public static class BglRecordFactory
             _ => null,
         };
 
-    public static BglRecord? Create(AirportRecordDataType airportRecordDataType, BinaryReader reader) =>
+    public static BglRecord? Create(AirportRecordDataType airportRecordDataType, BglBinaryReader reader) =>
         airportRecordDataType switch
         {
             AirportRecordDataType.OffsetPrimary or AirportRecordDataType.OffsetSecondary => new
@@ -69,7 +69,7 @@ public static class BglRecordFactory
             _ => null,
         };
 
-    public static BglRecord? Create(NavigationDataType navigationDataType, BinaryReader reader) =>
+    public static BglRecord? Create(NavigationDataType navigationDataType, BglBinaryReader reader) =>
         navigationDataType switch
         {
             NavigationDataType.Localizer => new LocalizerRecord(reader),
@@ -79,7 +79,7 @@ public static class BglRecordFactory
             _ => null
         };
 
-    public static SceneryBglRecord? Create(SceneryObjectType sceneryObjectType, BinaryReader reader) =>
+    public static SceneryBglRecord? Create(SceneryObjectType sceneryObjectType, BglBinaryReader reader) =>
         sceneryObjectType switch
         {
             SceneryObjectType.TaxiSign

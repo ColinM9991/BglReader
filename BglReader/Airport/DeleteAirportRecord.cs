@@ -5,7 +5,7 @@ namespace BglReader.Airport;
 
 public class DeleteAirportRecord : BglRecord
 {
-    public DeleteAirportRecord(BinaryReader reader) : base(reader)
+    public DeleteAirportRecord(BglBinaryReader reader) : base(reader)
     {
         DeleteFlags = (DeleteFlags)reader.ReadUInt16();
         NumberOfRunways = reader.ReadByte();
@@ -33,20 +33,20 @@ public class DeleteAirportRecord : BglRecord
 
     public ICollection<DeleteFrequency> Frequencies { get; }
 
-    private IEnumerable<DeleteRunway> MapRunways(BinaryReader reader) => Enumerable.Range(0, NumberOfRunways)
+    private IEnumerable<DeleteRunway> MapRunways(BglBinaryReader reader) => Enumerable.Range(0, NumberOfRunways)
         .Select(_ => new DeleteRunway(
             reader.ReadByte(),
             reader.ReadByte(),
             reader.ReadByte(),
             reader.ReadByte()));
 
-    private IEnumerable<DeleteStart> MapStarts(BinaryReader reader) => Enumerable.Range(0, NumberOfStarts).Select(x =>
+    private IEnumerable<DeleteStart> MapStarts(BglBinaryReader reader) => Enumerable.Range(0, NumberOfStarts).Select(x =>
         new DeleteStart(
             reader.ReadByte(),
             reader.ReadByte(),
             reader.ReadByte(),
             reader.ReadByte()));
 
-    private IEnumerable<DeleteFrequency> MapFrequencies(BinaryReader reader) => Enumerable.Range(0, NumberOfFrequencies)
+    private IEnumerable<DeleteFrequency> MapFrequencies(BglBinaryReader reader) => Enumerable.Range(0, NumberOfFrequencies)
         .Select(x => new DeleteFrequency(reader.ReadUInt32()));
 }

@@ -6,7 +6,7 @@ public class BglFile
         FileStream bglStream)
     {
         FileName = bglStream.Name;
-        using var reader = new BinaryReader(bglStream);
+        using var reader = new BglBinaryReader(new BinaryReader(bglStream));
         
         Header = new Header(reader);
         Sections = new Section[Header.NumberOfSections];
@@ -20,7 +20,7 @@ public class BglFile
 
     public Section[] Sections { get; }
 
-    private void MapSections(BinaryReader reader)
+    private void MapSections(BglBinaryReader reader)
     {
         for (var i = 0; i < Header.NumberOfSections; i++)
         {

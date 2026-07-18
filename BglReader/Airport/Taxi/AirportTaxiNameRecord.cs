@@ -5,12 +5,12 @@ namespace BglReader.Airport.Taxi;
 
 public class AirportTaxiNameRecord : BglRecord
 {
-    public AirportTaxiNameRecord(BinaryReader reader) : base(reader)
+    public AirportTaxiNameRecord(BglBinaryReader reader) : base(reader)
     {
         NumberOfRecords = reader.ReadUInt16();
 
         Records = Enumerable.Range(0, NumberOfRecords)
-            .Select(i => Encoding.UTF8.GetString(reader.ReadBytes(8).TakeWhile(x => x != 0).ToArray()))
+            .Select(i => reader.ReadString(8))
             .ToList();
     }
 

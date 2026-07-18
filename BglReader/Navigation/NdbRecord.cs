@@ -6,11 +6,11 @@ namespace BglReader.Navigation;
 
 public class NdbRecord : BglRecord
 {
-    public NdbRecord(BinaryReader reader) : base(reader, false)
+    public NdbRecord(BglBinaryReader reader) : base(reader, false)
     {
         Type = (NdbType)reader.ReadUInt16();
         Frequency = (Frequency)reader.ReadUInt32();
-        Coordinates = Coordinate.FromBgl(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
+        Coordinates = reader.ReadCoordinates();
         Range = reader.ReadSingle();
         MagneticVariation = (MagneticVariation)reader.ReadSingle();
         Identifier = new ShiftedIcaoIdentifier(reader.ReadUInt32());
@@ -36,9 +36,9 @@ public class NdbRecord : BglRecord
     
     public ICollection<BglRecord> SubRecords { get; } = new List<BglRecord>();
 
-    public void MapSubRecords(BinaryReader reader)
+    public void MapSubRecords(BglBinaryReader reader)
     {
-        while (reader.BaseStream.Position < GetRecordEndPosition())
+        while (reader.Position < GetRecordEndPosition())
         {
             var id = (NavigationDataType)reader.ReadUInt16();
             var record = BglRecordFactory.Create(id, reader);

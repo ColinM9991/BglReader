@@ -6,9 +6,9 @@ namespace BglReader.Navigation;
 
 public class TacanRecord : BglRecord
 {
-    public TacanRecord(BinaryReader reader) : base(reader, false)
+    public TacanRecord(BglBinaryReader reader) : base(reader, false)
     {
-        Coordinates = Coordinate.FromBgl(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
+        Coordinates = reader.ReadCoordinates();
         Channel = reader.ReadUInt32();
 
         Flags = new TacanFlags(reader.ReadByte());
@@ -37,11 +37,11 @@ public class TacanRecord : BglRecord
     
     public ICollection<BglRecord> SubRecords { get; } = new List<BglRecord>();
     
-    public void MapSubRecords(BinaryReader reader)
+    public void MapSubRecords(BglBinaryReader reader)
     {
         var recordSize = GetRecordEndPosition();
 
-        while (reader.BaseStream.Position < recordSize)
+        while (reader.Position < recordSize)
         {
             var id = (NavigationDataType)reader.ReadUInt16();
 

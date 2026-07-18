@@ -4,10 +4,10 @@ namespace BglReader.Navigation;
 
 public struct WaypointRoute
 {
-    public WaypointRoute(BinaryReader reader)
+    public WaypointRoute(BglBinaryReader reader)
     {
         Type = (RouteType)reader.ReadByte();
-        Name = Encoding.UTF8.GetString(reader.ReadBytes(8));
+        Name = reader.ReadString(8);
 
         Next = WaypointSegment.Parse(reader);
         Previous = WaypointSegment.Parse(reader);

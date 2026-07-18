@@ -5,7 +5,7 @@ namespace BglReader.Airport;
 
 public class AirportApproachLightsSubRecord : BglRecord
 {
-    public AirportApproachLightsSubRecord(BinaryReader reader) : base(reader)
+    public AirportApproachLightsSubRecord(BglBinaryReader reader) : base(reader)
     {
         Flags = new ApproachLightsFlags(reader.ReadByte());
         NumberOfStrobes = reader.ReadByte();

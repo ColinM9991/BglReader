@@ -6,7 +6,7 @@ public class Subsection : BglNode
 {
     public Subsection(
         SectionType sectionType,
-        BinaryReader reader)
+        BglBinaryReader reader)
     {
         var dwordA = reader.ReadUInt32();
         var dwordB = sectionType is SectionType.PopulationDensity or SectionType.TerrainIndex
@@ -38,10 +38,10 @@ public class Subsection : BglNode
 
     public ICollection<BglNode> Data { get; } = new List<BglNode>();
 
-    public void MapData(SectionType sectionType, BinaryReader reader)
+    public void MapData(SectionType sectionType, BglBinaryReader reader)
     {
         const int nameListSize = 1;
-        reader.BaseStream.Position = Offset;
+        reader.Seek(Offset);
 
         var numberOfRecords = sectionType is SectionType.NameList
             ? nameListSize

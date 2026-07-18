@@ -4,7 +4,7 @@ namespace BglReader.Airport.Taxi;
 
 public class AirportTaxiwayPoint : BglRecord
 {
-    public AirportTaxiwayPoint(BinaryReader reader) : base(reader)
+    public AirportTaxiwayPoint(BglBinaryReader reader) : base(reader)
     {
         NumberOfPoints = reader.ReadUInt16();
 
@@ -15,7 +15,7 @@ public class AirportTaxiwayPoint : BglRecord
 
     public ICollection<TaxiWayPoint> Points { get; } = new List<TaxiWayPoint>();
 
-    public void MapTaxiPoints(BinaryReader reader)
+    public void MapTaxiPoints(BglBinaryReader reader)
     {
         if (NumberOfPoints == 0) return;
 
@@ -24,7 +24,7 @@ public class AirportTaxiwayPoint : BglRecord
             var type = (TaxiPointType)reader.ReadByte();
             var flag = (TaxiPointFlag)reader.ReadByte();
             _ = reader.ReadBytes(2); // TODO Padding?
-            var coordinate = Coordinate.FromBgl(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
+            var coordinate = reader.ReadCoordinates();
 
             Points.Add(new TaxiWayPoint(type, flag, coordinate));
         }
