@@ -6,7 +6,7 @@ public class Subsection : BglNode
 {
     public Subsection(
         SectionType sectionType,
-        BglBinaryReader reader)
+        BglBinaryReader reader) : base(reader)
     {
         var dwordA = reader.ReadUInt32();
         var dwordB = sectionType is SectionType.PopulationDensity or SectionType.TerrainIndex
@@ -34,6 +34,8 @@ public class Subsection : BglNode
 
     public uint Offset { get; }
 
+    protected override long EndPosition => StartPosition + Size;
+
     public uint Size { get; }
 
     public ICollection<BglNode> Data { get; } = new List<BglNode>();
@@ -50,7 +52,10 @@ public class Subsection : BglNode
         for (var i = 0; i < numberOfRecords; i++)
         {
             var data = BglNodeFactory.Create(sectionType, reader);
-            if (data is not null) Data.Add(data);
+            if (data is null) continue;
+
+            data.AssertEndPosition();
+            Data.Add(data);
         }
     }
 }

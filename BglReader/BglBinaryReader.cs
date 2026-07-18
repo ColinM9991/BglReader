@@ -39,7 +39,7 @@ public sealed class BglBinaryReader : IDisposable
         ? Coordinate.FromBgl(ReadInt32(), ReadInt32(), ReadInt32())
         : Coordinate.FromBgl(ReadInt32(), ReadInt32());
 
-    public Triangle ReadTriangle() => new(ReadSingle(), ReadUInt16(), ReadUInt16());
+    public Triangle ReadTriangle(bool isP3DTriangle = true) => new(isP3DTriangle ? ReadSingle() : ReadUInt16(), ReadUInt16(), ReadUInt16());
 
     public string ReadString(int bytes) => Encoding.UTF8.GetString(ReadUntilNull(bytes));
 

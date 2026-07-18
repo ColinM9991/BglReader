@@ -66,8 +66,7 @@ public class AirportRunwayRecord : BglRecord
 
     private void MapSubRecords(BglBinaryReader reader)
     {
-        var endPosition = GetRecordEndPosition();
-        while (reader.Position < endPosition)
+        while (reader.Position < EndPosition)
         {
             var id = reader.ReadUInt16();
 

@@ -16,7 +16,7 @@ public class AirportPolygonRecord : BglRecord
             .ToList();
         
         Triangles = Enumerable.Range(0, numberOfTriangles)
-            .Select(_ => reader.ReadTriangle())
+            .Select(_ => reader.ReadTriangle(false))
             .ToList();
     }
     

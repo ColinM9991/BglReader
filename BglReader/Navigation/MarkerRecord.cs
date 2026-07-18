@@ -11,6 +11,7 @@ public class MarkerRecord : BglRecord
         Coordinates = reader.ReadCoordinates();
         Identifier = new ShiftedIcaoIdentifier(reader.ReadUInt32());
         Region = new IcaoIdentifier(reader.ReadUInt16());
+        _ = reader.ReadBytes(2); // TODO Unknown
     }
     
     public ushort Heading { get; }

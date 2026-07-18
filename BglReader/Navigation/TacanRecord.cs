@@ -39,9 +39,7 @@ public class TacanRecord : BglRecord
     
     public void MapSubRecords(BglBinaryReader reader)
     {
-        var recordSize = GetRecordEndPosition();
-
-        while (reader.Position < recordSize)
+        while (reader.Position < EndPosition)
         {
             var id = (NavigationDataType)reader.ReadUInt16();
 

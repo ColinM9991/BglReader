@@ -7,28 +7,11 @@ public class AirportTaxiPathRecord : BglRecord
     public AirportTaxiPathRecord(BglBinaryReader reader) : base(reader)
     {
         NumberOfPaths = reader.ReadUInt16();
-        
-        MapTaxiPaths(reader);
+
+        Paths = Enumerable.Range(0, NumberOfPaths).Select(x => new TaxiPathP3D(reader)).ToList();
     }
 
-    public AirportSubsectionDataType TaxiPathType => (AirportSubsectionDataType)Id;
-    
     public ushort NumberOfPaths { get; }
 
-    public ICollection<TaxiPath> Paths { get; } = new List<TaxiPath>();
-    
-    private void MapTaxiPaths(BglBinaryReader reader)
-    {
-        if (NumberOfPaths == 0) return;
-
-        for (var path = 0; path < NumberOfPaths; path++)
-        {
-            var taxiPath =
-                TaxiPathType is AirportSubsectionDataType.TaxiPathP3DV4 or AirportSubsectionDataType.TaxiPathP3DV5
-                    ? new TaxiPathP3D(reader)
-                    : new TaxiPath(reader);
-
-            Paths.Add(taxiPath);
-        }
-    }
+    public ICollection<TaxiPathP3D> Paths { get; }
 }

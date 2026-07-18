@@ -38,7 +38,7 @@ public class NdbRecord : BglRecord
 
     public void MapSubRecords(BglBinaryReader reader)
     {
-        while (reader.Position < GetRecordEndPosition())
+        while (reader.Position < EndPosition)
         {
             var id = (NavigationDataType)reader.ReadUInt16();
             var record = BglRecordFactory.Create(id, reader);

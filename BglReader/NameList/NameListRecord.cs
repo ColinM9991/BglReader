@@ -6,6 +6,7 @@ namespace BglReader.NameList;
 // TODO cleanup and consolidate collections
 public class NameListRecord : BglRecord
 {
+    private const int FixedSize = 42;
     public NameListRecord(BglBinaryReader reader) : base(reader, false)
     {
         NumberOfRegionNames = reader.ReadUInt16();
@@ -28,6 +29,8 @@ public class NameListRecord : BglRecord
         MapList(reader, NameListItemType.City, cityOffset, airportOffset, NumberOfCityNames);
         MapList(reader, NameListItemType.Airport, airportOffset, identifierOffset, NumberOfAirportNames);
         MapIcaoList(reader, identifierOffset, NumberOfIdentifiers);
+
+        Reader.Seek(StartPosition + FixedSize);
     }
 
     public ushort NumberOfRegionNames { get; }
@@ -42,6 +45,8 @@ public class NameListRecord : BglRecord
 
     public ushort NumberOfIdentifiers { get; }
 
+    protected override long EndPosition => StartPosition + FixedSize;
+
     public IDictionary<NameListItemType, string[]> Names { get; } = new Dictionary<NameListItemType, string[]>();
 
     public ICollection<IcaoNameListItem> IcaoNames { get; } = new List<IcaoNameListItem>();
@@ -54,7 +59,7 @@ public class NameListRecord : BglRecord
     {
         if (numberOfRecords == 0) return;
 
-        reader.Seek(GetRecordStartPosition() + thisOffset);
+        reader.Seek(StartPosition + thisOffset);
 
         var size = (nextOffset - 1) - thisOffset;
 
@@ -87,7 +92,7 @@ public class NameListRecord : BglRecord
     {
         if (numberOfRecords == 0) return;
 
-        reader.Seek(GetRecordStartPosition() + startOffset);
+        reader.Seek(StartPosition + startOffset);
 
         for (var i = 0; i < numberOfRecords; i++)
         {

@@ -44,7 +44,7 @@ public class IlsVorRecord : BglRecord
     
     public void MapSubRecords(BglBinaryReader reader)
     {
-        while (reader.Position < GetRecordEndPosition())
+        while (reader.Position < EndPosition)
         {
             var id = (NavigationDataType)reader.ReadUInt16();
 

@@ -53,8 +53,7 @@ public class AirportApproachRecord : BglRecord
 
     private void MapSubRecords(BglBinaryReader reader)
     {
-        var iterationStartPos = GetRecordStartPosition();
-        while (reader.Position < iterationStartPos + Size)
+        while (reader.Position < EndPosition)
         {
             var id = reader.ReadUInt16();
 

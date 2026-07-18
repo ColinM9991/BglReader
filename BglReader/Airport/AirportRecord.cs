@@ -64,7 +64,7 @@ public class AirportRecord : BglRecord
 
     private void MapAirportData(BglBinaryReader reader)
     {
-        while (reader.Position < GetRecordEndPosition())
+        while (reader.Position < EndPosition)
         {
             var id = (AirportSubsectionDataType)reader.ReadUInt16();
             var record = BglRecordFactory.Create(id, Type, reader);

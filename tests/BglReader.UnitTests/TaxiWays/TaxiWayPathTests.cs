@@ -18,12 +18,10 @@ public class TaxiWayPathTests : TestBase
 
         taxiPathRecords.Should().NotBeNull();
         
-        var paths = taxiPathRecords.Paths.OfType<TaxiPathP3D>().ToList();
-
         const float tolerance = 0.02f;
         foreach (var expectedTaxiPath in expectedTaxiPaths)
         {
-            paths.Should().Contain(x =>
+            taxiPathRecords.Paths.Should().Contain(x =>
                 x.StartIndex == expectedTaxiPath.StartIndex
                 && x.PathFlags.EndIndex == expectedTaxiPath.EndIndex 
                 && x.PathFlags.Designator == expectedTaxiPath.Designator

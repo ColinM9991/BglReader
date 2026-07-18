@@ -5,7 +5,7 @@ namespace BglReader;
 public class Section : BglNode
 {
     public Section(
-        BglBinaryReader reader)
+        BglBinaryReader reader) : base(reader)
     {
         Type = (SectionType)reader.ReadUInt32();
         var subsectionSizeValue = reader.ReadUInt32();
@@ -25,6 +25,8 @@ public class Section : BglNode
     public uint SubsectionOffset { get; }
 
     public uint TotalSizeOfSubsections { get; }
+
+    protected override long EndPosition => StartPosition + SubsectionSize;
 
     public Subsection[] Subsections { get; }
 

@@ -17,7 +17,7 @@ public class WaypointRecord : BglRecord
 
         MapRoutes(reader);
 
-        reader.Position = GetRecordEndPosition();
+        reader.Position = EndPosition; // TODO Missing information?
     }
     
     public WaypointType Type { get; }
