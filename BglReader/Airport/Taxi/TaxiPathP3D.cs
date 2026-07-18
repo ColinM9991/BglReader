@@ -1,13 +1,23 @@
-﻿namespace BglReader.Airport.Taxi;
+﻿using BglReader.ValueObjects;
+
+namespace BglReader.Airport.Taxi;
 
 public class TaxiPathP3D : TaxiPath
 {
     public TaxiPathP3D(BglBinaryReader reader) : base(reader)
     {
         Material = new Guid(reader.ReadBytes(16));
-
-        _ = reader.ReadBytes(4); // TODO Unknown. Repeated TaxiNameIndex in bytes 3-4?
+        TerrainFlags = new TaxiPathSurfaceFlags(reader.ReadByte());
+        
+        /*
+         * Byte 1: Unknown
+         * Byte 2: Repeats Runway/Taxi Name Index
+         * Byte 3: Unknown
+         */
+        _ = reader.ReadBytes(3); 
     }
     
     public Guid Material { get; }
+    
+    public TaxiPathSurfaceFlags TerrainFlags { get; }
 }

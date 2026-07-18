@@ -1,4 +1,5 @@
 ﻿using BglReader.Airport;
+using BglReader.Airport.Taxi;
 using BglReader.ValueObjects;
 
 namespace BglReader.UnitTests.TaxiWays;
@@ -22,7 +23,9 @@ public static class TaxiWayPathTestData
                     SurfaceLineFlags.From(true, true, EdgeMarkingType.Solid, true, EdgeMarkingType.Solid, true),
                     SurfaceType.Asphalt,
                     30.48f,
-                    500000),
+                    500000,
+                    SurfaceQuery.Default,
+                    Flatten.None),
                 new ExpectedTaxiPathData(
                     1,
                     2,
@@ -35,7 +38,9 @@ public static class TaxiWayPathTestData
                     SurfaceLineFlags.From(true, false, EdgeMarkingType.Dashed, false, EdgeMarkingType.Dashed, false),
                     SurfaceType.Asphalt,
                     23.00f,
-                    300000),
+                    300000,
+                    SurfaceQuery.Default,
+                    Flatten.Default),
                 new ExpectedTaxiPathData(
                     2,
                     3,
@@ -48,7 +53,9 @@ public static class TaxiWayPathTestData
                     SurfaceLineFlags.From(true, false, EdgeMarkingType.None, false, EdgeMarkingType.None, false),
                     SurfaceType.Asphalt,
                     23.00f,
-                    300000),
+                    300000,
+                    SurfaceQuery.Default,
+                    Flatten.Default),
                 new ExpectedTaxiPathData(
                     3,
                     0, // TODO: According to LM P3D documentation, this should be the parking index
@@ -61,7 +68,9 @@ public static class TaxiWayPathTestData
                     SurfaceLineFlags.From(false, false, EdgeMarkingType.None, false, EdgeMarkingType.None, false),
                     SurfaceType.Asphalt,
                     20.00f,
-                    150000),
+                    150000,
+                    SurfaceQuery.Default,
+                    Flatten.Default),
                 new ExpectedTaxiPathData(
                     3,
                     4,
@@ -74,7 +83,9 @@ public static class TaxiWayPathTestData
                     SurfaceLineFlags.From(false, false, EdgeMarkingType.None, false, EdgeMarkingType.None, false),
                     SurfaceType.Asphalt,
                     18.00f,
-                    150000),
+                    150000,
+                    SurfaceQuery.Default,
+                    Flatten.Default),
                 new ExpectedTaxiPathData(
                     4,
                     1, // TODO: According to LM P3D documentation, this should be the parking index
@@ -87,7 +98,9 @@ public static class TaxiWayPathTestData
                     SurfaceLineFlags.From(false, false, EdgeMarkingType.None, false, EdgeMarkingType.None, false),
                     SurfaceType.Asphalt,
                     18.00f,
-                    150000),
+                    150000,
+                    SurfaceQuery.ElevationAndType,
+                    Flatten.Flatten),
             ]
         }
     };

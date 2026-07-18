@@ -398,7 +398,8 @@
                      width="18.0"
                      weightLimit="150000"
                      surface="ASPHALT"
-                     surfaceQuery="DEFAULT"
+                     surfaceQuery="ELEVATION_AND_TYPE"
+                     flatten="FLATTEN"
                      name="0" />
 
               <TaxiwaySign

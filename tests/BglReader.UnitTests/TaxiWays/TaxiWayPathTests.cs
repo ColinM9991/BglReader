@@ -6,7 +6,7 @@ public class TaxiWayPathTests : TestBase
 {
     [Theory]
     [MemberData(nameof(TaxiWayPathTestData.TaxiWayPathData), MemberType = typeof(TaxiWayPathTestData))]
-    public void TaxiPathRecords_Parsed(
+    public void TaxiPathP3DRecords_Parsed(
         string fileName,
         string identifier,
         ExpectedTaxiPathData[] expectedTaxiPaths)
@@ -17,11 +17,13 @@ public class TaxiWayPathTests : TestBase
             .Single();
 
         taxiPathRecords.Should().NotBeNull();
+        
+        var paths = taxiPathRecords.Paths.OfType<TaxiPathP3D>().ToList();
 
         const float tolerance = 0.02f;
         foreach (var expectedTaxiPath in expectedTaxiPaths)
         {
-            taxiPathRecords.Paths.Should().Contain(x =>
+            paths.Should().Contain(x =>
                 x.StartIndex == expectedTaxiPath.StartIndex
                 && x.PathFlags.EndIndex == expectedTaxiPath.EndIndex 
                 && x.PathFlags.Designator == expectedTaxiPath.Designator
@@ -31,6 +33,8 @@ public class TaxiWayPathTests : TestBase
                 && x.PathValue == expectedTaxiPath.Value
                 && x.EdgeFlags.Equals(expectedTaxiPath.SurfaceLineFlags)
                 && x.Surface == expectedTaxiPath.Surface
+                && x.TerrainFlags.SurfaceQuery == expectedTaxiPath.SurfaceQuery
+                && x.TerrainFlags.Flatten == expectedTaxiPath.Flatten
                 && Math.Abs(x.Width - expectedTaxiPath.Width) < tolerance
                 && Math.Abs(x.WeightLimit - expectedTaxiPath.WeightLimit) < tolerance);
         }
