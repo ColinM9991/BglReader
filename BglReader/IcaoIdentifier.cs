@@ -13,7 +13,7 @@ public record IcaoIdentifier
 
     private static string Parse(uint code)
     {
-        Span<char> chars = stackalloc char[5];
+        Span<char> chars = stackalloc char[15];
         var index = chars.Length;
 
         do
@@ -27,10 +27,9 @@ public record IcaoIdentifier
 
         static char ToIcaoChar(uint value) => value switch
         {
-            0 => ' ',
             >= 2 and <= 11 => (char)('0' + value - 2),
             >= 12 and <= 37 => (char)('A' + value - 12),
-            _ => throw new ArgumentOutOfRangeException(nameof(value))
+            _ => ' '
         };
     }
 

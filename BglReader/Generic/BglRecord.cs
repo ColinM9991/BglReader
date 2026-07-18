@@ -30,15 +30,16 @@ public abstract class BglRecord<T> : BglNode
         Id = reader.ReadUInt16();
         Size = ReadSize(reader);
     }
-    
+
     private static T ReadSize(BinaryReader reader)
     {
-        return typeof(T) == typeof(uint)
-            ? T.CreateChecked(reader.ReadUInt32())
-            : T.CreateChecked(reader.ReadUInt16());
-    }
+        if (typeof(T) == typeof(uint))
+            return T.CreateChecked(reader.ReadUInt32());
 
-    protected static readonly int HeaderSize = sizeof(ushort) + Unsafe.SizeOf<T>();
+        return typeof(T) == typeof(ushort)
+            ? T.CreateChecked(reader.ReadUInt16())
+            : throw new NotSupportedException($"Unsupported BGL record size type {typeof(T)}.");
+    }
     
     public long Offset { get; }
 

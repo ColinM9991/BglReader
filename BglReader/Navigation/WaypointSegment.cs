@@ -6,7 +6,7 @@ public struct WaypointSegment
 {
     private WaypointSegment(
         WaypointSegmentType type,
-        ShiftedIcaoIdentifier identifier,
+        IcaoIdentifier identifier,
         IcaoIdentifier region,
         uint airportId,
         float altitudeMinimum)
@@ -20,7 +20,7 @@ public struct WaypointSegment
 
     public WaypointSegmentType Type { get; }
 
-    public ShiftedIcaoIdentifier Identifier { get; }
+    public IcaoIdentifier Identifier { get; }
 
     public IcaoIdentifier Region { get; }
 
