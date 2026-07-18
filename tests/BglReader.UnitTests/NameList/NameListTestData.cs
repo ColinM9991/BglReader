@@ -1,6 +1,6 @@
 ﻿using BglReader.NameList;
 
-namespace BglReader.UnitTests;
+namespace BglReader.UnitTests.NameList;
 
 public static class NameListTestData
 {

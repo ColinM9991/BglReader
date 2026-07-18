@@ -1,4 +1,4 @@
-﻿namespace BglReader.Airport;
+﻿namespace BglReader.Airport.Taxi;
 
 public enum TaxiPointType : byte
 {

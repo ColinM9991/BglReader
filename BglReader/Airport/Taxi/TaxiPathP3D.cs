@@ -1,4 +1,4 @@
-﻿namespace BglReader.Airport;
+﻿namespace BglReader.Airport.Taxi;
 
 public class TaxiPathP3D : TaxiPath
 {

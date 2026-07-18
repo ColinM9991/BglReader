@@ -1,4 +1,4 @@
-﻿namespace BglReader.Airport;
+﻿namespace BglReader.Airport.Taxi;
 
 public readonly struct TaxiWayPoint(
     TaxiPointType type,

@@ -1,6 +1,6 @@
 ﻿using BglReader.Generic;
 
-namespace BglReader.Airport;
+namespace BglReader.Airport.Taxi;
 
 public class AirportTaxiwayPoint : BglRecord
 {

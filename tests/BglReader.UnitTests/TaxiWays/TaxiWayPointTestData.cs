@@ -1,6 +1,6 @@
-﻿using BglReader.Airport;
+﻿using BglReader.Airport.Taxi;
 
-namespace BglReader.UnitTests.TaxiWayPoints;
+namespace BglReader.UnitTests.TaxiWays;
 
 public static class TaxiWayPointTestData
 {

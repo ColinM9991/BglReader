@@ -1,4 +1,5 @@
-﻿using BglReader.Generic;
+﻿using BglReader.Airport.Taxi;
+using BglReader.Generic;
 using BglReader.Navigation;
 using BglReader.Scenery;
 
@@ -31,7 +32,7 @@ public static class BglRecordFactory
                 new AirportTaxiwayParkingRecord(reader, airportType),
             AirportSubsectionDataType.TaxiPath or AirportSubsectionDataType.TaxiPathP3DV4
                 or AirportSubsectionDataType.TaxiPathP3DV5 => new AirportTaxiPathRecord(reader),
-            AirportSubsectionDataType.TaxiName => new AirportTaxiName(reader),
+            AirportSubsectionDataType.TaxiName => new AirportTaxiNameRecord(reader),
             AirportSubsectionDataType.Jetway => new AirportJetwayRecord(reader),
             AirportSubsectionDataType.Approach => new AirportApproachRecord(reader),
             AirportSubsectionDataType.Waypoint => new WaypointRecord(reader),
