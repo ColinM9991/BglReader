@@ -27,7 +27,7 @@ public class AirportTaxiPathRecord : BglRecord
                 TaxiPathType is AirportSubsectionDataType.TaxiPathP3DV4 or AirportSubsectionDataType.TaxiPathP3DV5
                     ? new TaxiPathP3D(reader)
                     : new TaxiPath(reader);
-            
+
             Paths.Add(taxiPath);
         }
     }

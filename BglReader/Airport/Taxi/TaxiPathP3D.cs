@@ -6,7 +6,7 @@ public class TaxiPathP3D : TaxiPath
     {
         Material = new Guid(reader.ReadBytes(16));
 
-        _ = reader.ReadBytes(4);
+        _ = reader.ReadBytes(4); // TODO Unknown. Repeated TaxiNameIndex in bytes 3-4?
     }
     
     public Guid Material { get; }

@@ -7,7 +7,7 @@ namespace BglReader.ValueObjects;
 public partial class TaxiPathFlags
 {
     [Bits(0, 12)]
-    public partial ushort EndPointIndex { get; }
+    public partial ushort EndIndex { get; }
 
     [Bits(12, 4)]
     public partial RunwayDesignator Designator { get; }

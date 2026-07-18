@@ -10,13 +10,13 @@ public class TaxiPath
         StartIndex = reader.ReadUInt16();
         PathFlags = new TaxiPathFlags(reader.ReadUInt16());
         TypeFlags = new SurfacePointFlags(reader.ReadByte());
-        TaxiNameIndex = reader.ReadByte();
+        PathValue = reader.ReadByte();
         EdgeFlags = new SurfaceLineFlags(reader.ReadByte());
         Surface = (SurfaceType)reader.ReadByte();
         Width = reader.ReadSingle();
-        WeightLimit = reader.ReadSingle();
+        WeightLimit = reader.ReadInt32();
 
-        _ = reader.ReadBytes(4);
+        _ = reader.ReadBytes(4); // TODO Unknown
     }
 
     public ushort StartIndex { get; }
@@ -25,7 +25,10 @@ public class TaxiPath
     
     public SurfacePointFlags TypeFlags { get; }
     
-    public byte TaxiNameIndex { get; }
+    /// <summary>
+    /// Runway number if this is for a runway path. Otherwise it's the index to the taxi name.
+    /// </summary>
+    public byte PathValue { get; }
     
     public SurfaceLineFlags EdgeFlags { get; }
     
@@ -33,5 +36,5 @@ public class TaxiPath
     
     public float Width { get; }
     
-    public float WeightLimit { get; }
+    public int WeightLimit { get; }
 }
