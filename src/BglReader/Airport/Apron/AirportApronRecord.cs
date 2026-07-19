@@ -11,7 +11,7 @@ public class AirportApronRecord : AirportApronBaseRecord
         MaterialSet = new Guid(reader.ReadBytes(16));
         Elevation = Elevation.FromBgl(reader.ReadInt32());
         NumberOfVertices = reader.ReadUInt16();
-        MapVertices(reader);
+        Vertices = ReadVertices(reader).ToList();
     }
 
     public TerrainFlags TerrainFlags { get; }

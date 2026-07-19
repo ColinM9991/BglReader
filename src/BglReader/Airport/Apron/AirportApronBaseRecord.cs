@@ -19,15 +19,8 @@ public abstract class AirportApronBaseRecord : BglRecord
 
     public ushort NumberOfVertices { get; init; }
 
-    public ICollection<Coordinate> Vertices { get; } = new List<Coordinate>();
+    public ICollection<Coordinate> Vertices { get; init; }
 
-    protected void MapVertices(BglBinaryReader reader)
-    {
-        if (NumberOfVertices == 0) return;
-
-        for (var vertex = 0; vertex < NumberOfVertices; vertex++)
-        {
-            Vertices.Add(reader.ReadCoordinates(hasElevation: false));
-        }
-    }
+    protected IEnumerable<Coordinate> ReadVertices(BglBinaryReader reader)
+        => Enumerable.Range(0, NumberOfVertices).Select(_ => reader.ReadCoordinates(hasElevation: false));
 }
