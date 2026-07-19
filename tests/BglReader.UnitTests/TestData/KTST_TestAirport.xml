@@ -406,7 +406,7 @@
                      lat="41.35280000"
                      lon="-89.15305000"
                      alt="199.5"
-                     altitudeIsAgl="FALSE"
+                     altitudeIsAgl="TRUE"
                      pitch="0.00"
                      clampPitch="TRUE"
                      bank="0.00"

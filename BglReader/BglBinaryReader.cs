@@ -3,37 +3,29 @@ using BglReader.Airport;
 
 namespace BglReader;
 
-public sealed class BglBinaryReader : IDisposable
+public sealed class BglBinaryReader(BinaryReader reader) : IDisposable
 {
-    private readonly BinaryReader _reader;
-
-    public BglBinaryReader(
-        BinaryReader reader)
-    {
-        _reader = reader;
-    }
-
     public long Position
     {
-        get => _reader.BaseStream.Position;
-        set => _reader.BaseStream.Position = value;
+        get => reader.BaseStream.Position;
+        set => reader.BaseStream.Position = value;
     }
     
-    public void Seek(long position) => _reader.BaseStream.Seek(position, SeekOrigin.Begin);
+    public void Seek(long position) => reader.BaseStream.Seek(position, SeekOrigin.Begin);
     
-    public byte ReadByte() => _reader.ReadByte();
+    public byte ReadByte() => reader.ReadByte();
     
-    public ushort ReadUInt16() => _reader.ReadUInt16();
+    public ushort ReadUInt16() => reader.ReadUInt16();
     
-    public short ReadInt16() => _reader.ReadInt16();
+    public short ReadInt16() => reader.ReadInt16();
     
-    public uint ReadUInt32() => _reader.ReadUInt32();
+    public uint ReadUInt32() => reader.ReadUInt32();
     
-    public int ReadInt32() => _reader.ReadInt32();
+    public int ReadInt32() => reader.ReadInt32();
     
-    public float ReadSingle() => _reader.ReadSingle();
+    public float ReadSingle() => reader.ReadSingle();
     
-    public byte[] ReadBytes(int count) => _reader.ReadBytes(count);
+    public byte[] ReadBytes(int count) => reader.ReadBytes(count);
 
     public Coordinate ReadCoordinates(bool hasElevation = true) => hasElevation
         ? Coordinate.FromBgl(ReadInt32(), ReadInt32(), ReadInt32())
@@ -43,10 +35,24 @@ public sealed class BglBinaryReader : IDisposable
 
     public string ReadString(int bytes) => Encoding.UTF8.GetString(ReadUntilNull(bytes));
 
-    private byte[] ReadUntilNull(int count) => _reader.ReadBytes(count).TakeWhile(x => x != 0).ToArray();
+    public byte[] ReadUntilNull(int count) => reader.ReadBytes(count).TakeWhile(x => x != 0).ToArray();
+    
+    public byte[] ReadUntilNull()
+    {
+        Span<byte> buffer = stackalloc byte[64];
+        var length = 0;
+
+        byte b;
+        while ((b = reader.ReadByte()) != 0)
+        {
+            buffer[length++] = b;
+        }
+
+        return buffer[..length].ToArray();
+    }
     
     public void Dispose()
     {
-        _reader.Dispose();
+        reader.Dispose();
     }
 }

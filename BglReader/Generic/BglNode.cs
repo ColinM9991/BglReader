@@ -12,12 +12,12 @@ public abstract class BglNode(BglBinaryReader reader)
 {
     protected BglBinaryReader Reader { get; } = reader;
 
-    protected long StartPosition { get; set; } = reader.Position;
+    protected long StartPosition { get; init; } = reader.Position;
 
     protected abstract long EndPosition { get; }
 
     [Conditional("DEBUG")]
-    public void AssertEndPosition()
+    internal void AssertEndPosition()
     {
         Debug.Assert(Reader.Position == EndPosition);
     }

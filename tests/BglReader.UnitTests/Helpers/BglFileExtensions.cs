@@ -2,6 +2,7 @@
 using BglReader.Generic;
 using BglReader.NameList;
 using BglReader.Navigation;
+using BglReader.Scenery;
 
 namespace BglReader.UnitTests.Helpers;
 
@@ -16,6 +17,9 @@ public static class BglFileExtensions
         public IlsVorRecord GetIlsVorRecord(string identifier) => bglFile
             .GetSubsectionDataByType<IlsVorRecord>(SectionType.IlsVor)
             .Single(x => string.Equals(identifier, x.Identifier.ToString(), StringComparison.OrdinalIgnoreCase));
+
+        public IEnumerable<TaxiSignSceneryRecord> GetTaxiSignObjectRecords() =>
+            bglFile.GetSubsectionDataByType<TaxiSignSceneryRecord>(SectionType.SceneryObject);
 
         public NameListRecord? GetNameLists() =>
             bglFile.GetSubsectionDataByType<NameListRecord>(SectionType.NameList).FirstOrDefault();

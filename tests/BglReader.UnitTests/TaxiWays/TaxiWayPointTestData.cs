@@ -21,6 +21,6 @@ public static class TaxiWayPointTestData
                 new TaxiWayPoint(TaxiPointType.Normal, TaxiPointFlag.Forward,
                     Coordinate.FromBgl(203225773, 145095329, 199500)),
             ]
-        }
+        },
     };
 }
