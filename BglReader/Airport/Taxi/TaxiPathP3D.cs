@@ -7,7 +7,7 @@ public class TaxiPathP3D : TaxiPath
     public TaxiPathP3D(BglBinaryReader reader) : base(reader)
     {
         Material = new Guid(reader.ReadBytes(16));
-        TerrainFlags = new TaxiPathSurfaceFlags(reader.ReadByte());
+        TerrainFlags = new TerrainFlags(reader.ReadByte());
         
         /*
          * Byte 1: Unknown
@@ -19,5 +19,5 @@ public class TaxiPathP3D : TaxiPath
     
     public Guid Material { get; }
     
-    public TaxiPathSurfaceFlags TerrainFlags { get; }
+    public TerrainFlags TerrainFlags { get; }
 }

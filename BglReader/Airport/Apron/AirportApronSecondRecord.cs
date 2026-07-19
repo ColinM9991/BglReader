@@ -8,7 +8,8 @@ public class AirportApronSecondRecord : AirportApronBaseRecord
         BglBinaryReader reader) : base(reader)
     {
         Flags = new ApronFlags(reader.ReadByte());
-        _ = reader.ReadBytes(20);
+        MaterialSet = new Guid(reader.ReadBytes(16));
+        Elevation = Elevation.FromBgl(reader.ReadInt32());
         NumberOfVertices = reader.ReadUInt16();
         NumberOfTriangles = reader.ReadUInt16();
         MapVertices(reader);

@@ -4,7 +4,7 @@ using BglReader.Attributes;
 namespace BglReader.ValueObjects;
 
 [BitField(typeof(byte))]
-public partial class TaxiPathSurfaceFlags
+public partial class TerrainFlags
 {
     [Bits(0, 2)]
     public partial Flatten Flatten { get; }
