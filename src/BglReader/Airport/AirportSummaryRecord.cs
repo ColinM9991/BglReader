@@ -3,7 +3,7 @@ using BglReader.ValueObjects;
 
 namespace BglReader.Airport;
 
-public sealed class AirportSummaryRecord : BglRecord
+public class AirportSummaryRecord : BglRecord
 {
     public AirportSummaryRecord(BglBinaryReader reader) : base(reader, false)
     {
@@ -15,8 +15,6 @@ public sealed class AirportSummaryRecord : BglRecord
         LongestRunwayLength = reader.ReadSingle();
         LongestRunwayHeading = reader.ReadSingle();
         FuelFlags = new AirportFuelFlags(reader.ReadUInt32());
-
-        _ = reader.ReadBytes((int)GetRemainingBytes()); // TODO Unknown
     }
     
     public AirportSummaryComFlags ComFlags { get; }

@@ -53,9 +53,7 @@ public readonly record struct TaxiParking
         var teeOffset2 = reader.ReadSingle();
         var teeOffset3 = reader.ReadSingle();
         var teeOffset4 = reader.ReadSingle();
-        var coordinate = airportType is AirportType.P3Dv5
-            ? reader.ReadCoordinates()
-            : reader.ReadCoordinates(hasElevation: false);
+        var coordinate = reader.ReadCoordinates(hasElevation: airportType is AirportType.P3Dv5);
 
         var airlineDesignators = Enumerable.Range(0, flags.NumberOfAirlineCodes)
             .Select(_ => reader.ReadString(4));

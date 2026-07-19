@@ -13,7 +13,7 @@ public abstract class AirportApronBaseRecord : BglRecord
 
     public SurfaceType SurfaceType { get; init; }
     
-    public Guid MaterialSet { get; init; }
+    public Guid? MaterialSet { get; init; }
     
     public Elevation Elevation { get; init; }
 

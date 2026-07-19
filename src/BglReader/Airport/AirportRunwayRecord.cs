@@ -24,7 +24,7 @@ public class AirportRunwayRecord : BglRecord
         LightsFlags = new RunwayLightFlags(reader.ReadByte());
         PatternFlags = new RunwayPatternFlags(reader.ReadByte());
 
-        if ((AirportSubsectionDataType)Id is AirportSubsectionDataType.RunwayP3DV4)
+        if ((AirportSubsectionDataType)Id is not AirportSubsectionDataType.Runway)
             Material = new Guid(reader.ReadBytes(16));
 
         MapSubRecords(reader);
@@ -69,13 +69,11 @@ public class AirportRunwayRecord : BglRecord
         while (reader.Position < EndPosition)
         {
             var id = reader.ReadUInt16();
-
+            
             var record = BglRecordFactory.Create((AirportRecordDataType)id, reader);
-
-            if (record is not null)
-            {
-                SubRecords.Add(record);
-            }
+            if (record is null) continue;
+            
+            SubRecords.Add(record);
         }
     }
 }

@@ -10,6 +10,15 @@ public sealed class BglBinaryReader(BinaryReader reader) : IDisposable
         get => reader.BaseStream.Position;
         set => reader.BaseStream.Position = value;
     }
+
+    public byte Peek()
+    {
+        var position = Position;
+        var nextByte = reader.ReadByte();
+
+        Seek(position);
+        return nextByte;
+    }
     
     public void Seek(long position) => reader.BaseStream.Seek(position, SeekOrigin.Begin);
     
