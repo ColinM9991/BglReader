@@ -9,7 +9,7 @@ public partial class TaxiParkingFlags
 {
     [Bits(0, 6)] public partial TaxiParkingName Name { get; }
 
-    [Bits(6, 2)] public partial PushBackType PushBack { get; }
+    [Bits(6, 2)] public partial TurnDirection PushBack { get; }
 
     [Bits(8, 4)] public partial ParkingType ParkingType { get; }
 
@@ -17,7 +17,7 @@ public partial class TaxiParkingFlags
 
     [Bits(24, 8)] public partial int NumberOfAirlineCodes { get; }
 
-    public static TaxiParkingFlags From(TaxiParkingName name, PushBackType pushBackType, ParkingType type, int number,
+    public static TaxiParkingFlags From(TaxiParkingName name, TurnDirection pushBackType, ParkingType type, int number,
         int numberOfAirlineCodes)
     {
         var val = (uint)name

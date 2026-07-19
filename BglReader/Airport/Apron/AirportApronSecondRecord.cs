@@ -1,6 +1,6 @@
 ﻿using BglReader.ValueObjects;
 
-namespace BglReader.Airport;
+namespace BglReader.Airport.Apron;
 
 public class AirportApronSecondRecord : AirportApronBaseRecord
 {

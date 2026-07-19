@@ -1,4 +1,4 @@
-﻿namespace BglReader.Airport;
+﻿namespace BglReader.Airport.Apron;
 
 public readonly struct ApronTriangle(
     ushort firstIndex,

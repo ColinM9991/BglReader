@@ -38,7 +38,7 @@ public class AirportTransitionRecord : BglRecord
     
     public float Altitude { get; }
     
-    public ShiftedIcaoIdentifier DmeIdent { get; }
+    public ShiftedIcaoIdentifier? DmeIdent { get; }
     
     public RegionIdentifierFlags? DmeRegionFlags { get; }
     
