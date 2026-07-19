@@ -4,7 +4,7 @@ public readonly struct DeleteStart(
     byte runwayNumber,
     byte runwayDesignator,
     byte type,
-    byte unused)
+    byte _)
 {
     public byte RunwayNumber { get; } = runwayNumber;
 

@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/BglReader.Console/BglReader.Console.csproj" />
+    <Project Path="src/BglReader.SourceGenerators/BglReader.SourceGenerators.csproj" />
+    <Project Path="src/BglReader/BglReader.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/BglReader.UnitTests/BglReader.UnitTests.csproj" />
+  </Folder>
+</Solution>

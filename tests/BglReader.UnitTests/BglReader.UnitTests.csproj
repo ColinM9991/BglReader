@@ -20,7 +20,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\BglReader\BglReader.csproj" />
+      <ProjectReference Include="..\..\src\BglReader\BglReader.csproj" />
     </ItemGroup>
 
     <ItemGroup>
