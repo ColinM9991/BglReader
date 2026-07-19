@@ -26,8 +26,8 @@ public class TaxiWayPathTests : TestBase
                 && x.PathFlags.EndIndex == expectedTaxiPath.EndIndex 
                 && x.PathFlags.Designator == expectedTaxiPath.Designator
                 && x.TypeFlags.Type == expectedTaxiPath.SurfacePointType
-                && x.TypeFlags.DrawDetail.Equals(expectedTaxiPath.DrawDetail)
-                && x.TypeFlags.DrawSurface.Equals(expectedTaxiPath.DrawSurface)
+                && x.TypeFlags.SurfaceFlags.DrawDetail.Equals(expectedTaxiPath.DrawDetail)
+                && x.TypeFlags.SurfaceFlags.DrawSurface.Equals(expectedTaxiPath.DrawSurface)
                 && x.PathValue == expectedTaxiPath.Value
                 && x.EdgeFlags.Equals(expectedTaxiPath.SurfaceLineFlags)
                 && x.Surface == expectedTaxiPath.Surface

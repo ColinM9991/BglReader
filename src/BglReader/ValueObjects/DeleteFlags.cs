@@ -6,12 +6,12 @@ namespace BglReader.ValueObjects;
 public enum DeleteFlags : ushort
 {
     None             = 0,
-    AllApproaches    = 1 << 0,
-    AllApronLights   = 1 << 1,
-    AllAprons        = 1 << 2,
-    AllFrequencies   = 1 << 3,
-    AllHelipads      = 1 << 4,
-    AllRunways       = 1 << 5,
-    AllStarts        = 1 << 6,
-    AllTaxiways      = 1 << 7
+    AllApproaches    = 1,
+    AllApronLights   = 2,
+    AllAprons        = 4,
+    AllFrequencies   = 8,
+    AllHelipads      = 16,
+    AllRunways       = 32,
+    AllStarts        = 64,
+    AllTaxiways      = 128
 }

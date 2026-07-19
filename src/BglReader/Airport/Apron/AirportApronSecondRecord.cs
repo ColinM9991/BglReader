@@ -7,7 +7,7 @@ public class AirportApronSecondRecord : AirportApronBaseRecord
     public AirportApronSecondRecord(
         BglBinaryReader reader) : base(reader)
     {
-        Flags = new ApronFlags(reader.ReadByte());
+        Flags = new SurfaceFlags(reader.ReadByte());
         MaterialSet = new Guid(reader.ReadBytes(16));
         Elevation = Elevation.FromBgl(reader.ReadInt32());
         NumberOfVertices = reader.ReadUInt16();
@@ -19,7 +19,7 @@ public class AirportApronSecondRecord : AirportApronBaseRecord
             reader.ReadUInt16())).ToList();
     }
 
-    public ApronFlags Flags { get; }
+    public SurfaceFlags Flags { get; }
 
     public ushort NumberOfTriangles { get; }
 
