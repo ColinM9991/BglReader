@@ -1,7 +1,5 @@
 ﻿using BglReader.Airport;
-using BglReader.UnitTests.Helpers;
 using BglReader.ValueObjects;
-using FluentAssertions;
 
 namespace BglReader.UnitTests;
 
@@ -41,12 +39,12 @@ public class RunwaySubRecordTests : TestBase
             .GetRunway(runwayNumber)
             .GetSubRecordByType(type);
 
-        offset.Should().NotBeNull();
+        offset.ShouldNotBeNull();
 
-        offset.Type.Should().Be(expectedSubReportType);
-        offset.SurfaceType.Should().Be(expectedSurfaceType);
-        offset.Length.Should().Be(expectedLength);
-        offset.Width.Should().Be(expectedWidth);
+        offset.Type.ShouldBe(expectedSubReportType);
+        offset.SurfaceType.ShouldBe(expectedSurfaceType);
+        offset.Length.ShouldBe(expectedLength);
+        offset.Width.ShouldBe(expectedWidth);
     }
 
     [Theory]
@@ -79,13 +77,13 @@ public class RunwaySubRecordTests : TestBase
             .GetRunway(runwayNumber)
             .GetSubRecordByType<AirportApproachLightsSubRecord>(type);
 
-        approachLights.Should().NotBeNull();
+        approachLights.ShouldNotBeNull();
 
-        approachLights.NumberOfStrobes.Should().Be((byte)expectedStrobes);
-        approachLights.Flags.System.Should().Be(expectedSystem);
-        approachLights.Flags.Reil.Should().Be(expectedReil);
-        approachLights.Flags.Touchdown.Should().Be(expectedTouchdown);
-        approachLights.Flags.EndLights.Should().Be(expectedEndLights);
+        approachLights.NumberOfStrobes.ShouldBe((byte)expectedStrobes);
+        approachLights.Flags.System.ShouldBe(expectedSystem);
+        approachLights.Flags.Reil.ShouldBe(expectedReil);
+        approachLights.Flags.Touchdown.ShouldBe(expectedTouchdown);
+        approachLights.Flags.EndLights.ShouldBe(expectedEndLights);
     }
 
     [Theory]
@@ -118,12 +116,12 @@ public class RunwaySubRecordTests : TestBase
             .GetRunway(runwayNumber)
             .GetSubRecordByType<AirportVasiSubRecord>(type);
 
-        approachLights.Should().NotBeNull();
+        approachLights.ShouldNotBeNull();
 
-        approachLights.Type.Should().Be(expectedVasiType);
-        approachLights.BiasX.Should().Be(expectedBiasX);
-        approachLights.BiasZ.Should().Be(expectedBiasZ);
-        approachLights.Spacing.Should().Be(expectedSpacing);
-        approachLights.Pitch.Should().Be(expectedPitch);
+        approachLights.Type.ShouldBe(expectedVasiType);
+        approachLights.BiasX.ShouldBe(expectedBiasX);
+        approachLights.BiasZ.ShouldBe(expectedBiasZ);
+        approachLights.Spacing.ShouldBe(expectedSpacing);
+        approachLights.Pitch.ShouldBe(expectedPitch);
     }
 }

@@ -10,13 +10,13 @@ public class ApronSubRecordTests : TestBase
     {
         var aprons = GetBglFile(fileName).GetAirport(identifier).GetSubRecordByType<AirportApronRecord>();
 
-        aprons.Should().NotBeNull();
-        aprons.Should().NotBeEmpty();
-        aprons.Should().HaveCount(expectedAprons.Length);
+        aprons.ShouldNotBeNull();
+        aprons.ShouldNotBeEmpty();
+        aprons.Count.ShouldBe(expectedAprons.Length);
 
         foreach (var expectedApron in expectedAprons)
         {
-            aprons.Should().Contain(x =>
+            aprons.ShouldContain(x =>
                 x.SurfaceType == expectedApron.SurfaceType
                 && x.TerrainFlags.SurfaceQuery == expectedApron.SurfaceQuery
                 && x.TerrainFlags.Flatten == expectedApron.Flatten
@@ -33,13 +33,13 @@ public class ApronSubRecordTests : TestBase
     {
         var aprons = GetBglFile(fileName).GetAirport(identifier).GetSubRecordByType<AirportApronSecondRecord>();
 
-        aprons.Should().NotBeNull();
-        aprons.Should().NotBeEmpty();
-        aprons.Should().HaveCount(expectedAprons.Length);
+        aprons.ShouldNotBeNull();
+        aprons.ShouldNotBeEmpty();
+        aprons.Count.ShouldBe(expectedAprons.Length);
 
         foreach (var expectedApron in expectedAprons)
         {
-            aprons.Should().Contain(x =>
+            aprons.ShouldContain(x =>
                 x.SurfaceType == expectedApron.SurfaceType
                 && x.Flags.DrawDetail == expectedApron.DrawDetail
                 && x.Flags.DrawSurface == expectedApron.DrawSurface

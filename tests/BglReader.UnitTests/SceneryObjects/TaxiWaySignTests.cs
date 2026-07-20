@@ -8,13 +8,13 @@ public class TaxiWaySignTests : TestBase
     {
         var taxiWaySignRecords = GetBglFile(fileName).GetTaxiSignObjectRecords().ToList();
 
-        taxiWaySignRecords.Should().NotBeNull();
-        taxiWaySignRecords.Should().NotBeEmpty();
+        taxiWaySignRecords.ShouldNotBeNull();
+        taxiWaySignRecords.ShouldNotBeEmpty();
 
         const double tolerance = 0.005;
         foreach (var expectedRecord in expectedRecords)
         {
-            taxiWaySignRecords.Should().Contain(x => x.Coordinates.Equals(expectedRecord.Base.Coordinates)
+            taxiWaySignRecords.ShouldContain(x => x.Coordinates.Equals(expectedRecord.Base.Coordinates)
                                                      && x.Flags == expectedRecord.Base.Flags
                                                      && Math.Abs(x.Pitch - expectedRecord.Base.Pitch) < tolerance
                                                      && Math.Abs(x.Bank - expectedRecord.Base.Bank) < tolerance
@@ -31,14 +31,14 @@ public class TaxiWaySignTests : TestBase
     {
         var taxiWaySignRecords = GetBglFile(fileName).GetTaxiSignObjectRecords().ToList();
 
-        taxiWaySignRecords.Should().NotBeNull();
-        taxiWaySignRecords.Should().NotBeEmpty();
+        taxiWaySignRecords.ShouldNotBeNull();
+        taxiWaySignRecords.ShouldNotBeEmpty();
 
         var taxiWaySigns = taxiWaySignRecords.SelectMany(x => x.Signs).ToList();
 
         foreach (var expectedRecord in expectedRecords.SelectMany(x => x.Signs))
         {
-            taxiWaySigns.Should().Contain(x =>
+            taxiWaySigns.ShouldContain(x =>
                 x.Coordinates.Equals(expectedRecord.Coordinates)
                 && x.Pitch == expectedRecord.Pitch
                 && x.Bank == expectedRecord.Bank

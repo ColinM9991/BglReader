@@ -1,3 +1,3 @@
 ﻿global using BglReader.UnitTests.Helpers;
-global using FluentAssertions;
+global using Shouldly;
 global using Xunit;

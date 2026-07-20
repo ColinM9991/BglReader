@@ -16,12 +16,12 @@ public class TaxiWayPathTests : TestBase
             .GetSubRecordByType<AirportTaxiPathRecord>()
             .Single();
 
-        taxiPathRecords.Should().NotBeNull();
+        taxiPathRecords.ShouldNotBeNull();
         
         const float tolerance = 0.02f;
         foreach (var expectedTaxiPath in expectedTaxiPaths)
         {
-            taxiPathRecords.Paths.Should().Contain(x =>
+            taxiPathRecords.Paths.ShouldContain(x =>
                 x.StartIndex == expectedTaxiPath.StartIndex
                 && x.PathFlags.EndIndex == expectedTaxiPath.EndIndex 
                 && x.PathFlags.Designator == expectedTaxiPath.Designator

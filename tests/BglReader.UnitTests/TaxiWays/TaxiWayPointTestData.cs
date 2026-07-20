@@ -4,23 +4,39 @@ namespace BglReader.UnitTests.TaxiWays;
 
 public static class TaxiWayPointTestData
 {
-    public static TheoryData<string, string, TaxiWayPoint[]> TaxiWayPointsData => new()
+    private static Dictionary<string, Latitude> AirportLatitudes = new()
     {
-        {
-            "KTST_TestAirport.bgl",
-            "KTST",
-            [
-                new TaxiWayPoint(TaxiPointType.Normal, TaxiPointFlag.Forward,
-                    Coordinate.FromBgl(203221094, 145095778, 199500)),
-                new TaxiWayPoint(TaxiPointType.HoldShort, TaxiPointFlag.Forward,
-                    Coordinate.FromBgl(203221113, 145106759, 199500)),
-                new TaxiWayPoint(TaxiPointType.IlsHoldShort, TaxiPointFlag.Reverse,
-                    Coordinate.FromBgl(203221113, 145102733, 199500)),
-                new TaxiWayPoint(TaxiPointType.Normal, TaxiPointFlag.Forward,
-                    Coordinate.FromBgl(203224325, 145107296, 199500)),
-                new TaxiWayPoint(TaxiPointType.Normal, TaxiPointFlag.Forward,
-                    Coordinate.FromBgl(203225773, 145095329, 199500)),
-            ]
-        },
+        ["KTST"] = Latitude.Quantized(41.35186742),
     };
+
+    public static TheoryData<string, string, TaxiWayPoint[]> TaxiWayPointsData()
+    {
+        const string identifier = "KTST";
+        var airportLatitude = AirportLatitudes[identifier];
+        return new()
+        {
+            {
+                "KTST_TestAirport.bgl",
+                identifier,
+                [
+                    new TaxiWayPoint(TaxiPointType.Normal, TaxiPointFlag.Forward,
+                        new Coordinate(Longitude.Quantized(-89.15309158), Latitude.Quantized(41.35284943),
+                            new Elevation(199.500))),
+                    new TaxiWayPoint(TaxiPointType.HoldShort, TaxiPointFlag.Forward,
+                        new Coordinate(Longitude.Quantized(-89.15308328), Latitude.Quantized(airportLatitude, -300),
+                            new Elevation(199.500))),
+                    new TaxiWayPoint(TaxiPointType.IlsHoldShort, TaxiPointFlag.Reverse,
+                        new Coordinate(Longitude.Quantized(-89.15308328), Latitude.Quantized(airportLatitude, -150),
+                            new Elevation(199.500))),
+                    new TaxiWayPoint(TaxiPointType.Normal, TaxiPointFlag.Forward,
+                        new Coordinate(Longitude.Quantized(-89.15308328, airportLatitude, 120),
+                            Latitude.Quantized(airportLatitude, -320.005),
+                            new Elevation(199.500))),
+                    new TaxiWayPoint(TaxiPointType.Normal, TaxiPointFlag.Forward,
+                        new Coordinate(Longitude.Quantized(-89.15100000), Latitude.Quantized(41.35300000),
+                            new Elevation(199.500))),
+                ]
+            }
+        };
+    }
 }

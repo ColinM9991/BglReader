@@ -22,8 +22,8 @@ public class TaxiSignSceneryRecord : LibrarySceneryRecordBase
         var longitudeOffset = reader.ReadSingle();
         var latitudeOffset = reader.ReadSingle();
 
-        var latitude = Latitude.FromBglOffset(Coordinates.Latitude, latitudeOffset);;
-        var longitude = Longitude.FromBglOffset(Coordinates.Longitude, latitude, longitudeOffset);
+        var longitude = CoordinateCalculator.OffsetLongitude(Coordinates.Longitude, Coordinates.Latitude, longitudeOffset);
+        var latitude = CoordinateCalculator.OffsetLatitude(Coordinates.Latitude, latitudeOffset);
         var coordinates = new Coordinate(longitude, latitude, new Elevation(reader.ReadSingle()));
 
         var pitch = reader.ReadInt16();

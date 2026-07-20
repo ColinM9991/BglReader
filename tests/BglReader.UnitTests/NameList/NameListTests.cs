@@ -10,8 +10,11 @@ public class NameListTests : TestBase
     {
         var nameLists = GetBglFile(fileName).GetNameLists();
         
-        nameLists.Should().NotBeNull();
+        nameLists.ShouldNotBeNull();
 
-        nameLists.Names.Should().BeEquivalentTo(expectedNames);
+        foreach (var expectedName in expectedNames)
+        {
+            nameLists.Names[expectedName.Key].ShouldBeEquivalentTo(expectedName.Value);
+        }
     }
 }

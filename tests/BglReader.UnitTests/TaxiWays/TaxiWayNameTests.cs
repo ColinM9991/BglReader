@@ -13,9 +13,9 @@ public class TaxiWayNameTests : TestBase
             .GetSubRecordByType<AirportTaxiNameRecord>()
             .Single();
         
-        taxiNames.Should().NotBeNull();
+        taxiNames.ShouldNotBeNull();
         
-        taxiNames.NumberOfRecords.Should().Be((ushort)expectedNames.Length);
-        taxiNames.Records.Should().BeEquivalentTo(expectedNames);
+        taxiNames.NumberOfRecords.ShouldBe((ushort)expectedNames.Length);
+        taxiNames.Records.ShouldBeEquivalentTo(expectedNames.ToList());
     }
 }

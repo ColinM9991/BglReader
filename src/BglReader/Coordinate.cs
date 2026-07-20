@@ -9,18 +9,18 @@ public readonly struct Coordinate(
         Latitude latitude,
         Elevation elevation) : this(longitude, latitude)
     {
-        Elevation = elevation.Value;
+        Elevation = elevation;
     }
 
-    public double Latitude { get; } = latitude.Value;
+    public Latitude Latitude { get; } = latitude;
 
-    public double Longitude { get; } = longitude.Value;
+    public Longitude Longitude { get; } = longitude;
 
-    public float? Elevation { get; } = null;
+    public Elevation? Elevation { get; } = null;
     
-    public static Coordinate FromBgl(int longitude, int latitude) => new(BglReader.Longitude.FromDword(longitude), BglReader.Latitude.FromDword(latitude));
+    internal static Coordinate FromBgl(int longitude, int latitude) => new(Longitude.FromDword(longitude), Latitude.FromDword(latitude));
     
-    public static Coordinate FromBgl(int longitude, int latitude, int elevation) => new(BglReader.Longitude.FromDword(longitude), BglReader.Latitude.FromDword(latitude), BglReader.Elevation.FromBgl(elevation));
+    internal static Coordinate FromBgl(int longitude, int latitude, int elevation) => new(Longitude.FromDword(longitude), Latitude.FromDword(latitude), BglReader.Elevation.FromBgl(elevation));
 
     public bool Equals(Coordinate other)
     {

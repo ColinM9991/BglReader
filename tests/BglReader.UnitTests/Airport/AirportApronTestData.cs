@@ -13,10 +13,10 @@ public static class AirportApronTestData
             [
                 new ExpectedApronRecord(SurfaceType.Concrete, SurfaceQuery.Default, Flatten.Default, Guid.Empty,
                     new Elevation(199.5f), 4, [
-                        Coordinate.FromBgl(203225102, 145095031),
-                        Coordinate.FromBgl(203226220, 145095031),
-                        Coordinate.FromBgl(203226220, 145094136),
-                        Coordinate.FromBgl(203225102, 145094136)
+                        new Coordinate(Longitude.Quantized(-89.15130000), Latitude.Quantized(41.35310000)),
+                        new Coordinate(Longitude.Quantized(-89.15080000), Latitude.Quantized(41.35310000)),
+                        new Coordinate(Longitude.Quantized(-89.15080000), Latitude.Quantized(41.35340000)),
+                        new Coordinate(Longitude.Quantized(-89.15130000), Latitude.Quantized(41.35340000))
                     ])
             ]
         }
@@ -30,10 +30,10 @@ public static class AirportApronTestData
             [
                 new ExpectedSecondApronRecord(SurfaceType.Concrete, true, true, Guid.Empty,
                     new Elevation(199.5f), 4, 2, [
-                        Coordinate.FromBgl(203225102, 145095031),
-                        Coordinate.FromBgl(203226220, 145095031),
-                        Coordinate.FromBgl(203226220, 145094136),
-                        Coordinate.FromBgl(203225102, 145094136)
+                        new Coordinate(Longitude.Quantized(-89.15130000), Latitude.Quantized(41.35310000)),
+                        new Coordinate(Longitude.Quantized(-89.15080000), Latitude.Quantized(41.35310000)),
+                        new Coordinate(Longitude.Quantized(-89.15080000), Latitude.Quantized(41.35340000)),
+                        new Coordinate(Longitude.Quantized(-89.15130000), Latitude.Quantized(41.35340000))
                     ])
             ]
         }

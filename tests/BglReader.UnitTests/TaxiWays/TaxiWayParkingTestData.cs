@@ -20,7 +20,7 @@ public static class TaxiWayParkingTestData
                     0f,
                     0f,
                     0f,
-                    Coordinate.FromBgl(203226220, 145094733, 199339),
+                    new Coordinate(Longitude.Quantized(-89.15080000), Latitude.Quantized(41.35320000), new Elevation(199.33900451660156)),
                     ["BAW", "AAL", "UAL"]),
                 new TaxiParking(
                     TaxiParkingFlags.From(TaxiParkingName.Parking, TurnDirection.Either, ParkingType.RampGASmall, 2, 0),
@@ -30,7 +30,7 @@ public static class TaxiWayParkingTestData
                     0f,
                     0f,
                     0f,
-                    Coordinate.FromBgl(203226220, 145094733, 199339),
+                    new Coordinate(Longitude.Quantized(-89.15080000), Latitude.Quantized(41.35320000), new Elevation(199.33900451660156)),
                     []),
             ]
         }

@@ -15,18 +15,20 @@ public class IlsVorRecordTests : TestBase
         var ilsVorRecord = GetBglFile(fileName)
             .GetIlsVorRecord(identifier);
 
-        ilsVorRecord.Should().NotBeNull();
-        ilsVorRecord.Type.Should().Be(expectedData.Type);
-        ilsVorRecord.Coordinates.Should().BeEquivalentTo(expectedData.Coordinates);
-        ilsVorRecord.Frequency.Should().BeEquivalentTo(expectedData.Frequency);
-        ilsVorRecord.Range.Should().Be(expectedData.Range);
-        ilsVorRecord.MagneticVariation.Should().Be(expectedData.MagneticVariation);
-        ilsVorRecord.RegionFlags.Identifier.ToString().Should().Be(expectedData.RegionIdentifier);
-        ilsVorRecord.Flags.IsNotDmeOnly.Should().Be(expectedData.IsDme);
-        ilsVorRecord.Flags.IsBackCourse.Should().Be(expectedData.IsBackCourse);
-        ilsVorRecord.Flags.HasGlideslope.Should().Be(expectedData.HasGlideslope);
-        ilsVorRecord.Flags.IsDmePresent.Should().Be(expectedData.IsDmePresent);
-        ilsVorRecord.Flags.NavTrue.Should().Be(expectedData.NavTrue);
+        ilsVorRecord.ShouldNotBeNull();
+        ilsVorRecord.Type.ShouldBe(expectedData.Type);
+        ilsVorRecord.Coordinates.Longitude.ShouldBe(expectedData.Coordinates.Longitude);
+        ilsVorRecord.Coordinates.Latitude.ShouldBe(expectedData.Coordinates.Latitude);
+        ilsVorRecord.Coordinates.Elevation!.Value.Value.ShouldBe(expectedData.Coordinates.Elevation!.Value.Value, 0.0001f);
+        ilsVorRecord.Frequency.ShouldBeEquivalentTo(expectedData.Frequency);
+        ilsVorRecord.Range.ShouldBe(expectedData.Range);
+        ilsVorRecord.MagneticVariation.ShouldBe(expectedData.MagneticVariation);
+        ilsVorRecord.RegionFlags.Identifier.ToString().ShouldBe(expectedData.RegionIdentifier);
+        ilsVorRecord.Flags.IsNotDmeOnly.ShouldBe(expectedData.IsDme);
+        ilsVorRecord.Flags.IsBackCourse.ShouldBe(expectedData.IsBackCourse);
+        ilsVorRecord.Flags.HasGlideslope.ShouldBe(expectedData.HasGlideslope);
+        ilsVorRecord.Flags.IsDmePresent.ShouldBe(expectedData.IsDmePresent);
+        ilsVorRecord.Flags.NavTrue.ShouldBe(expectedData.NavTrue);
     }
 
     [Theory]
@@ -40,11 +42,13 @@ public class IlsVorRecordTests : TestBase
             .GetIlsVorRecord(ilsIdentifier)
             .GetRecordType<GlideslopeRecord>();
         
-        glideSlopeRecord.Should().NotBeNull();
+        glideSlopeRecord.ShouldNotBeNull();
 
-        glideSlopeRecord.Coordinates.Should().Be(expectedData.Coordinates);
-        glideSlopeRecord.Pitch.Should().Be(expectedData.Pitch);
-        glideSlopeRecord.Range.Should().Be(expectedData.Range);
+        glideSlopeRecord.Coordinates.Longitude.ShouldBe(expectedData.Coordinates.Longitude);
+        glideSlopeRecord.Coordinates.Latitude.ShouldBe(expectedData.Coordinates.Latitude);
+        glideSlopeRecord.Coordinates.Elevation!.Value.Value.ShouldBe(expectedData.Coordinates.Elevation!.Value.Value, 0.0001f);
+        glideSlopeRecord.Pitch.ShouldBe(expectedData.Pitch);
+        glideSlopeRecord.Range.ShouldBe(expectedData.Range);
     }
 
     [Theory]
@@ -58,12 +62,12 @@ public class IlsVorRecordTests : TestBase
             .GetIlsVorRecord(ilsIdentifier)
             .GetRecordType<LocalizerRecord>();
         
-        localizerRecord.Should().NotBeNull();
+        localizerRecord.ShouldNotBeNull();
         
-        localizerRecord.RunwayNumber.Should().Be(expectedData.RunwayNumber);
-        localizerRecord.Designator.Should().Be(expectedData.Designator);
-        localizerRecord.Heading.Should().BeApproximately(expectedData.Heading, .000005f);
-        localizerRecord.BeamWidthDegrees.Should().Be(expectedData.BeamWidth);
+        localizerRecord.RunwayNumber.ShouldBe(expectedData.RunwayNumber);
+        localizerRecord.Designator.ShouldBe(expectedData.Designator);
+        localizerRecord.Heading.ShouldBe(expectedData.Heading, .000005f);
+        localizerRecord.BeamWidthDegrees.ShouldBe(expectedData.BeamWidth);
     }
 
     [Theory]
@@ -74,8 +78,8 @@ public class IlsVorRecordTests : TestBase
             .GetIlsVorRecord(ilsIdentifier)
             .GetRecordType<NameRecord>();
         
-        nameRecord.Should().NotBeNull();
+        nameRecord.ShouldNotBeNull();
         
-        nameRecord.Name.Should().Be(expectedName);
+        nameRecord.Name.ShouldBe(expectedName);
     }
 }

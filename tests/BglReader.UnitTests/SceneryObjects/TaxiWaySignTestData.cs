@@ -10,14 +10,14 @@ public static class TaxiWaySignTestData
             "KTST_TestAirport.bgl",
             [
                 new ExpectedTaxiSignSceneryRecord(new ExpectedLibrarySceneryRecordBase(
-                        Coordinate.FromBgl(203221187, 145095926, 0),
+                        new Coordinate(Longitude.Quantized(-89.15305000), Latitude.Quantized(41.35280000), new Elevation(0)),
                         LibraryObjectFlags.AboveGroundLevel,
                         0,
                         0,
                         0,
                         ImageComplexity.Normal, Guid.Empty),
                     [
-                        new TaxiWaySign(Coordinate.FromBgl(203221187, 145095926, 199500), 0, 0, 90,
+                        new TaxiWaySign(new Coordinate(Longitude.Quantized(-89.15305000), Latitude.Quantized(41.35280000), new Elevation(199.5)), 0, 0, 90,
                             TaxiSignFlags.IsAgl | TaxiSignFlags.ClampPitch | TaxiSignFlags.ClampBank,
                             TaxiSignSize.Size3, TaxiSignJustification.Left, "l[A]d[B\\]m[18-36]")
                     ])
