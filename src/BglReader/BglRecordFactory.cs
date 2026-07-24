@@ -88,7 +88,8 @@ public static class BglRecordFactory
         {
             SceneryObjectType.TaxiSign
                 or SceneryObjectType.TaxiSignFS9
-                or SceneryObjectType.TaxiSignP3D => new TaxiSignSceneryRecord(reader),
+                or SceneryObjectType.TaxiSignP3D => new TaxiSignSceneryRecordV5(reader),
+            SceneryObjectType.TaxiSignP3DV6 => new TaxiSignSceneryRecordV6(reader),
             SceneryObjectType.LibraryObject
                 or SceneryObjectType.LibraryObjectFS9 => new LibrarySceneryRecord(reader),
             _ => null,

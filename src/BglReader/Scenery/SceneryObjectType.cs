@@ -5,6 +5,7 @@ public enum SceneryObjectType
     TaxiSign = 0x000E,
     TaxiSignFS9 = 0x0005,
     TaxiSignP3D = 0x0013,
+    TaxiSignP3DV6 = 0x0014,
     
     LibraryObject = 0x000B,
     LibraryObjectFS9 = 0x0002,

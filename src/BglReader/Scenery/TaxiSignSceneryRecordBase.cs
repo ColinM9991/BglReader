@@ -1,24 +1,21 @@
-using System.Text;
+﻿using System.Text;
 
 namespace BglReader.Scenery;
 
-public class TaxiSignSceneryRecord : LibrarySceneryRecordBase
+public abstract class TaxiSignSceneryRecordBase(BglBinaryReader reader) : LibrarySceneryRecordBase(reader)
 {
-    private const int MemorySizeBytes = 12;
+    public uint NumberOfSigns { get; } = reader.ReadUInt32();
 
-    public TaxiSignSceneryRecord(BglBinaryReader reader) : base(reader)
+    public ICollection<TaxiWaySign> Signs { get; private set; } = [];
+
+    protected void CreateSigns(BglBinaryReader reader)
     {
-        NumberOfSigns = reader.ReadUInt32();
-
         Signs = Enumerable.Range(0, (int)NumberOfSigns).Select(_ => CreateTaxiWaySign(reader)).ToList();
     }
-
-    public uint NumberOfSigns { get; }
-
-    public ICollection<TaxiWaySign> Signs { get; } = [];
-
+    
     private TaxiWaySign CreateTaxiWaySign(BglBinaryReader reader)
     {
+        const int memorySizeBytes = 12;
         var longitudeOffset = reader.ReadSingle();
         var latitudeOffset = reader.ReadSingle();
 
@@ -36,7 +33,7 @@ public class TaxiSignSceneryRecord : LibrarySceneryRecordBase
         var labelBytes = reader.ReadUntilNull();
 
         var label = Encoding.ASCII.GetString(labelBytes);
-        var labelLength = MemorySizeBytes + labelBytes.Length + 1;
+        var labelLength = memorySizeBytes + labelBytes.Length + 1;
         if ((labelLength & 1) != 0)
         {
             reader.ReadByte(); // Consume alignment padding

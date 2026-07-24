@@ -18,8 +18,8 @@ public static class BglFileExtensions
             .GetSubsectionDataByType<IlsVorRecord>(SectionType.IlsVor)
             .Single(x => string.Equals(identifier, x.Identifier.ToString(), StringComparison.OrdinalIgnoreCase));
 
-        public IEnumerable<TaxiSignSceneryRecord> GetTaxiSignObjectRecords() =>
-            bglFile.GetSubsectionDataByType<TaxiSignSceneryRecord>(SectionType.SceneryObject);
+        public IEnumerable<TaxiSignSceneryRecordV5> GetTaxiSignObjectRecords() =>
+            bglFile.GetSubsectionDataByType<TaxiSignSceneryRecordV5>(SectionType.SceneryObject);
 
         public NameListRecord? GetNameLists() =>
             bglFile.GetSubsectionDataByType<NameListRecord>(SectionType.NameList).FirstOrDefault();
