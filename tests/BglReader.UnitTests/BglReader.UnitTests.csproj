@@ -24,7 +24,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="TestData\KTST_TestAirport.BGL">
+      <None Update="TestData\*.BGL">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
     </ItemGroup>

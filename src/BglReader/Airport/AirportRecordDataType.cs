@@ -14,5 +14,9 @@ public enum AirportRecordDataType : ushort
     VasiRightSecondary = 0x000E,
     ApproachLightsPrimary = 0x000F,
     ApproachLightsSecondary = 0x0010,
-    MarkingBias = 0x0065
+    MarkingBias = 0x0065,
+    
+    // P3DV6
+    ApproachLightsBiasPrimary = 0x00B3,
+    ApproachLightsBiasSecondary = 0x00B4,
 }

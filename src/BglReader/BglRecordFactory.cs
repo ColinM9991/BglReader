@@ -68,6 +68,7 @@ public static class BglRecordFactory
             AirportRecordDataType.ApproachLightsPrimary or AirportRecordDataType.ApproachLightsSecondary =>
                 new AirportApproachLightsSubRecord(reader),
             AirportRecordDataType.MarkingBias => new AirportMarkingBiasSubReportRecord(reader),
+            AirportRecordDataType.ApproachLightsBiasPrimary or AirportRecordDataType.ApproachLightsBiasSecondary => new ApproachLightsBiasSubRecord(reader),
             _ => null,
         };
 
