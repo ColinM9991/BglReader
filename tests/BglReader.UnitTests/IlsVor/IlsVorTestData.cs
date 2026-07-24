@@ -8,7 +8,7 @@ public static class IlsVorTestData
     public static TheoryData<string, string, ExpectedIlsVorData> IlsVorData => new()
     {
         {
-            "KTST_TestAirport.bgl",
+            "KTST_TestAirport_v5.bgl",
             "ITST",
             new ExpectedIlsVorData(
                 IlsVorType.ILS,
@@ -28,7 +28,7 @@ public static class IlsVorTestData
     public static TheoryData<string, string, ExpectedGlideSlopeData> GlideSlopeData => new()
     {
         {
-            "KTST_TestAirport.bgl",
+            "KTST_TestAirport_v5.bgl",
             "ITST",
             new ExpectedGlideSlopeData(
                 new Coordinate(Longitude.Quantized(-89.15309158), Latitude.Quantized(41.35104943), new Elevation(67.665)),
@@ -40,7 +40,7 @@ public static class IlsVorTestData
     public static TheoryData<string, string, ExpectedLocalizerData> LocalizerData => new()
     {
         {
-            "KTST_TestAirport.bgl",
+            "KTST_TestAirport_v5.bgl",
             "ITST",
             new ExpectedLocalizerData(
                 18,

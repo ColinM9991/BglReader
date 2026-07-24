@@ -2,7 +2,7 @@
 setlocal EnableExtensions
 
 :: Path to the P3D v6 SDK BglComp.exe
-set "BGLCOMP=C:\Program Files\Lockheed Martin\Prepar3D v6 SDK 6.1.10.31609\World\Scenery\bglcomp.exe"
+set "BGLCOMP=C:\Program Files\Lockheed Martin\Prepar3D v5 SDK 5.4.9.28482\World\Scenery\bglcomp.exe"
 
 :: Root folder containing XML files
 set "ROOT=%~dp0"

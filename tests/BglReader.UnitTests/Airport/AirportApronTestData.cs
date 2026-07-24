@@ -8,7 +8,7 @@ public static class AirportApronTestData
     public static TheoryData<string, string, ExpectedApronRecord[]> AirportApronData => new()
     {
         {
-            "KTST_TestAirport.bgl",
+            "KTST_TestAirport_v5.bgl",
             "KTST",
             [
                 new ExpectedApronRecord(SurfaceType.Concrete, SurfaceQuery.Default, Flatten.Default, Guid.Empty,
@@ -25,7 +25,7 @@ public static class AirportApronTestData
     public static TheoryData<string, string, ExpectedSecondApronRecord[]> AirportSecondApronData => new()
     {
         {
-            "KTST_TestAirport.bgl",
+            "KTST_TestAirport_v5.bgl",
             "KTST",
             [
                 new ExpectedSecondApronRecord(SurfaceType.Concrete, true, true, Guid.Empty,

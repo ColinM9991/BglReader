@@ -16,7 +16,7 @@ public static class TaxiWayPointTestData
         return new()
         {
             {
-                "KTST_TestAirport.bgl",
+                "KTST_TestAirport_v5.bgl",
                 identifier,
                 [
                     new TaxiWayPoint(TaxiPointType.Normal, TaxiPointFlag.Forward,

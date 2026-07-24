@@ -7,7 +7,7 @@ public static class TaxiWaySignTestData
     public static TheoryData<string, ExpectedTaxiSignSceneryRecord[]> TaxiWaySignData => new()
     {
         {
-            "KTST_TestAirport.bgl",
+            "KTST_TestAirport_v5.bgl",
             [
                 new ExpectedTaxiSignSceneryRecord(new ExpectedLibrarySceneryRecordBase(
                         new Coordinate(Longitude.Quantized(-89.15305000), Latitude.Quantized(41.35280000), new Elevation(0)),

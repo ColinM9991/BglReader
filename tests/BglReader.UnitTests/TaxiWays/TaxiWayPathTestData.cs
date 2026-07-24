@@ -9,7 +9,7 @@ public static class TaxiWayPathTestData
     public static TheoryData<string, string, ExpectedTaxiPathData[]> TaxiWayPathData => new()
     {
         {
-            "KTST_TestAirport.bgl",
+            "KTST_TestAirport_v5.bgl",
             "KTST",
             [
                 new ExpectedTaxiPathData(
