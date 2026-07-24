@@ -36,11 +36,12 @@ public static class BglRecordFactory
                 or AirportSubsectionDataType.TaxiPathP3DV5 => new AirportTaxiPathRecord(reader),
             AirportSubsectionDataType.TaxiName => new AirportTaxiNameRecord(reader),
             AirportSubsectionDataType.Jetway => new AirportJetwayRecord(reader),
-            AirportSubsectionDataType.Approach => new AirportApproachRecord(reader),
+            AirportSubsectionDataType.Approach or AirportSubsectionDataType.ApproachP3DV6 => new AirportApproachRecord(reader),
             AirportSubsectionDataType.Waypoint => new WaypointRecord(reader),
             AirportSubsectionDataType.BlastFence or AirportSubsectionDataType.BoundaryFence =>
                 new AirportFenceRecord(reader),
             AirportSubsectionDataType.Polygon => new AirportPolygonRecord(reader),
+            AirportSubsectionDataType.VisualModelBinding => new VisualModelBindingRecord(reader),
             _ => null,
         };
 

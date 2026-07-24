@@ -2,7 +2,7 @@
 <FSData
        version="9.0"
        xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-       xsi:noNamespaceSchemaLocation="bglcomp_v5.xsd"
+       xsi:noNamespaceSchemaLocation="bglcomp_v6.xsd"
 >
 
        <!-- ============================================================
@@ -206,7 +206,7 @@
                      type="ILS"
                      runway="18"
                      designator="NONE"
-                     fixType="RUNWAY"
+                     fixType="VOR"
                      fixRegion="K1"
                      fixIdent="RW18"
                      altitude="304.8"
@@ -337,6 +337,8 @@
                      centerLineLighted="TRUE"
                      leftEdge="SOLID"
                      leftEdgeLighted="TRUE"
+                     leftEdgeLightFixture="ELEVATED"
+                     rightEdgeLightFixture="INSET"
                      rightEdge="SOLID"
                      rightEdgeLighted="TRUE"
                      number="18"

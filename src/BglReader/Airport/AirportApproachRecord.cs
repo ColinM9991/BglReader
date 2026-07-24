@@ -15,8 +15,10 @@ public class AirportApproachRecord : BglRecord
         NumberOfTransitions = reader.ReadByte();
         NumberOfApproachLegs = reader.ReadByte();
         NumberOfMissedApproachLegs = reader.ReadByte();
-        
-        FixFlags = new FixFlags(reader.ReadUInt32());
+
+        (FixType, FixIdentifier) = (AirportSubsectionDataType)Id == AirportSubsectionDataType.ApproachP3DV6
+            ? ReadV6FixFlags(reader)
+            : ReadPackedFixFlags(reader);
 
         FixRegionFlags = new RegionIdentifierFlags(reader.ReadUInt32());
         
@@ -39,7 +41,9 @@ public class AirportApproachRecord : BglRecord
 
     public byte NumberOfMissedApproachLegs { get; }
     
-    public FixFlags FixFlags { get; }
+    public FixType FixType { get; }
+    
+    public IcaoIdentifier FixIdentifier { get; }
 
     public RegionIdentifierFlags FixRegionFlags { get; }
 
@@ -64,5 +68,13 @@ public class AirportApproachRecord : BglRecord
                 SubRecords.Add(record);
             }
         }
+    }
+    
+    private static (FixType FixType, IcaoIdentifier IcaoIdentifier) ReadV6FixFlags(BglBinaryReader reader) => ((FixType)reader.ReadUInt32(), new IcaoIdentifier(reader.ReadUInt32()));
+
+    private static (FixType FixType, IcaoIdentifier IcaoIdentifier) ReadPackedFixFlags(BglBinaryReader reader)
+    {
+        var fixFlags = new FixFlags(reader.ReadUInt32());
+        return (fixFlags.Type, fixFlags.Identifier);
     }
 }

@@ -42,4 +42,8 @@ public enum AirportSubsectionDataType : ushort
     Waypoint = 0x0022,
     BlastFence = 0x0038,
     BoundaryFence = 0x0039,
+    
+    // P3DV6
+    VisualModelBinding = 0x00B2,
+    ApproachP3DV6 = 0x00B6,
 }

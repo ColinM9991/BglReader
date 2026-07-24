@@ -2,12 +2,14 @@ namespace BglReader.Airport;
 
 public enum FixType
 {
-    AIRPORT = 1,
-    VOR = 2,
-    NDB = 3,
-    TERMINAL_NDB = 4,
-    WAYPOINT = 5,
-    TERMINAL_WAYPOINT = 6,
-    LOCALIZER = 8,
-    RUNWAY = 9
+    Ndb                                 = 0x0003,
+    TerminalNdb                        = 0x0004,
+    TerminalWaypoint                   = 0x0006,
+    Vor                                 = 0x0002,
+    Waypoint                            = 0x0005,
+    Runway                              = 0x0009,
+    CourseToAlt                       = 0x000C,
+    CourseToDist                      = 0x000D,
+    HeadingToAlt                      = 0x000E,
+    ManualTermination                  = 0x000B,
 }
