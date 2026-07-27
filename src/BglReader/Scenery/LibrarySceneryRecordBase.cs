@@ -4,7 +4,7 @@ namespace BglReader.Scenery;
 
 public abstract class LibrarySceneryRecordBase : SceneryBglRecord
 {
-    protected LibrarySceneryRecordBase(BglBinaryReader reader, bool shouldRewindStream = true) : base(reader, shouldRewindStream)
+    protected LibrarySceneryRecordBase(ushort id, BglBinaryReader reader) : base(id, reader)
     {
         Coordinates = reader.ReadCoordinates();
 

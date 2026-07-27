@@ -4,8 +4,8 @@ namespace BglReader.Navigation;
 
 public class DmeRecord : BglRecord
 {
-    public DmeRecord(BglBinaryReader reader)
-        : base(reader)
+    public DmeRecord(ushort id, BglBinaryReader reader)
+        : base(id, reader)
     {
         _ = reader.ReadBytes(2); // TODO unknown
         

@@ -11,15 +11,12 @@ public abstract class BaseBglRecord<T> : BglNode where T
     : IBinaryNumber<T>
 {
     internal BaseBglRecord(
-        BglBinaryReader reader,
-        bool shouldRewindStream = true) : base(reader)
+        ushort id,
+        BglBinaryReader reader) : base(reader)
     {
-        if (shouldRewindStream)
-            reader.Position -= Unsafe.SizeOf<ushort>();
+        StartPosition = reader.Position - sizeof(ushort);
 
-        StartPosition = reader.Position;
-
-        Id = reader.ReadUInt16();
+        Id = id;
         Size = ReadSize(Reader);
     }
 

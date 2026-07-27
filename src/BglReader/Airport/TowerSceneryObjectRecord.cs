@@ -4,7 +4,7 @@ namespace BglReader.Airport;
 
 public class TowerSceneryObjectRecord : BglRecord
 {
-    public TowerSceneryObjectRecord(BglBinaryReader reader) : base(reader)
+    public TowerSceneryObjectRecord(ushort id, BglBinaryReader reader) : base(id, reader)
     {
         ScenerySize = reader.ReadUInt32();
         SceneryObject = reader.ReadBytes((int)ScenerySize);

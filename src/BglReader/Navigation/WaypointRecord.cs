@@ -5,7 +5,7 @@ namespace BglReader.Navigation;
 
 public class WaypointRecord : BglRecord
 {
-    public WaypointRecord(BglBinaryReader reader) : base(reader, false)
+    public WaypointRecord(ushort id, BglBinaryReader reader) : base(id, reader)
     {
         Type = (WaypointType)reader.ReadByte();
         NumberOfRoutes = reader.ReadByte();

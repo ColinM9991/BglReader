@@ -4,7 +4,7 @@ namespace BglReader.Airport.Taxi;
 
 public class AirportTaxiPathRecord : BglRecord
 {
-    public AirportTaxiPathRecord(BglBinaryReader reader) : base(reader)
+    public AirportTaxiPathRecord(ushort id, BglBinaryReader reader) : base(id, reader)
     {
         NumberOfPaths = reader.ReadUInt16();
 

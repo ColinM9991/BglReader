@@ -4,7 +4,7 @@ namespace BglReader.Airport.Taxi;
 
 public class AirportTaxiwayPoint : BglRecord
 {
-    public AirportTaxiwayPoint(BglBinaryReader reader) : base(reader)
+    public AirportTaxiwayPoint(ushort id, BglBinaryReader reader) : base(id, reader)
     {
         NumberOfPoints = reader.ReadUInt16();
 

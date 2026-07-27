@@ -3,7 +3,7 @@
 /// <inheritdoc/>
 public class BglRecord : BaseBglRecord<uint>
 {
-    protected BglRecord(BglBinaryReader reader, bool shouldRewindStream = true) : base(reader, shouldRewindStream)
+    protected BglRecord(ushort id, BglBinaryReader reader) : base(id, reader)
     {
     }
 }

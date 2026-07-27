@@ -6,7 +6,7 @@ namespace BglReader.Navigation;
 
 public class NdbRecord : BglRecord
 {
-    public NdbRecord(BglBinaryReader reader) : base(reader, false)
+    public NdbRecord(ushort id, BglBinaryReader reader) : base(id, reader)
     {
         Type = (NdbType)reader.ReadUInt16();
         Frequency = (Frequency)reader.ReadUInt32();

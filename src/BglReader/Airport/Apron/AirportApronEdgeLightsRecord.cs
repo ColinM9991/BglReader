@@ -6,7 +6,8 @@ public class AirportApronEdgeLightsRecord : BglRecord
 {
     // TODO Validate
     public AirportApronEdgeLightsRecord(
-        BglBinaryReader reader) : base(reader)
+        ushort id,
+        BglBinaryReader reader) : base(id, reader)
     {
         _ = reader.ReadBytes(2);
 

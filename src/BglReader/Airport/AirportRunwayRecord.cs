@@ -6,7 +6,8 @@ namespace BglReader.Airport;
 public class AirportRunwayRecord : BglRecord
 {
     public AirportRunwayRecord(
-        BglBinaryReader reader) : base(reader)
+        ushort id,
+        BglBinaryReader reader) : base(id, reader)
     {
         SurfaceType = (SurfaceType)reader.ReadUInt16();
         RunwayNumber = reader.ReadByte();

@@ -5,7 +5,7 @@ namespace BglReader.Airport;
 
 public class AirportTransitionRecord : BglRecord
 {
-    public AirportTransitionRecord(BglBinaryReader reader) : base(reader)
+    public AirportTransitionRecord(ushort id, BglBinaryReader reader) : base(id, reader)
     {
         Type = (TransitionType)reader.ReadByte();
         NumberOfTransitionLegs = reader.ReadByte();
@@ -25,7 +25,7 @@ public class AirportTransitionRecord : BglRecord
             Distance = reader.ReadSingle();
         }
         
-        LegRecord = new AirportLegBaseRecord(reader, false);
+        LegRecord = new AirportLegBaseRecord((ushort)AirportApproachDataType.TransitionLegs, reader);
     }
 
     public TransitionType Type { get; }

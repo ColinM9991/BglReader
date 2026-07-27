@@ -5,7 +5,7 @@ namespace BglReader.Airport;
 
 public class DeleteAirportRecord : BglRecord
 {
-    public DeleteAirportRecord(BglBinaryReader reader) : base(reader)
+    public DeleteAirportRecord(ushort id, BglBinaryReader reader) : base(id, reader)
     {
         DeleteFlags = (DeleteFlags)reader.ReadUInt16();
         NumberOfRunways = reader.ReadByte();

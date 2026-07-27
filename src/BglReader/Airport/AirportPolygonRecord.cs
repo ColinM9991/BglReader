@@ -4,7 +4,7 @@ namespace BglReader.Airport;
 
 public class AirportPolygonRecord : BglRecord
 {
-    public AirportPolygonRecord(BglBinaryReader reader) : base(reader)
+    public AirportPolygonRecord(ushort id, BglBinaryReader reader) : base(id, reader)
     {
         _ = reader.ReadBytes(2);
 

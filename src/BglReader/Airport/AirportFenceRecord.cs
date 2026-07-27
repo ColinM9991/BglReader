@@ -4,7 +4,7 @@ namespace BglReader.Airport;
 
 public class AirportFenceRecord : BglRecord
 {
-    public AirportFenceRecord(BglBinaryReader reader) : base(reader)
+    public AirportFenceRecord(ushort id, BglBinaryReader reader) : base(id, reader)
     {
         NumberOfVertices = reader.ReadUInt16();
         Instance = new Guid(reader.ReadBytes(16));

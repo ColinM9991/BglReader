@@ -5,13 +5,13 @@ namespace BglReader.Generic;
 /// <inheritdoc/>
 public class SceneryBglRecord : BaseBglRecord<ushort>
 {
-    protected SceneryBglRecord(BglBinaryReader reader, bool shouldRewindStream = true) : base(reader, shouldRewindStream)
+    protected SceneryBglRecord(ushort id, BglBinaryReader reader) : base(id, reader)
     {
     }
 
-    public static SceneryBglRecord? GetSceneryBglRecord(BglBinaryReader reader)
+    public static SceneryBglRecord? GetSceneryBglRecord(ushort id, BglBinaryReader reader)
     {
-        var sceneryType = (SceneryObjectType)reader.ReadUInt16();
+        var sceneryType = (SceneryObjectType)id;
         var record = BglRecordFactory.Create(sceneryType, reader);
         
         return record;

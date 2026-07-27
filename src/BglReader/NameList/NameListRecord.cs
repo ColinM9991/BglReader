@@ -7,7 +7,7 @@ namespace BglReader.NameList;
 public class NameListRecord : BglRecord
 {
     private const int FixedSize = 42;
-    public NameListRecord(BglBinaryReader reader) : base(reader, false)
+    public NameListRecord(ushort id, BglBinaryReader reader) : base(id, reader)
     {
         NumberOfRegionNames = reader.ReadUInt16();
         NumberOfCountryNames = reader.ReadUInt16();

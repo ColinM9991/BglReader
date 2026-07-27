@@ -2,7 +2,7 @@
 
 public class AirportSummaryP3DRecord : AirportSummaryRecord
 {
-    public AirportSummaryP3DRecord(BglBinaryReader reader) : base(reader)
+    public AirportSummaryP3DRecord(ushort id, BglBinaryReader reader) : base(id, reader)
     {
         MaterialSet = new Guid(reader.ReadBytes(16));
     }

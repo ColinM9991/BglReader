@@ -5,7 +5,8 @@ namespace BglReader.Airport;
 public class AirportLegBaseRecord : BglRecord
 {
     public AirportLegBaseRecord(
-        BglBinaryReader reader, bool shouldRewindStream = true) : base(reader, shouldRewindStream)
+        ushort id,
+        BglBinaryReader reader) : base(id, reader)
     {
         NumberOfLegs = reader.ReadUInt16();
         Legs = Enumerable.Range(0, NumberOfLegs).Select(_ => new ApproachLeg(reader)).ToList();

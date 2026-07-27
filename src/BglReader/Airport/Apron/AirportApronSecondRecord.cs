@@ -5,7 +5,8 @@ namespace BglReader.Airport.Apron;
 public class AirportApronSecondRecord : AirportApronBaseRecord
 {
     public AirportApronSecondRecord(
-        BglBinaryReader reader) : base(reader)
+        ushort id,
+        BglBinaryReader reader) : base(id, reader)
     {
         Flags = new SurfaceFlags(reader.ReadByte());
         MaterialSet = new Guid(reader.ReadBytes(16));

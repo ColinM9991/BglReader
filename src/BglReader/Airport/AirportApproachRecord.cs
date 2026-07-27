@@ -6,7 +6,8 @@ namespace BglReader.Airport;
 public class AirportApproachRecord : BglRecord
 {
     public AirportApproachRecord(
-        BglBinaryReader reader) : base(reader)
+        ushort id,
+        BglBinaryReader reader) : base(id, reader)
     {
         Suffix = reader.ReadByte();
         RunwayNumber = reader.ReadByte();

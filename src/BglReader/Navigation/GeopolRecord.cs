@@ -5,7 +5,7 @@ namespace BglReader.Navigation;
 
 public class GeopolRecord : BglRecord
 {
-    public GeopolRecord(BglBinaryReader reader) : base(reader)
+    public GeopolRecord(ushort id, BglBinaryReader reader) : base(id, reader)
     {
         Flags = new GeoPolFlags(reader.ReadUInt16());
         

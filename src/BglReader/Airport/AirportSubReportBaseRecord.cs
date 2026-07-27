@@ -5,8 +5,9 @@ namespace BglReader.Airport;
 public class AirportSubReportBaseRecord : BglRecord
 {
     public AirportSubReportBaseRecord(
+        ushort id,
         BglBinaryReader reader,
-        SubReportBaseType type) : base(reader)
+        SubReportBaseType type) : base(id, reader)
     {
         Type = type;
         SurfaceType = (SurfaceType)reader.ReadUInt16();

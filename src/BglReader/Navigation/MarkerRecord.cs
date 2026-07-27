@@ -4,7 +4,7 @@ namespace BglReader.Navigation;
 
 public class MarkerRecord : BglRecord
 {
-    public MarkerRecord(BglBinaryReader reader) : base(reader, false)
+    public MarkerRecord(ushort id, BglBinaryReader reader) : base(id, reader)
     {
         Heading = reader.ReadByte();
         Type = (MarkerType)reader.ReadByte();

@@ -5,7 +5,7 @@ namespace BglReader.Airport;
 
 public class AirportSummaryRecord : BglRecord
 {
-    public AirportSummaryRecord(BglBinaryReader reader) : base(reader, false)
+    public AirportSummaryRecord(ushort id, BglBinaryReader reader) : base(id, reader)
     {
         ComFlags = new AirportSummaryComFlags(reader.ReadUInt16());
         Coordinate = reader.ReadCoordinates();

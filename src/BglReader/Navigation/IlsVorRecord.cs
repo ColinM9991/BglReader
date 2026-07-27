@@ -6,7 +6,7 @@ namespace BglReader.Navigation;
 
 public class IlsVorRecord : BglRecord
 {
-    public IlsVorRecord(BglBinaryReader reader) : base(reader, false)
+    public IlsVorRecord(ushort id, BglBinaryReader reader) : base(id, reader)
     {
         Type = (IlsVorType)reader.ReadByte();
 

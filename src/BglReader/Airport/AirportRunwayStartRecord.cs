@@ -5,7 +5,7 @@ namespace BglReader.Airport;
 
 public class AirportRunwayStartRecord : BglRecord
 {
-    public AirportRunwayStartRecord(BglBinaryReader reader) : base(reader)
+    public AirportRunwayStartRecord(ushort id, BglBinaryReader reader) : base(id, reader)
     {
         RunwayNumber = reader.ReadByte();
         Flags = new RunwayStartFlags(reader.ReadByte());

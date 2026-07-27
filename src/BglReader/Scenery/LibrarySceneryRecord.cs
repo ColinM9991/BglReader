@@ -2,7 +2,7 @@ namespace BglReader.Scenery;
 
 public class LibrarySceneryRecord : LibrarySceneryRecordBase
 {
-    public LibrarySceneryRecord(BglBinaryReader reader, bool shouldRewindStream = true) : base(reader, shouldRewindStream)
+    public LibrarySceneryRecord(ushort id, BglBinaryReader reader) : base(id, reader)
     {
         Name = new Guid(reader.ReadBytes(16));
         Scale = reader.ReadSingle();

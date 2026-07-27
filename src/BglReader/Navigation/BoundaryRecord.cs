@@ -1,3 +1,4 @@
+using BglReader.Airport;
 using BglReader.Generic;
 using BglReader.ValueObjects;
 
@@ -5,7 +6,7 @@ namespace BglReader.Navigation;
 
 public class BoundaryRecord : BglRecord
 {
-    public BoundaryRecord(BglBinaryReader reader) : base(reader, false)
+    public BoundaryRecord(ushort id, BglBinaryReader reader) : base(id, reader)
     {
         Type = reader.ReadByte();
         
@@ -14,7 +15,7 @@ public class BoundaryRecord : BglRecord
         MinimumCoordinates = reader.ReadCoordinates();
         MaximumCoordinates = reader.ReadCoordinates();
 
-        Name = new NameRecord(reader, shouldRewindStream: false);
+        Name = new NameRecord((ushort)AirportSubsectionDataType.Name, reader);
     }
     
     public byte Type { get; }

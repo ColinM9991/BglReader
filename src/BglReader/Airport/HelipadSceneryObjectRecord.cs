@@ -5,14 +5,14 @@ namespace BglReader.Airport;
 
 public sealed class HelipadSceneryObjectRecord : BglRecord
 {
-    public HelipadSceneryObjectRecord(BglBinaryReader reader) : base(reader)
+    public HelipadSceneryObjectRecord(ushort id, BglBinaryReader reader) : base(id, reader)
     {
         ScenerySize = reader.ReadUInt32();
-        
-        LibrarySceneryRecord = new LibrarySceneryRecord(reader, false);
+
+        LibrarySceneryRecord = SceneryBglRecord.GetSceneryBglRecord(reader.ReadUInt16(), reader);
     }
 
     public uint ScenerySize { get; }
     
-    public LibrarySceneryRecord LibrarySceneryRecord { get; set; }
+    public SceneryBglRecord? LibrarySceneryRecord { get; set; }
 }

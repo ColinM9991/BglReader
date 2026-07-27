@@ -6,7 +6,8 @@ namespace BglReader.Airport.Apron;
 public abstract class AirportApronBaseRecord : BglRecord
 {
     public AirportApronBaseRecord(
-        BglBinaryReader reader) : base(reader)
+        ushort id,
+        BglBinaryReader reader) : base(id, reader)
     {
         SurfaceType = (SurfaceType)reader.ReadByte();
     }

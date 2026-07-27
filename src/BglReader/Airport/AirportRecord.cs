@@ -6,7 +6,8 @@ namespace BglReader.Airport;
 public class AirportRecord : BglRecord
 {
     public AirportRecord(
-        BglBinaryReader reader) : base(reader, false)
+        ushort id,
+        BglBinaryReader reader) : base(id, reader)
     {
         _ = reader.ReadBytes(6); // Number of Runways, Com, Starts, Approaches, Aprons (including Delete Records) and Helipads
         Coordinates = reader.ReadCoordinates();

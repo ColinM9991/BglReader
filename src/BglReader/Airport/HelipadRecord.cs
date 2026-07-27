@@ -4,7 +4,7 @@ namespace BglReader.Airport;
 
 public class HelipadRecord : BglRecord
 {
-    public HelipadRecord(BglBinaryReader reader) : base(reader)
+    public HelipadRecord(ushort id, BglBinaryReader reader) : base(id, reader)
     {
         SurfaceType = (SurfaceType)reader.ReadByte();
         Type = reader.ReadByte();

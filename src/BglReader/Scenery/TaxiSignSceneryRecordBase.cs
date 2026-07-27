@@ -4,7 +4,7 @@ namespace BglReader.Scenery;
 
 public abstract class TaxiSignSceneryRecordBase : LibrarySceneryRecordBase
 {
-    protected TaxiSignSceneryRecordBase(BglBinaryReader reader) : base(reader)
+    protected TaxiSignSceneryRecordBase(ushort id, BglBinaryReader reader) : base(id, reader)
     {
         NumberOfSigns = reader.ReadUInt32();
     }

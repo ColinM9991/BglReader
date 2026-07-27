@@ -12,46 +12,48 @@ public static class BglRecordFactory
     public static BglRecord? Create(AirportSubsectionDataType type, AirportType airportType, BglBinaryReader reader) =>
         type switch
         {
-            AirportSubsectionDataType.Name => new NameRecord(reader),
-            AirportSubsectionDataType.TowerSceneryObject => new TowerSceneryObjectRecord(reader),
-            AirportSubsectionDataType.HelipadSceneryObject => new HelipadSceneryObjectRecord(reader),
+            AirportSubsectionDataType.Name => new NameRecord((ushort)type, reader),
+            AirportSubsectionDataType.TowerSceneryObject => new TowerSceneryObjectRecord((ushort)type, reader),
+            AirportSubsectionDataType.HelipadSceneryObject => new HelipadSceneryObjectRecord((ushort)type, reader),
             AirportSubsectionDataType.Runway or AirportSubsectionDataType.RunwayP3DV4 => new
-                AirportRunwayRecord(reader),
-            AirportSubsectionDataType.Helipad => new HelipadRecord(reader),
-            AirportSubsectionDataType.Start => new AirportRunwayStartRecord(reader),
-            AirportSubsectionDataType.Com => new AirportComRecord(reader),
-            AirportSubsectionDataType.DeleteAirport => new DeleteAirportRecord(reader),
+                AirportRunwayRecord((ushort)type, reader),
+            AirportSubsectionDataType.Helipad => new HelipadRecord((ushort)type, reader),
+            AirportSubsectionDataType.Start => new AirportRunwayStartRecord((ushort)type, reader),
+            AirportSubsectionDataType.Com => new AirportComRecord((ushort)type, reader),
+            AirportSubsectionDataType.DeleteAirport => new DeleteAirportRecord((ushort)type, reader),
             AirportSubsectionDataType.ApronFirst or AirportSubsectionDataType.ApronFirstP3DV5 => new
-                AirportApronRecord(
+                AirportApronRecord((ushort)type,
                     reader),
             AirportSubsectionDataType.ApronSecond or AirportSubsectionDataType.ApronSecondP3DV4
-                or AirportSubsectionDataType.ApronSecondP3DV5 => new AirportApronSecondRecord(reader),
-            AirportSubsectionDataType.ApronEdgeLights => new AirportApronEdgeLightsRecord(reader),
+                or AirportSubsectionDataType.ApronSecondP3DV5 => new AirportApronSecondRecord((ushort)type, reader),
+            AirportSubsectionDataType.ApronEdgeLights => new AirportApronEdgeLightsRecord((ushort)type, reader),
             AirportSubsectionDataType.TaxiwayPoint or AirportSubsectionDataType.TaxiwayPointP3DV5 => new
                 AirportTaxiwayPoint(
-                    reader),
+                    (ushort)type, reader),
             AirportSubsectionDataType.TaxiwayParking or AirportSubsectionDataType.TaxiwayParkingP3DV5
                 or AirportSubsectionDataType.TaxiwayParkingFS9 =>
-                new AirportTaxiwayParkingRecord(reader, airportType),
+                new AirportTaxiwayParkingRecord((ushort)type, reader, airportType),
             AirportSubsectionDataType.TaxiPath or AirportSubsectionDataType.TaxiPathP3DV4
-                or AirportSubsectionDataType.TaxiPathP3DV5 => new AirportTaxiPathRecord(reader),
-            AirportSubsectionDataType.TaxiName => new AirportTaxiNameRecord(reader),
-            AirportSubsectionDataType.Jetway => new AirportJetwayRecord(reader),
-            AirportSubsectionDataType.Approach or AirportSubsectionDataType.ApproachP3DV6 => new AirportApproachRecord(reader),
-            AirportSubsectionDataType.Waypoint => new WaypointRecord(reader),
+                or AirportSubsectionDataType.TaxiPathP3DV5 => new AirportTaxiPathRecord((ushort)type, reader),
+            AirportSubsectionDataType.TaxiName => new AirportTaxiNameRecord((ushort)type, reader),
+            AirportSubsectionDataType.Jetway => new AirportJetwayRecord((ushort)type, reader),
+            AirportSubsectionDataType.Approach or AirportSubsectionDataType.ApproachP3DV6 =>
+                new AirportApproachRecord((ushort)type, reader),
+            AirportSubsectionDataType.Waypoint => new WaypointRecord((ushort)type, reader),
             AirportSubsectionDataType.BlastFence or AirportSubsectionDataType.BoundaryFence =>
-                new AirportFenceRecord(reader),
-            AirportSubsectionDataType.Polygon => new AirportPolygonRecord(reader),
-            AirportSubsectionDataType.VisualModelBinding => new VisualModelBindingRecord(reader),
+                new AirportFenceRecord((ushort)type, reader),
+            AirportSubsectionDataType.Polygon => new AirportPolygonRecord((ushort)type, reader),
+            AirportSubsectionDataType.VisualModelBinding => new VisualModelBindingRecord(
+                (ushort)type, reader),
             _ => null,
         };
 
     public static BglRecord? Create(AirportApproachDataType approachDataType, BglBinaryReader reader) =>
         approachDataType switch
         {
-            AirportApproachDataType.ApproachLegs => new AirportLegBaseRecord(reader),
-            AirportApproachDataType.MissedApproachLegs => new AirportLegBaseRecord(reader),
-            AirportApproachDataType.Transition => new AirportTransitionRecord(reader),
+            AirportApproachDataType.ApproachLegs => new AirportLegBaseRecord((ushort)approachDataType, reader),
+            AirportApproachDataType.MissedApproachLegs => new AirportLegBaseRecord((ushort)approachDataType, reader),
+            AirportApproachDataType.Transition => new AirportTransitionRecord((ushort)approachDataType, reader),
             _ => null,
         };
 
@@ -59,28 +61,34 @@ public static class BglRecordFactory
         airportRecordDataType switch
         {
             AirportRecordDataType.OffsetPrimary or AirportRecordDataType.OffsetSecondary => new
-                AirportSubReportBaseRecord(reader, AirportSubReportBaseRecord.SubReportBaseType.OffsetThreshold),
+                AirportSubReportBaseRecord((ushort)airportRecordDataType, reader,
+                    AirportSubReportBaseRecord.SubReportBaseType.OffsetThreshold),
             AirportRecordDataType.BlastPadPrimary or AirportRecordDataType.BlastPadSecondary => new
-                AirportSubReportBaseRecord(reader, AirportSubReportBaseRecord.SubReportBaseType.BlastPad),
+                AirportSubReportBaseRecord((ushort)airportRecordDataType, reader,
+                    AirportSubReportBaseRecord.SubReportBaseType.BlastPad),
             AirportRecordDataType.OverrunPrimary or AirportRecordDataType.OverrunSecondary => new
-                AirportSubReportBaseRecord(reader, AirportSubReportBaseRecord.SubReportBaseType.Overrun),
+                AirportSubReportBaseRecord((ushort)airportRecordDataType, reader,
+                    AirportSubReportBaseRecord.SubReportBaseType.Overrun),
             AirportRecordDataType.VasiLeftPrimary or AirportRecordDataType.VasiLeftSecondary
                 or AirportRecordDataType.VasiRightPrimary
-                or AirportRecordDataType.VasiRightSecondary => new AirportVasiSubRecord(reader),
+                or AirportRecordDataType.VasiRightSecondary => new AirportVasiSubRecord((ushort)airportRecordDataType,
+                    reader),
             AirportRecordDataType.ApproachLightsPrimary or AirportRecordDataType.ApproachLightsSecondary =>
-                new AirportApproachLightsSubRecord(reader),
-            AirportRecordDataType.MarkingBias => new AirportMarkingBiasSubReportRecord(reader),
-            AirportRecordDataType.ApproachLightsBiasPrimary or AirportRecordDataType.ApproachLightsBiasSecondary => new ApproachLightsBiasSubRecord(reader),
+                new AirportApproachLightsSubRecord((ushort)airportRecordDataType, reader),
+            AirportRecordDataType.MarkingBias => new AirportMarkingBiasSubReportRecord((ushort)airportRecordDataType,
+                reader),
+            AirportRecordDataType.ApproachLightsBiasPrimary or AirportRecordDataType.ApproachLightsBiasSecondary =>
+                new ApproachLightsBiasSubRecord((ushort)airportRecordDataType, reader),
             _ => null,
         };
 
     public static BglRecord? Create(NavigationDataType navigationDataType, BglBinaryReader reader) =>
         navigationDataType switch
         {
-            NavigationDataType.Localizer => new LocalizerRecord(reader),
-            NavigationDataType.GlideSlope => new GlideslopeRecord(reader),
-            NavigationDataType.Dme => new DmeRecord(reader),
-            NavigationDataType.Name => new NameRecord(reader),
+            NavigationDataType.Localizer => new LocalizerRecord((ushort)navigationDataType, reader),
+            NavigationDataType.GlideSlope => new GlideslopeRecord((ushort)navigationDataType, reader),
+            NavigationDataType.Dme => new DmeRecord((ushort)navigationDataType, reader),
+            NavigationDataType.Name => new NameRecord((ushort)navigationDataType, reader),
             _ => null
         };
 
@@ -89,10 +97,10 @@ public static class BglRecordFactory
         {
             SceneryObjectType.TaxiSign
                 or SceneryObjectType.TaxiSignFS9
-                or SceneryObjectType.TaxiSignP3D => new TaxiSignSceneryRecordV5(reader),
-            SceneryObjectType.TaxiSignP3DV6 => new TaxiSignSceneryRecordV6(reader),
+                or SceneryObjectType.TaxiSignP3D => new TaxiSignSceneryRecordV5((ushort)sceneryObjectType, reader),
+            SceneryObjectType.TaxiSignP3DV6 => new TaxiSignSceneryRecordV6((ushort)sceneryObjectType, reader),
             SceneryObjectType.LibraryObject
-                or SceneryObjectType.LibraryObjectFS9 => new LibrarySceneryRecord(reader),
+                or SceneryObjectType.LibraryObjectFS9 => new LibrarySceneryRecord((ushort)sceneryObjectType, reader),
             _ => null,
         };
 }

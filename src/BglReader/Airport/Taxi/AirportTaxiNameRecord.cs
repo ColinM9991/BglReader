@@ -4,7 +4,7 @@ namespace BglReader.Airport.Taxi;
 
 public class AirportTaxiNameRecord : BglRecord
 {
-    public AirportTaxiNameRecord(BglBinaryReader reader) : base(reader)
+    public AirportTaxiNameRecord(ushort id, BglBinaryReader reader) : base(id, reader)
     {
         NumberOfRecords = reader.ReadUInt16();
 

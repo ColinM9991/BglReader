@@ -5,7 +5,7 @@ namespace BglReader.Navigation;
 
 public class TacanRecord : BglRecord
 {
-    public TacanRecord(BglBinaryReader reader) : base(reader, false)
+    public TacanRecord(ushort id, BglBinaryReader reader) : base(id, reader)
     {
         Coordinates = reader.ReadCoordinates();
         Channel = reader.ReadUInt32();

@@ -1,10 +1,12 @@
-﻿namespace BglReader.Generic;
+﻿using BglReader.Navigation;
+
+namespace BglReader.Generic;
 
 public class NameRecord : BglRecord
 {
     public NameRecord(
-        BglBinaryReader reader,
-        bool shouldRewindStream = true) : base(reader, shouldRewindStream)
+        ushort id,
+        BglBinaryReader reader) : base(id, reader)
     {
         Name = reader.ReadString((int)GetRemainingBytes());
     }

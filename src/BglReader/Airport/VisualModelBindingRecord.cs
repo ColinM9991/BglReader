@@ -4,7 +4,7 @@ namespace BglReader.Airport;
 
 public sealed class VisualModelBindingRecord : BglRecord
 {
-    public VisualModelBindingRecord(BglBinaryReader reader) : base(reader)
+    public VisualModelBindingRecord(ushort id, BglBinaryReader reader) : base(id, reader)
     {
         _ = reader.ReadBytes(2); // TODO Unknown
         Type = (VisualModelBindingType)reader.ReadUInt32();

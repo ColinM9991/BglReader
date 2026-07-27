@@ -5,7 +5,7 @@ namespace BglReader.Airport;
 
 public sealed class ApproachLightsBiasSubRecord : BglRecord
 {
-    public ApproachLightsBiasSubRecord(BglBinaryReader reader) : base(reader)
+    public ApproachLightsBiasSubRecord(ushort id, BglBinaryReader reader) : base(id, reader)
     {
         Flags = new ApproachLightsFlags(reader.ReadByte());
         NumberOfStrobes = reader.ReadByte();
