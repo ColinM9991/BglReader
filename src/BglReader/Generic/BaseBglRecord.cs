@@ -1,5 +1,4 @@
 ﻿using System.Numerics;
-using System.Runtime.CompilerServices;
 
 namespace BglReader.Generic;
 
@@ -10,7 +9,15 @@ namespace BglReader.Generic;
 public abstract class BaseBglRecord<T> : BglNode where T
     : IBinaryNumber<T>
 {
-    internal BaseBglRecord(
+    /// <summary>
+    /// Initializes a new instance of <see cref="BaseBglRecord{T}"/>.
+    /// </summary>
+    /// <param name="id">The record ID.</param>
+    /// <param name="reader">The reader.</param>
+    /// <remarks>
+    /// <para>The ID should be consumed before calling this constructor.</para>
+    /// </remarks>
+    protected BaseBglRecord(
         ushort id,
         BglBinaryReader reader) : base(reader)
     {

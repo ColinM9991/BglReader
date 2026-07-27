@@ -22,7 +22,7 @@ public static class BglNodeFactory
             SectionType.Tacan => new TacanRecord(id, reader),
             SectionType.IlsVor => new IlsVorRecord(id, reader),
             SectionType.Ndb => new NdbRecord(id, reader),
-            SectionType.SceneryObject => SceneryBglRecord.GetSceneryBglRecord(id, reader),
+            SectionType.SceneryObject => SceneryBglRecord.Create(id, reader),
             SectionType.Marker => new MarkerRecord(id, reader),
             SectionType.Boundary => new BoundaryRecord(id, reader), // Unused in APX, AVX, NVX
             SectionType.Geopol => new GeopolRecord(id, reader), // Incorrect mapping internally - Unused in APX, AVX, NVX

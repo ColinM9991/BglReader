@@ -1,6 +1,4 @@
-﻿using BglReader.Navigation;
-
-namespace BglReader.Generic;
+﻿namespace BglReader.Generic;
 
 public class NameRecord : BglRecord
 {
