@@ -1,4 +1,6 @@
 ﻿using BglReader.Scenery;
+using BglReader.Scenery.LibraryObjects;
+using BglReader.Scenery.TaxiSigns;
 
 namespace BglReader.UnitTests.SceneryObjects;
 

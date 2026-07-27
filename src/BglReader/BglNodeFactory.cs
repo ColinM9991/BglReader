@@ -2,6 +2,7 @@
 using BglReader.Generic;
 using BglReader.NameList;
 using BglReader.Navigation;
+using BglReader.Scenery;
 
 namespace BglReader;
 

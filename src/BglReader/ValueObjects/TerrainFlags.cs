@@ -1,4 +1,4 @@
-﻿using BglReader.Airport.Taxi;
+﻿using BglReader.Airport.Subsections.Taxi;
 using BglReader.Attributes;
 
 namespace BglReader.ValueObjects;

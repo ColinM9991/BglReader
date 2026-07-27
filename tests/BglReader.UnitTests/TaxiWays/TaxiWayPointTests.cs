@@ -1,4 +1,4 @@
-﻿using BglReader.Airport.Taxi;
+﻿using BglReader.Airport.Subsections.Taxi;
 
 namespace BglReader.UnitTests.TaxiWays;
 

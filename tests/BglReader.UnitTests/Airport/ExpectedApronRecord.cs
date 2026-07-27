@@ -1,5 +1,7 @@
 ﻿using BglReader.Airport;
-using BglReader.Airport.Taxi;
+using BglReader.Airport.Subsections;
+using BglReader.Airport.Subsections.Taxi;
+using BglReader.Airport.Subsections.Types;
 
 namespace BglReader.UnitTests.Airport;
 

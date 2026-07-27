@@ -1,4 +1,4 @@
-﻿using BglReader.Airport.Apron;
+﻿using BglReader.Airport.Subsections.Apron;
 
 namespace BglReader.UnitTests.Airport;
 

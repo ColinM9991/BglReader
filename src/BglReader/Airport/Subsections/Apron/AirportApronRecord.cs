@@ -1,0 +1,19 @@
+﻿using BglReader.ValueObjects;
+
+namespace BglReader.Airport.Subsections.Apron;
+
+public class AirportApronRecord : AirportApronBaseRecord
+{
+    public AirportApronRecord(
+        ushort id,
+        BglBinaryReader reader) : base(id, reader)
+    {
+        TerrainFlags = new TerrainFlags(reader.ReadByte());
+        MaterialSet = new Guid(reader.ReadBytes(16));
+        Elevation = Elevation.FromBgl(reader.ReadInt32());
+        NumberOfVertices = reader.ReadUInt16();
+        Vertices = ReadVertices(reader).ToList();
+    }
+
+    public TerrainFlags TerrainFlags { get; }
+}

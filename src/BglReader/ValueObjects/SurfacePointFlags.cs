@@ -1,4 +1,6 @@
 ﻿using BglReader.Airport;
+using BglReader.Airport.Subsections;
+using BglReader.Airport.Subsections.Types;
 using BglReader.Attributes;
 
 namespace BglReader.ValueObjects;
