@@ -1,6 +1,4 @@
-﻿using BglReader.Attributes;
-
-namespace BglReader.ValueObjects;
+﻿namespace BglReader.ValueObjects;
 
 [Flags]
 public enum DeleteFlags : ushort

@@ -1,5 +1,3 @@
-using System.Text;
-
 namespace BglReader.Navigation;
 
 public struct WaypointRoute

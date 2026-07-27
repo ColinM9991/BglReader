@@ -1,5 +1,4 @@
-﻿using System.Text;
-using BglReader.ValueObjects;
+﻿using BglReader.ValueObjects;
 
 namespace BglReader.Airport.Taxi;
 
