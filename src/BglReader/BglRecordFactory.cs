@@ -13,7 +13,8 @@ public static class BglRecordFactory
         type switch
         {
             AirportSubsectionDataType.Name => new NameRecord(reader),
-            AirportSubsectionDataType.IncludedTowerSceneryObject => new TowerSceneryObjectRecord(reader),
+            AirportSubsectionDataType.TowerSceneryObject => new TowerSceneryObjectRecord(reader),
+            AirportSubsectionDataType.HelipadSceneryObject => new HelipadSceneryObjectRecord(reader),
             AirportSubsectionDataType.Runway or AirportSubsectionDataType.RunwayP3DV4 => new
                 AirportRunwayRecord(reader),
             AirportSubsectionDataType.Helipad => new HelipadRecord(reader),

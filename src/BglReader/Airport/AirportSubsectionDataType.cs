@@ -3,7 +3,8 @@
 public enum AirportSubsectionDataType : ushort
 {
     Name = 0x0019,
-    IncludedTowerSceneryObject = 0x0066,
+    TowerSceneryObject = 0x0066,
+    HelipadSceneryObject = 0x00B5,
     
     Runway = 0x0004,
     RunwayP3DV4 = 0x003E,
