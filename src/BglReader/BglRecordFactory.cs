@@ -58,7 +58,7 @@ public static class BglRecordFactory
         {
             AirportApproachDataType.ApproachLegs => new AirportLegBaseRecord((ushort)approachDataType, reader),
             AirportApproachDataType.MissedApproachLegs => new AirportLegBaseRecord((ushort)approachDataType, reader),
-            AirportApproachDataType.Transition => new AirportTransitionRecord((ushort)approachDataType, reader),
+            AirportApproachDataType.Transition or AirportApproachDataType.TransitionV6 => new AirportTransitionRecord((ushort)approachDataType, reader),
             _ => null,
         };
 

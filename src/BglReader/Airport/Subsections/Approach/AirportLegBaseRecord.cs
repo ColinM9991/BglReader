@@ -12,6 +12,10 @@ public class AirportLegBaseRecord : BglRecord
         Legs = Enumerable.Range(0, NumberOfLegs).Select(_ => new ApproachLeg(reader)).ToList();
     }
 
+    public AirportLegBaseRecord(BglBinaryReader reader) : this(reader.ReadUInt16(), reader)
+    {
+    }
+
     public ushort NumberOfLegs { get; }
 
     public ICollection<ApproachLeg> Legs { get; }

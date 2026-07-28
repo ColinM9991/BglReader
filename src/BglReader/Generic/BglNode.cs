@@ -16,9 +16,8 @@ public abstract class BglNode(BglBinaryReader reader)
 
     protected abstract long EndPosition { get; }
 
-    [Conditional("DEBUG")]
     internal void AssertEndPosition()
     {
-        Debug.Assert(Reader.Position == EndPosition);
+        ArgumentOutOfRangeException.ThrowIfNotEqual(Reader.Position, EndPosition);
     }
 }
