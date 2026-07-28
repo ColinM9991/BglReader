@@ -1,6 +1,9 @@
 ﻿using BglReader.Airport.Subsections.Types;
 using BglReader.Generic;
-using BglReader.ValueObjects;
+using BglReader.Types;
+using ApproachFlags = BglReader.ValueObjects.BitFields.ApproachFlags;
+using FixFlags = BglReader.ValueObjects.BitFields.FixFlags;
+using RegionIdentifierFlags = BglReader.ValueObjects.BitFields.RegionIdentifierFlags;
 
 namespace BglReader.Airport.Subsections.Approach;
 

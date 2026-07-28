@@ -1,6 +1,6 @@
 ﻿namespace BglReader;
 
-public struct MagicNumber(
+public readonly struct MagicNumber(
     byte[] partOne,
     byte[] partTwo)
 {

@@ -36,7 +36,7 @@ public class BglFile
         {
             foreach (var subsection in section.Subsections)
             {
-                subsection.MapData(section.Type, reader);
+                subsection.MapData(reader);
             }
         }
     }

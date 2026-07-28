@@ -1,6 +1,7 @@
 ﻿using BglReader.Scenery;
 using BglReader.Scenery.LibraryObjects;
 using BglReader.Scenery.TaxiSigns;
+using BglReader.Types;
 
 namespace BglReader.UnitTests.SceneryObjects;
 
@@ -19,7 +20,7 @@ public static class TaxiWaySignTestData
                         0,
                         ImageComplexity.Normal, Guid.Empty),
                     [
-                        new TaxiWaySign(new Coordinate(Longitude.Quantized(-89.15305000), Latitude.Quantized(41.35280000), new Elevation(199.5)), 0, 0, 90,
+                        new TaxiWaySign(new Coordinate(Longitude.Quantized(-89.15305000), Latitude.Quantized(41.35280000), new Elevation(199.5)), new Angle(0), new Angle(0), new Angle(16384),
                             TaxiSignFlags.IsAgl | TaxiSignFlags.ClampPitch | TaxiSignFlags.ClampBank,
                             TaxiSignSize.Size3, TaxiSignJustification.Left, "l[A]d[B\\]m[18-36]")
                     ])

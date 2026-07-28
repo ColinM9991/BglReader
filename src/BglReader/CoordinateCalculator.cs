@@ -1,4 +1,6 @@
-﻿namespace BglReader;
+﻿using BglReader.Types;
+
+namespace BglReader;
 
 public static class CoordinateCalculator
 {

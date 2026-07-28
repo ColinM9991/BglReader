@@ -16,9 +16,9 @@ public class TaxiWaySignTests : TestBase
         {
             taxiWaySignRecords.ShouldContain(x => x.Coordinates.Equals(expectedRecord.Base.Coordinates)
                                                      && x.Flags == expectedRecord.Base.Flags
-                                                     && Math.Abs(x.Pitch - expectedRecord.Base.Pitch) < tolerance
-                                                     && Math.Abs(x.Bank - expectedRecord.Base.Bank) < tolerance
-                                                     && Math.Abs(x.Heading - expectedRecord.Base.Heading) < tolerance
+                                                     && Math.Abs(x.Pitch.Value - expectedRecord.Base.Pitch) < tolerance
+                                                     && Math.Abs(x.Bank.Value - expectedRecord.Base.Bank) < tolerance
+                                                     && Math.Abs(x.Heading.Value - expectedRecord.Base.Heading) < tolerance
                                                      && x.ImageComplexity == expectedRecord.Base.ImageComplexity
                                                      && x.Instance.Equals(expectedRecord.Base.Instance)
                                                      && x.NumberOfSigns == expectedRecord.Signs.Count);
@@ -36,13 +36,14 @@ public class TaxiWaySignTests : TestBase
 
         var taxiWaySigns = taxiWaySignRecords.SelectMany(x => x.Signs).ToList();
 
+        const double tolerance = 0.005;
         foreach (var expectedRecord in expectedRecords.SelectMany(x => x.Signs))
         {
             taxiWaySigns.ShouldContain(x =>
                 x.Coordinates.Equals(expectedRecord.Coordinates)
-                && x.Pitch == expectedRecord.Pitch
-                && x.Bank == expectedRecord.Bank
-                && x.Heading == expectedRecord.Heading
+                && Math.Abs(x.Pitch.Value - expectedRecord.Pitch.Value) < tolerance
+                && Math.Abs(x.Bank.Value - expectedRecord.Bank.Value) < tolerance
+                && Math.Abs(x.Heading.Value - expectedRecord.Heading.Value) < tolerance
                 && x.Flags == expectedRecord.Flags
                 && x.Size == expectedRecord.Size
                 && x.Justification == expectedRecord.Justification

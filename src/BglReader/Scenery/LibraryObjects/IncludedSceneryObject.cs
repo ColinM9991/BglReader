@@ -8,6 +8,8 @@ public abstract class IncludedSceneryObject : BglRecord
     {
         ScenerySize = reader.ReadUInt32();
         EmbeddedObject = SceneryBglRecord.Read(reader);
+
+        _ = reader.ReadBytes(2); // Padding for scenery objects
     }
 
     public uint ScenerySize { get; }

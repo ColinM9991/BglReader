@@ -1,9 +1,7 @@
-﻿using BglReader.Airport;
-using BglReader.Airport.Subsections;
-using BglReader.Airport.Subsections.RunwayDetails;
+﻿using BglReader.Airport.Subsections.RunwayDetails;
 using BglReader.Airport.Subsections.Taxi;
 using BglReader.Airport.Subsections.Types;
-using BglReader.ValueObjects;
+using BglReader.ValueObjects.BitFields;
 
 namespace BglReader.UnitTests.TaxiWays;
 

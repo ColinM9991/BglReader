@@ -1,4 +1,4 @@
-using BglReader.Generic;
+using BglReader.Types;
 
 namespace BglReader.Scenery.LibraryObjects;
 
@@ -9,9 +9,9 @@ public abstract class LibrarySceneryRecordBase : SceneryBglRecord
         Coordinates = reader.ReadCoordinates();
 
         Flags = (LibraryObjectFlags)reader.ReadUInt16();
-        Pitch = reader.ReadUInt16();
-        Bank = reader.ReadUInt16();
-        Heading = reader.ReadUInt16();
+        Pitch = new Angle(reader.ReadUInt16());
+        Bank = new Angle(reader.ReadUInt16());
+        Heading = new Angle(reader.ReadUInt16());
         ImageComplexity = (ImageComplexity)reader.ReadUInt16();
         Unknown = reader.ReadBytes(2);
         Instance = new Guid(reader.ReadBytes(16));
@@ -21,11 +21,11 @@ public abstract class LibrarySceneryRecordBase : SceneryBglRecord
     
     public LibraryObjectFlags Flags { get; }
     
-    public double Pitch { get; }
+    public Angle Pitch { get; }
     
-    public double Bank { get; }
+    public Angle Bank { get; }
     
-    public double Heading { get; }
+    public Angle Heading { get; }
     
     public ImageComplexity ImageComplexity { get; }
     

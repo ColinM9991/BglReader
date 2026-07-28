@@ -1,4 +1,5 @@
-﻿using BglReader.ValueObjects;
+﻿using BglReader.Types;
+using BglReader.ValueObjects.BitFields;
 
 namespace BglReader.Airport.Subsections.Apron;
 

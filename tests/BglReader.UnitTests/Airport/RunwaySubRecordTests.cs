@@ -1,6 +1,4 @@
 ﻿using BglReader.Airport;
-using BglReader.Airport.Subsections;
-using BglReader.Airport.Subsections.Approach;
 using BglReader.Airport.Subsections.RunwayDetails;
 using BglReader.Airport.Subsections.Types;
 using BglReader.ValueObjects;

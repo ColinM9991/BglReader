@@ -1,7 +1,6 @@
 ﻿using System.Text;
-using BglReader.Airport;
-using BglReader.Airport.Subsections;
 using BglReader.Airport.Subsections.Types;
+using BglReader.Types;
 
 namespace BglReader;
 

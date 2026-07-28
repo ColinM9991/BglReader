@@ -4,10 +4,13 @@ namespace BglReader;
 
 public class Subsection : BglNode
 {
+    private readonly uint _recordsCount;
+
     public Subsection(
         SectionType sectionType,
         BglBinaryReader reader) : base(reader)
     {
+        Type = sectionType;
         var dwordA = reader.ReadUInt32();
         var dwordB = sectionType is SectionType.PopulationDensity or SectionType.TerrainIndex
             or >= SectionType.TerrainElevation and <= SectionType.TerrainRegion
@@ -17,10 +20,12 @@ public class Subsection : BglNode
 
         Qmid = new Qmid(dwordA, dwordB);
 
-        RecordsCount = reader.ReadUInt32();
+        _recordsCount = reader.ReadUInt32();
         Offset = reader.ReadUInt32();
         Size = reader.ReadUInt32();
     }
+
+    public SectionType Type { get; }
 
     public Qmid Qmid { get; }
 
@@ -30,7 +35,9 @@ public class Subsection : BglNode
     /// <remarks>
     /// For a NameList, this will be the number of ICAO sub-records.
     /// </remarks>
-    public uint RecordsCount { get; }
+    public uint RecordsCount => Type is SectionType.NameList
+        ? 1
+        : _recordsCount;
 
     public uint Offset { get; }
 
@@ -40,18 +47,13 @@ public class Subsection : BglNode
 
     public ICollection<BglNode> Data { get; } = new List<BglNode>();
 
-    public void MapData(SectionType sectionType, BglBinaryReader reader)
+    public void MapData(BglBinaryReader reader)
     {
-        const int nameListSize = 1;
         reader.Seek(Offset);
 
-        var numberOfRecords = sectionType is SectionType.NameList
-            ? nameListSize
-            : RecordsCount;
-
-        for (var i = 0; i < numberOfRecords; i++)
+        for (var i = 0; i < RecordsCount; i++)
         {
-            var data = BglNodeFactory.Create(sectionType, reader);
+            var data = BglNodeFactory.Create(Type, reader);
             if (data is null) continue;
 
             data.AssertEndPosition();

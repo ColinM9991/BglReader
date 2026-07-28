@@ -3,6 +3,7 @@ using BglReader.Airport.Subsections.Approach;
 using BglReader.Airport.Subsections.Apron;
 using BglReader.Airport.Subsections.RunwayDetails;
 using BglReader.Generic;
+using BglReader.Types;
 
 namespace BglReader.Airport;
 

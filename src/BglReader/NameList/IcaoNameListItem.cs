@@ -1,3 +1,5 @@
+using BglReader.Types;
+
 namespace BglReader.NameList;
 
 public readonly struct IcaoNameListItem

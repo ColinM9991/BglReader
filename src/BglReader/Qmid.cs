@@ -2,12 +2,12 @@
 
 public record struct Qmid
 {
-    private readonly uint dwordA;
-    private readonly uint dwordB;
+    private readonly uint _dwordA;
+    private readonly uint _dwordB;
     public Qmid(uint dwordA, uint dwordB = 0)
     {
-        this.dwordA = dwordA;
-        this.dwordB = dwordB;
+        this._dwordA = dwordA;
+        this._dwordB = dwordB;
         
         (U, V, L) = Decode();
     }
@@ -31,8 +31,8 @@ public record struct Qmid
         var v = 0;
         var u = 0;
         var cnt = 0x1F;
-        var workDwordA = dwordA;
-        var workDwordB = dwordB;
+        var workDwordA = _dwordA;
+        var workDwordB = _dwordB;
 
         while (cnt > 0 && (workDwordB & 0x80000000) == 0)
         {

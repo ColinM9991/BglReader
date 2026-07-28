@@ -1,5 +1,5 @@
 ﻿using BglReader.Airport.Subsections.Types;
-using BglReader.ValueObjects;
+using BglReader.ValueObjects.BitFields;
 
 namespace BglReader.Airport.Subsections.Taxi;
 

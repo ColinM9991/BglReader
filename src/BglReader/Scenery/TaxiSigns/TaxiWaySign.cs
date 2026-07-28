@@ -1,10 +1,12 @@
-﻿namespace BglReader.Scenery.TaxiSigns;
+﻿using BglReader.Types;
+
+namespace BglReader.Scenery.TaxiSigns;
 
 public sealed record TaxiWaySign(
     Coordinate Coordinates,
-    short Pitch,
-    short Bank,
-    short Heading,
+    Angle Pitch,
+    Angle Bank,
+    Angle Heading,
     TaxiSignFlags Flags,
     TaxiSignSize Size,
     TaxiSignJustification Justification,

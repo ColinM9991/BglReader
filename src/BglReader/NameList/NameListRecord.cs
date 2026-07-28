@@ -49,7 +49,7 @@ public class NameListRecord : BglRecord
 
     public IDictionary<NameListItemType, string[]> Names { get; } = new Dictionary<NameListItemType, string[]>();
 
-    public ICollection<IcaoNameListItem> IcaoNames { get; } = new List<IcaoNameListItem>();
+    public ICollection<IcaoNameListItem> IcaoNames { get; } = [];
 
     private void MapList(BglBinaryReader reader,
         NameListItemType itemType,

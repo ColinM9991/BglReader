@@ -254,11 +254,11 @@
                             instanceId="{BE6B8E48-5AAF-4E00-B954-7C327496D893}"
                             lat="41.35386742"
                             lon="-89.15108328"
-                            alt="0F"
+                            alt="6000"
                             altitudeIsAgl="TRUE"
-                            pitch="0.00000000"
-                            bank="0.00000000"
-                            heading="0.00000000"
+                            pitch="359.00000000"
+                            bank="359.00000000"
+                            heading="359.00000000"
                             imageComplexity="VERY_SPARSE">
                             <LibraryObject
                                    name="{BACE0492-8723-4804-B66C-332F346D2C7D}"

@@ -1,10 +1,8 @@
 ﻿using BglReader.Airport;
-using BglReader.Airport.Subsections;
 using BglReader.Airport.Subsections.RunwayDetails;
 using BglReader.Generic;
 using BglReader.NameList;
 using BglReader.Navigation;
-using BglReader.Scenery;
 using BglReader.Scenery.TaxiSigns;
 
 namespace BglReader.UnitTests.Helpers;

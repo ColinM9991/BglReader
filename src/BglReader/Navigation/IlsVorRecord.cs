@@ -1,8 +1,7 @@
-using BglReader.Airport;
-using BglReader.Airport.Subsections;
 using BglReader.Airport.Subsections.Types;
 using BglReader.Generic;
-using BglReader.ValueObjects;
+using BglReader.Types;
+using BglReader.ValueObjects.BitFields;
 
 namespace BglReader.Navigation;
 
