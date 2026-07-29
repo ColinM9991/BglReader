@@ -45,14 +45,6 @@ public partial class AirportApproachRecord : BglRecord
     public float MissedAltitude { get; }
 
     [Binary(11)]
-    [BinaryCondition(nameof(NumberOfApproachLegs))]
-    public AirportLegBaseRecord ApproachLegs { get; }
-
-    [Binary(12)]
-    [BinaryCondition(nameof(NumberOfMissedApproachLegs))]
-    public AirportLegBaseRecord MissedApproachLegs { get; }
-
-    [Binary(13)]
-    [BinaryCondition(nameof(NumberOfTransitions))]
-    public AirportTransitionRecord Transitions { get; }
+    [BinaryPolymorphicCollection(typeof(BglRecordFactory), typeof(AirportApproachDataType))]
+    public ICollection<BglRecord> SubRecords { get; } = [];
 }

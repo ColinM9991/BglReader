@@ -1,6 +1,10 @@
-﻿public sealed record BitField(
+﻿using System.Collections.Generic;
+
+public sealed record ClassModel<T>(
     string Name,
-    bool IsInheriting,
     string Namespace,
-    string UnderlyingType,
-    Property[] Properties);
+    bool IsInheriting,
+    IReadOnlyList<T> Properties)
+{
+    public string UnderlyingType { get; init; }
+}

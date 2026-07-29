@@ -15,16 +15,18 @@ public sealed class BinaryReaderAttribute(Type readerType) : Attribute
     public Type Reader { get; } = readerType;
 }
 
-[AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-public sealed class BinaryRecordVersionAttribute(ushort version) : Attribute
-{
-    public ushort Version { get; } = version;
-}
-
 [AttributeUsage(AttributeTargets.Property)]
 public sealed class BinaryCollectionAttribute(string countProperty) : Attribute
 {
     public string CountProperty { get; } = countProperty;
+}
+
+[AttributeUsage(AttributeTargets.Property)]
+public sealed class BinaryPolymorphicCollectionAttribute(Type factoryType, Type idType) : Attribute
+{
+    public Type Factory { get; } = factoryType;
+
+    public Type IdType { get; } = idType;
 }
 
 [AttributeUsage(AttributeTargets.Property)]

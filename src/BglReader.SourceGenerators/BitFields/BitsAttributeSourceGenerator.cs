@@ -42,19 +42,22 @@ public sealed class BitsAttributeSourceGenerator : IIncrementalGenerator
                     })
                     .ToArray();
 
-                return new BitField(
+                return new ClassModel<Property>(
                     typeSymbol.Name,
-                    typeSymbol.BaseType is not null && typeSymbol.BaseType.SpecialType != SpecialType.System_Object,
                     typeSymbol.ContainingNamespace.ToDisplayString(),
-                    underlyingType!.ToDisplayString(),
-                    properties);
+                    typeSymbol.BaseType is not null && typeSymbol.BaseType.SpecialType != SpecialType.System_Object,
+                    properties)
+                {
+                    UnderlyingType = 
+                        underlyingType!.ToDisplayString(),
+                };
             });
         context.RegisterSourceOutput(classes, Generate);
     }
 
     private static void Generate(
         SourceProductionContext context,
-        BitField bitField)
+        ClassModel<Property> bitField)
     {
         var source = new IndentingStringBuilder();
 
@@ -136,3 +139,10 @@ public sealed class BitsAttributeSourceGenerator : IIncrementalGenerator
         return length == 32 ? "0xFFFFFFFF" : $"0x{((1u << length) - 1):X}";
     }
 }
+
+public sealed record Property(
+    string Type,
+    SpecialType ReturnKind, 
+    string Name,
+    int Offset,
+    int Length);
