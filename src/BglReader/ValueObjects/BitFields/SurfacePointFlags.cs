@@ -1,5 +1,4 @@
 ﻿using BglReader.Airport.Subsections.Types;
-using BglReader.Attributes;
 
 namespace BglReader.ValueObjects.BitFields;
 

@@ -22,7 +22,7 @@ public abstract class AirportApronBaseRecord : BglRecord
 
     public ushort NumberOfVertices { get; init; }
 
-    public ICollection<Coordinate> Vertices { get; init; }
+    public ICollection<Coordinate> Vertices { get; init; } = [];
 
     protected IEnumerable<Coordinate> ReadVertices(BglBinaryReader reader)
         => Enumerable.Range(0, NumberOfVertices).Select(_ => reader.ReadCoordinates(hasElevation: false));

@@ -1,5 +1,4 @@
-﻿using BglReader.Attributes;
-using BglReader.Navigation;
+﻿using BglReader.Navigation;
 using BglReader.Types;
 
 namespace BglReader.ValueObjects.BitFields;

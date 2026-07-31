@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using BglReader.SourceGenerators.BinaryGenerators.Instructions;
@@ -50,7 +49,8 @@ public sealed class BinarySerializableSourceGenerator : IIncrementalGenerator
     {
         return new BinaryProperty(
             property.Name,
-            GetOrder(property), InstructionFactory.Create(property));
+            GetOrder(property),
+            InstructionFactory.Create(property));
     }
 
     private static int GetOrder(IPropertySymbol property)
@@ -70,9 +70,18 @@ public sealed class BinarySerializableSourceGenerator : IIncrementalGenerator
             .AppendLine()
             .AppendLine($"public partial class {record.Name}")
             .AppendLine("{")
-            .IncrementIndentation()
-            .AppendLine($"internal {record.Name}(ushort id, BglBinaryReader reader) : base(id, reader)")
-            .AppendLine("{")
+            .IncrementIndentation();
+
+        if (record.IsInheriting)
+        {
+            sb.AppendLine($"internal {record.Name}(ushort id, BglBinaryReader reader)");
+        }
+        else
+        {
+            sb.AppendLine($"internal {record.Name}(BglBinaryReader reader)");
+        }
+
+        sb.AppendLine("{")
             .IncrementIndentation();
 
         foreach (var property in record.Properties.OrderBy(p => p.Order))

@@ -1,5 +1,4 @@
-﻿using BglReader.Attributes;
-
+﻿
 namespace BglReader.ValueObjects.BitFields;
 
 [BitField(typeof(byte))]

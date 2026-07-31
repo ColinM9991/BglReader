@@ -1,67 +1,50 @@
 using BglReader.Airport.Subsections.Types;
+using BglReader.Attributes.BinaryAttributes;
 using BglReader.Generic;
 using BglReader.Types;
 using BglReader.ValueObjects.BitFields;
 
 namespace BglReader.Airport.Subsections.Approach;
 
-public class AirportTransitionRecord : BglRecord
+[BinarySerializable]
+public partial class AirportTransitionRecord : BglRecord
 {
-    public AirportTransitionRecord(ushort id, BglBinaryReader reader) : base(id, reader)
-    {
-        Type = (TransitionType)reader.ReadByte();
-        NumberOfTransitionLegs = reader.ReadByte();
-
-        (FixType, FixIdentifier) = (AirportApproachDataType)Id == AirportApproachDataType.TransitionV6
-            ? ReadV6FixFlags(reader)
-            : ReadPackedFixFlags(reader);
-        FixRegionFlags = new RegionIdentifierFlags(reader.ReadUInt32());
-
-        Altitude = reader.ReadSingle();
-
-        if (Type == TransitionType.Dme)
-        {
-            DmeIdent = new ShiftedIcaoIdentifier(reader.ReadUInt32());
-
-            DmeRegionFlags = new RegionIdentifierFlags(reader.ReadUInt32());
-
-            Radial = reader.ReadUInt32();
-            Distance = reader.ReadSingle();
-        }
-
-        LegRecord = NumberOfTransitionLegs > 0
-            ? new AirportLegBaseRecord(reader)
-            : null;
-    }
-
+    [Binary(0)]
     public TransitionType Type { get; }
 
+    [Binary(1)]
     public byte NumberOfTransitionLegs { get; }
 
-    public FixType FixType { get; }
-
-    public IcaoIdentifier FixIdentifier { get; }
-
+    [Binary(2)]
+    [BinaryReader(typeof(ApproachFixReader))]
+    public (FixType Type, IcaoIdentifier Identifier) Fix { get; }
+    
+    [Binary(3)]
     public RegionIdentifierFlags FixRegionFlags { get; }
 
+    [Binary(4)]
     public float Altitude { get; }
 
+    [Binary(5)]
+    [BinaryCondition<TransitionType>(nameof(Type), BinaryComparison.Equal, TransitionType.Dme)]
+    public TransitionDmeRecord? TransitionDme { get; }
+
+    [Binary(6)]
+    public AirportLegBaseRecord? LegRecord { get; }
+}
+
+[BinarySerializable]
+public partial class TransitionDmeRecord
+{
+    [Binary(0)]
     public ShiftedIcaoIdentifier? DmeIdent { get; }
 
+    [Binary(1)]
     public RegionIdentifierFlags? DmeRegionFlags { get; }
 
+    [Binary(2)]
     public uint Radial { get; }
 
+    [Binary(3)]
     public float Distance { get; }
-
-    public AirportLegBaseRecord? LegRecord { get; }
-
-    private static (FixType FixType, IcaoIdentifier IcaoIdentifier) ReadV6FixFlags(BglBinaryReader reader) =>
-        ((FixType)reader.ReadUInt32(), new IcaoIdentifier(reader.ReadUInt32()));
-
-    private static (FixType FixType, IcaoIdentifier IcaoIdentifier) ReadPackedFixFlags(BglBinaryReader reader)
-    {
-        var fixFlags = new FixFlags(reader.ReadUInt32());
-        return (fixFlags.Type, fixFlags.Identifier);
-    }
 }
