@@ -140,7 +140,7 @@ public sealed class BitsAttributeSourceGenerator : IIncrementalGenerator
     }
 }
 
-public sealed record Property(
+internal sealed record Property(
     string Type,
     SpecialType ReturnKind, 
     string Name,

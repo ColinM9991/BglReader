@@ -2,7 +2,7 @@
 
 namespace BglReader.SourceGenerators.BinaryGenerators.Instructions;
 
-public sealed record PrimitiveRead(SpecialType SpecialType) : ReadInstruction
+internal sealed record PrimitiveRead(SpecialType SpecialType) : ReadInstruction
 {
     public override void Emit(string propertyName, IndentingStringBuilder sb)
     {

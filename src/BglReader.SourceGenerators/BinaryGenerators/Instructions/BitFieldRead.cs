@@ -2,7 +2,7 @@
 
 namespace BglReader.SourceGenerators.BinaryGenerators.Instructions;
 
-public sealed record BitFieldRead(
+internal sealed record BitFieldRead(
     string TypeName,
     SpecialType StorageType)
     : ReadInstruction

@@ -72,14 +72,9 @@ public sealed class BinarySerializableSourceGenerator : IIncrementalGenerator
             .AppendLine("{")
             .IncrementIndentation();
 
-        if (record.IsInheriting)
-        {
-            sb.AppendLine($"internal {record.Name}(ushort id, BglBinaryReader reader)");
-        }
-        else
-        {
-            sb.AppendLine($"internal {record.Name}(BglBinaryReader reader)");
-        }
+        sb.AppendLine(record.IsInheriting
+            ? $"internal {record.Name}(ushort id, BglBinaryReader reader) : base(id, reader)"
+            : $"internal {record.Name}(BglBinaryReader reader)");
 
         sb.AppendLine("{")
             .IncrementIndentation();
@@ -99,7 +94,7 @@ public sealed class BinarySerializableSourceGenerator : IIncrementalGenerator
     }
 }
 
-public sealed record BinaryProperty(
+internal sealed record BinaryProperty(
     string Name,
     int Order,
     ReadInstruction Instruction);

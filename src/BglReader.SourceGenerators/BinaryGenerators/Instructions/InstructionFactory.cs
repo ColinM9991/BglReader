@@ -12,9 +12,25 @@ public class InstructionFactory
         TryCreatePrimitive,
         TryCreateBitField,
         TryCreateBinaryReader,
+        TryCreateCollectionRead,
         TryCreatePolymorphicCollectionRead,
         TryCreateNestedObject
     ];
+
+    private static ReadInstruction TryCreateCollectionRead(IPropertySymbol propertySymbol)
+    {
+        var attribute = GetAttributeByName(propertySymbol, "BinaryCollectionAttribute");
+        if (attribute is null)
+        {
+            return null;
+        }
+
+        var countProperty = attribute.ConstructorArguments[0].Value!.ToString();
+        var namedTypeSymbol = (INamedTypeSymbol)propertySymbol.Type;
+        var underlyingType = namedTypeSymbol.TypeArguments[0].GetUnderlyingType();
+
+        return new CollectionRead(countProperty, underlyingType);
+    }
 
     internal static ReadInstruction Create(IPropertySymbol property)
     {
@@ -32,8 +48,7 @@ public class InstructionFactory
 
     private static bool TryGetCondition(IPropertySymbol property, out Condition condition)
     {
-        var conditionAttribute = property.GetAttributes()
-            .FirstOrDefault(x => x.AttributeClass?.Name == "BinaryConditionAttribute");
+        var conditionAttribute = GetAttributeByName(property, "BinaryConditionAttribute");
         if (conditionAttribute is null)
         {
             condition = null;
@@ -108,8 +123,9 @@ public class InstructionFactory
         return new BinaryReaderRead(readerType.Name);
     }
 
-    private static ReadInstruction TryCreateNestedObject(IPropertySymbol property) => new NestedObjectRead(
-        property.Type.GetUnderlyingType());
+    private static ReadInstruction TryCreateNestedObject(IPropertySymbol property) =>
+        new NestedObjectRead(
+            property.Type.GetUnderlyingType());
 
     private static AttributeData GetAttributeByName(IPropertySymbol property, string attributeName)
         => property.GetAttributes().FirstOrDefault(x => x.AttributeClass?.Name == attributeName);
@@ -125,7 +141,7 @@ public static class PropertySymbolExtensions
             {
                 return typeSymbol.ToDisplayString();
             }
-            
+
             if (namedTypeSymbol.OriginalDefinition.SpecialType is SpecialType.System_Nullable_T &&
                 namedTypeSymbol.TypeArguments[0] is var nullableTypeArgument)
             {
