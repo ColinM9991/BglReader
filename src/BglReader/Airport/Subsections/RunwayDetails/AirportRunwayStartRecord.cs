@@ -1,25 +1,24 @@
 ﻿using BglReader.Airport.Subsections.Types;
+using BglReader.Attributes.BinaryAttributes;
 using BglReader.Generic;
 using BglReader.Types;
 
 namespace BglReader.Airport.Subsections.RunwayDetails;
 
-public class AirportRunwayStartRecord : BglRecord
+[BinarySerializable]
+public partial class AirportRunwayStartRecord : BglRecord
 {
-    public AirportRunwayStartRecord(ushort id, BglBinaryReader reader) : base(id, reader)
-    {
-        RunwayNumber = reader.ReadByte();
-        Flags = new RunwayStartFlags(reader.ReadByte());
-        Coordinates = reader.ReadCoordinates();
-        Heading = reader.ReadSingle();
-    }
-
+    [Binary(1)]
     public byte RunwayNumber { get; }
 
+    [Binary(2)]
     public RunwayStartFlags Flags { get; }
 
+    [Binary(3)]
+    [BinaryReader(typeof(ThreeDimensionalCoordinateReader))]
     public Coordinate Coordinates { get; }
 
+    [Binary(4)]
     public float Heading { get; }
 }
 

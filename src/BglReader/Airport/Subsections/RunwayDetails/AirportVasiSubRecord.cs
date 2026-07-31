@@ -1,26 +1,24 @@
 ﻿using BglReader.Airport.Subsections.Types;
+using BglReader.Attributes.BinaryAttributes;
 using BglReader.Generic;
 
 namespace BglReader.Airport.Subsections.RunwayDetails;
 
-public class AirportVasiSubRecord : BglRecord
+[BinarySerializable]
+public partial class AirportVasiSubRecord : BglRecord
 {
-    public AirportVasiSubRecord(ushort id, BglBinaryReader reader) : base(id, reader)
-    {
-        Type = (VasiType)reader.ReadUInt16();
-        BiasX = reader.ReadSingle();
-        BiasZ = reader.ReadSingle();
-        Spacing = reader.ReadSingle();
-        Pitch = reader.ReadSingle();
-    }
-
+    [Binary(1)]
     public VasiType Type { get; }
 
+    [Binary(2)]
     public float BiasX { get; }
 
+    [Binary(3)]
     public float BiasZ { get; }
 
+    [Binary(4)]
     public float Spacing { get; }
 
+    [Binary(5)]
     public float Pitch { get; }
 }

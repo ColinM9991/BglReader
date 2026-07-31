@@ -28,7 +28,11 @@ internal static class PropertySymbolExtensions
                 return namedTypeSymbol.TypeArguments[0].GetUnderlyingType();
 
             if (namedTypeSymbol.NullableAnnotation is NullableAnnotation.Annotated)
-                return namedTypeSymbol.ConstructedFrom.GetUnderlyingType();
+            {
+                return namedTypeSymbol.TypeArguments.Length > 0
+                    ? namedTypeSymbol.TypeArguments[0].GetUnderlyingType()
+                    : namedTypeSymbol.ConstructedFrom.GetUnderlyingType();
+            }
 
             return namedTypeSymbol;
         }

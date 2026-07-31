@@ -30,5 +30,5 @@ internal sealed record Condition(string PropertyType, string Property, BinaryCom
         _ => throw new ArgumentOutOfRangeException(nameof(Comparer), Comparer, null)
     };
 
-    public override string ToString() => $"{Property} {GetComparisonSymbol()} ({PropertyType}){Value}";
+    public override string ToString() => $"({PropertyType}){Property} {GetComparisonSymbol()} ({PropertyType}){Value}";
 }

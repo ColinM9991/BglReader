@@ -21,6 +21,16 @@ public sealed class ElevationBinaryValueReader : IBinaryValueReader<Elevation>
     public Elevation Read(BglBinaryReader reader) => new(reader.ReadInt32() / 1000f);
 }
 
+public sealed class IcaoIdentifierReader : IBinaryValueReader<IcaoIdentifier>
+{
+    public IcaoIdentifier Read(BglBinaryReader reader) => new(reader.ReadUInt32());
+}
+
+public sealed class ShiftedIcaoIdentifierReader : IBinaryValueReader<IcaoIdentifier>
+{
+    public IcaoIdentifier Read(BglBinaryReader reader) => new(reader.ReadUInt32() >> 5);
+}
+
 public sealed class ApproachFixReader : IBinaryRecordReader<(FixType, IcaoIdentifier)>
 {
     public (FixType, IcaoIdentifier) Read(ushort id, BglBinaryReader reader) => (AirportSubsectionDataType)id switch
