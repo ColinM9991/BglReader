@@ -1,50 +1,47 @@
+using BglReader.Attributes.BinaryAttributes;
 using BglReader.ValueObjects.BitFields;
 
 namespace BglReader.Airport.Subsections.Approach;
 
-public readonly struct ApproachLeg
+[BinarySerializable]
+public partial class ApproachLeg
 {
-    public ApproachLeg(
-        BglBinaryReader reader)
-    {
-        Id = reader.ReadByte();
-        AltitudeDescriptor = reader.ReadByte();
-        Flags = new ApproachLegFlags(reader.ReadUInt16());
-        FixFlags = new FixFlags(reader.ReadUInt32());
-        IcaoFlags = new RegionIdentifierFlags(reader.ReadUInt32());
-        RecommendedIdentFlags = new FixFlags(reader.ReadUInt32());
-        RecommendedAirportFlags = new RegionIdentifierFlags(reader.ReadUInt32());
-        Theta = reader.ReadSingle();
-        Rho = reader.ReadSingle();
-        Course = reader.ReadSingle();
-        DistanceTime = reader.ReadSingle();
-        Altitude1 = reader.ReadSingle();
-        Altitude2 = reader.ReadSingle();
-    }
-
+    [Binary(0)]
     public byte Id { get; }
 
+    [Binary(1)]
     public byte AltitudeDescriptor { get; }
 
+    [Binary(2)]
     public ApproachLegFlags Flags { get; }
 
+    [Binary(3)]
     public FixFlags FixFlags { get; }
 
+    [Binary(4)]
     public RegionIdentifierFlags IcaoFlags { get; }
 
+    [Binary(5)]
     public FixFlags RecommendedIdentFlags { get; }
 
+    [Binary(6)]
     public RegionIdentifierFlags RecommendedAirportFlags { get; }
 
+    [Binary(7)]
     public float Theta { get; }
 
+    [Binary(8)]
     public float Rho { get; }
 
+    [Binary(9)]
     public float Course { get; }
 
+    [Binary(10)]
     public float DistanceTime { get; }
 
+    [Binary(11)]
     public float Altitude1 { get; }
 
+    [Binary(12)]
     public float Altitude2 { get; }
 }

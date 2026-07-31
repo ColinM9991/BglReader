@@ -2,6 +2,11 @@
 
 public record IcaoIdentifier
 {
+    internal IcaoIdentifier(BglBinaryReader reader)
+        : this(reader.ReadUInt32())
+    {
+    }
+    
     public IcaoIdentifier(uint value)
     {
         Value = Parse(value);

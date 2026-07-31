@@ -1,16 +1,27 @@
 ﻿using BglReader.Airport;
+using BglReader.Airport.Subsections.Apron;
 using BglReader.Airport.Subsections.Types;
 using BglReader.Types;
 using BglReader.ValueObjects.BitFields;
 
 namespace BglReader;
 
-public interface IBinaryValueReader<out T>
+public sealed class ApronTriangleReader : IBinaryValueReader<ApronTriangle>
 {
-    T Read(ushort id, BglBinaryReader reader);
+    public ApronTriangle Read(BglBinaryReader reader) => new(reader.ReadUInt16(), reader.ReadUInt16(), reader.ReadUInt16());
 }
 
-public sealed class ApproachFixReader : IBinaryValueReader<(FixType, IcaoIdentifier)>
+public sealed class GuidValueReader : IBinaryValueReader<Guid>
+{
+    public Guid Read(BglBinaryReader reader) => new(reader.ReadBytes(16));
+}
+
+public sealed class ElevationBinaryValueReader : IBinaryValueReader<Elevation>
+{
+    public Elevation Read(BglBinaryReader reader) => new(reader.ReadInt32() / 1000f);
+}
+
+public sealed class ApproachFixReader : IBinaryRecordReader<(FixType, IcaoIdentifier)>
 {
     public (FixType, IcaoIdentifier) Read(ushort id, BglBinaryReader reader) => (AirportSubsectionDataType)id switch
     {

@@ -8,7 +8,7 @@ public static class NameListTestData
         new()
         {
             {
-                "KTST_TestAirport_v6.bgl", new Dictionary<NameListItemType, string[]>
+                "KTST_TestAirport_v5.bgl", new Dictionary<NameListItemType, string[]>
                 {
                     { NameListItemType.Region, new[] { "North America" } },
                     { NameListItemType.Country, new[] { "United States" } },

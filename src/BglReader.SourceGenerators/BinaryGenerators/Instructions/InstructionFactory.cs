@@ -120,7 +120,8 @@ public class InstructionFactory
         }
 
         var readerType = (INamedTypeSymbol)binaryReaderAttribute.ConstructorArguments[0]!.Value!;
-        return new BinaryReaderRead(readerType.Name);
+        var readerInterface = readerType.Interfaces[0].Name;
+        return new BinaryReaderRead(readerType.Name, readerInterface);
     }
 
     private static ReadInstruction TryCreateNestedObject(IPropertySymbol property) =>

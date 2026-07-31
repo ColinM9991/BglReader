@@ -14,6 +14,20 @@ public sealed class BinarySerializableSourceGenerator : IIncrementalGenerator
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
+        context.RegisterPostInitializationOutput(ctx => ctx.AddSource("BinaryReaders.g.cs", """
+            namespace BglReader;
+            
+            public interface IBinaryRecordReader<out T>
+            {
+                T Read(ushort id, BglBinaryReader reader);
+            }
+
+            public interface IBinaryValueReader<out T>
+            {
+                T Read(BglBinaryReader reader);
+            }
+            """));
+
         var classes = context.SyntaxProvider.ForAttributeWithMetadataName(
             "BglReader.Attributes.BinaryAttributes.BinarySerializableAttribute",
             static (_, _) => true,

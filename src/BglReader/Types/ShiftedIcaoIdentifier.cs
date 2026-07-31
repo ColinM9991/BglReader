@@ -2,6 +2,11 @@
 
 public record ShiftedIcaoIdentifier : IcaoIdentifier
 {
+    internal ShiftedIcaoIdentifier(BglBinaryReader reader)
+        : this(reader.ReadUInt32())
+    {
+    }
+    
     public ShiftedIcaoIdentifier(uint value) : base(value >> 5)
     {
     }
