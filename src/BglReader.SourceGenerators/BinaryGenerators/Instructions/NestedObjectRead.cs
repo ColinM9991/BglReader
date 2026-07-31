@@ -1,11 +1,7 @@
 ﻿namespace BglReader.SourceGenerators.BinaryGenerators.Instructions;
 
 internal sealed record NestedObjectRead(
-    string TypeName
-    ) : ReadInstruction
+    string TypeName) : ValueReadInstruction
 {
-    public override void Emit(string propertyName, IndentingStringBuilder sb)
-    {
-        sb.AppendLine($"{propertyName} = new {TypeName}(reader);");
-    }
+    internal override string EmitValue() => $"new {TypeName}(reader)";
 }

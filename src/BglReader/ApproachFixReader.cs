@@ -39,3 +39,17 @@ public sealed class ApproachFixReader : IBinaryRecordReader<(FixType, IcaoIdenti
         return (fixFlags.Type, fixFlags.Identifier);
     }
 }
+
+public sealed class TwoDimensionalCoordinateReader
+    : IBinaryValueReader<Coordinate>
+{
+    public Coordinate Read(BglBinaryReader reader) =>
+        reader.ReadCoordinates(hasElevation: false);
+}
+
+public sealed class ThreeDimensionalCoordinateReader
+    : IBinaryValueReader<Coordinate>
+{
+    public Coordinate Read(BglBinaryReader reader) =>
+        reader.ReadCoordinates(hasElevation: true);
+}

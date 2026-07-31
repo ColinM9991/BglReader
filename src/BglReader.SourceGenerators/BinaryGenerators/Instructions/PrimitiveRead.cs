@@ -2,10 +2,7 @@
 
 namespace BglReader.SourceGenerators.BinaryGenerators.Instructions;
 
-internal sealed record PrimitiveRead(SpecialType SpecialType) : ReadInstruction
+internal sealed record PrimitiveRead(SpecialType SpecialType) : ValueReadInstruction
 {
-    public override void Emit(string propertyName, IndentingStringBuilder sb)
-    {
-        sb.AppendLine($"{propertyName} = {PrimitiveMap.Readers[SpecialType]};");
-    }
+    internal override string EmitValue() => PrimitiveMap.Readers[SpecialType];
 }

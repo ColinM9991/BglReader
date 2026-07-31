@@ -4,39 +4,29 @@ using Microsoft.CodeAnalysis;
 
 namespace BglReader.SourceGenerators.BinaryGenerators.Instructions;
 
-public class InstructionFactory
+internal static class InstructionFactory
 {
-    private static readonly Func<IPropertySymbol, ReadInstruction>[] Factories =
+    private static readonly Func<IPropertySymbol, ITypeSymbol, ReadInstruction>[] Factories =
     [
         TryCreateEnumRead,
         TryCreatePrimitive,
         TryCreateBitField,
         TryCreateBinaryReader,
-        TryCreateCollectionRead,
         TryCreatePolymorphicCollectionRead,
         TryCreateNestedObject
     ];
 
-    private static ReadInstruction TryCreateCollectionRead(IPropertySymbol propertySymbol)
-    {
-        var attribute = GetAttributeByName(propertySymbol, "BinaryCollectionAttribute");
-        if (attribute is null)
-        {
-            return null;
-        }
-
-        var countProperty = attribute.ConstructorArguments[0].Value!.ToString();
-        var namedTypeSymbol = (INamedTypeSymbol)propertySymbol.Type;
-        var underlyingType = namedTypeSymbol.TypeArguments[0].GetUnderlyingType();
-
-        return new CollectionRead(countProperty, underlyingType);
-    }
-
     internal static ReadInstruction Create(IPropertySymbol property)
     {
+        var propertyType = property.Type.GetUnderlyingType();
         var instruction = Factories
-            .Select(factory => factory(property))
+            .Select(factory => factory(property, propertyType))
             .First(x => x is not null)!;
+
+        if (TryGetCollection(property, out var collectionMetadata))
+        {
+            instruction = new CollectionRead(collectionMetadata.CountProperty, instruction as ValueReadInstruction);
+        }
 
         if (TryGetCondition(property, out var condition))
         {
@@ -44,6 +34,21 @@ public class InstructionFactory
         }
 
         return instruction;
+    }
+
+    private static bool TryGetCollection(IPropertySymbol propertySymbol, out CollectionMetadata collectionMetadata)
+    {
+        var attribute = GetAttributeByName(propertySymbol, "BinaryCollectionAttribute");
+        if (attribute is null)
+        {
+            collectionMetadata = null;
+            return false;
+        }
+
+        var countProperty = attribute.ConstructorArguments[0].Value!.ToString();
+
+        collectionMetadata = new CollectionMetadata(countProperty);
+        return true;
     }
 
     private static bool TryGetCondition(IPropertySymbol property, out Condition condition)
@@ -60,11 +65,11 @@ public class InstructionFactory
         var value = conditionAttribute.ConstructorArguments[2]!.Value!;
         var type = conditionAttribute.AttributeClass!.TypeArguments[0];
 
-        condition = new Condition(type.GetUnderlyingType(), conditionProperty, comparer, value);
+        condition = new Condition(type.GetUnderlyingType().ToDisplayString(), conditionProperty, comparer, value);
         return true;
     }
 
-    private static ReadInstruction TryCreatePolymorphicCollectionRead(IPropertySymbol property)
+    private static ReadInstruction TryCreatePolymorphicCollectionRead(IPropertySymbol property, ITypeSymbol propertyType)
     {
         var attribute = GetAttributeByName(property, "BinaryPolymorphicCollectionAttribute");
         if (attribute is null)
@@ -76,20 +81,20 @@ public class InstructionFactory
             attribute.ConstructorArguments[1].Value!.ToString());
     }
 
-    private static ReadInstruction TryCreateEnumRead(IPropertySymbol property)
+    private static ReadInstruction TryCreateEnumRead(IPropertySymbol property, ITypeSymbol propertyType)
     {
-        if (property.Type.TypeKind != TypeKind.Enum)
+        if (propertyType.TypeKind != TypeKind.Enum)
         {
             return null;
         }
 
-        var enumType = (INamedTypeSymbol)property.Type;
-        return new EnumRead(property.Type.GetUnderlyingType(), enumType.EnumUnderlyingType!.SpecialType);
+        var enumType = (INamedTypeSymbol)propertyType;
+        return new EnumRead(propertyType.ToDisplayString(), enumType.EnumUnderlyingType!.SpecialType);
     }
 
-    private static ReadInstruction TryCreateBitField(IPropertySymbol property)
+    private static ReadInstruction TryCreateBitField(IPropertySymbol property, ITypeSymbol propertyType)
     {
-        var bitField = property.Type.GetAttributes().FirstOrDefault(x =>
+        var bitField = propertyType.GetAttributes().FirstOrDefault(x =>
             x.AttributeClass?.ToDisplayString() == "BglReader.Attributes.BitFieldAttribute");
         if (bitField is null)
         {
@@ -97,20 +102,17 @@ public class InstructionFactory
         }
 
         var bitFieldType = (INamedTypeSymbol)bitField.ConstructorArguments[0]!.Value!;
-        return new BitFieldRead(property.Type.GetUnderlyingType(), bitFieldType.SpecialType);
+        return new BitFieldRead(propertyType.ToDisplayString(), bitFieldType.SpecialType);
     }
 
-    private static ReadInstruction TryCreatePrimitive(IPropertySymbol property)
+    private static ReadInstruction TryCreatePrimitive(IPropertySymbol property, ITypeSymbol propertyType)
     {
-        if (PrimitiveMap.Types.TryGetValue(property.Type.SpecialType, out var primitiveRead))
-        {
-            return primitiveRead;
-        }
-
-        return null;
+        return PrimitiveMap.Types.TryGetValue(propertyType.SpecialType, out var primitiveRead)
+            ? primitiveRead
+            : null;
     }
 
-    private static ReadInstruction TryCreateBinaryReader(IPropertySymbol property)
+    private static ReadInstruction TryCreateBinaryReader(IPropertySymbol property, ITypeSymbol propertyType)
     {
         var binaryReaderAttribute = property.GetAttributes()
             .FirstOrDefault(x => x.AttributeClass?.Name == "BinaryReaderAttribute");
@@ -124,37 +126,10 @@ public class InstructionFactory
         return new BinaryReaderRead(readerType.Name, readerInterface);
     }
 
-    private static ReadInstruction TryCreateNestedObject(IPropertySymbol property) =>
+    private static ReadInstruction TryCreateNestedObject(IPropertySymbol property, ITypeSymbol propertyType) =>
         new NestedObjectRead(
-            property.Type.GetUnderlyingType());
+            propertyType.ToDisplayString());
 
     private static AttributeData GetAttributeByName(IPropertySymbol property, string attributeName)
         => property.GetAttributes().FirstOrDefault(x => x.AttributeClass?.Name == attributeName);
-}
-
-public static class PropertySymbolExtensions
-{
-    extension(ITypeSymbol typeSymbol)
-    {
-        public string GetUnderlyingType()
-        {
-            if (typeSymbol is not INamedTypeSymbol namedTypeSymbol)
-            {
-                return typeSymbol.ToDisplayString();
-            }
-
-            if (namedTypeSymbol.OriginalDefinition.SpecialType is SpecialType.System_Nullable_T &&
-                namedTypeSymbol.TypeArguments[0] is var nullableTypeArgument)
-            {
-                return nullableTypeArgument.ToDisplayString();
-            }
-
-            if (namedTypeSymbol.TypeKind is TypeKind.Enum || namedTypeSymbol.SpecialType is SpecialType.System_Enum)
-            {
-                return namedTypeSymbol.ConstructedFrom.ToDisplayString();
-            }
-
-            return namedTypeSymbol.OriginalDefinition.ToDisplayString();
-        }
-    }
 }

@@ -2,12 +2,12 @@
 
 namespace BglReader.SourceGenerators.BinaryGenerators.Instructions;
 
-internal sealed record BinaryReaderRead(string ReaderType, string Interface) : ReadInstruction
+internal sealed record BinaryReaderRead(string ReaderType, string Interface) : ValueReadInstruction
 {
-    public override void Emit(string propertyName, IndentingStringBuilder sb)
+    internal override string EmitValue()
     {
         var parametersExpression = GetParameters();
-        sb.AppendLine($"{propertyName} = new {ReaderType}().Read({parametersExpression});");
+        return $"new {ReaderType}().Read({parametersExpression})";
     }
 
     private string GetParameters() => Interface switch

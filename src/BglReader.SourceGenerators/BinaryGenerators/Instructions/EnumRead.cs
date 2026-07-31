@@ -2,10 +2,7 @@
 
 namespace BglReader.SourceGenerators.BinaryGenerators.Instructions;
 
-internal sealed record EnumRead(string EnumType, SpecialType UnderlyingType) : ReadInstruction
+internal sealed record EnumRead(string EnumType, SpecialType UnderlyingType) : ValueReadInstruction
 {
-    public override void Emit(string propertyName, IndentingStringBuilder sb)
-    {
-        sb.AppendLine($"{propertyName} = ({EnumType}){PrimitiveMap.Readers[UnderlyingType]};");
-    }
+    internal override string EmitValue() => $"({EnumType}){PrimitiveMap.Readers[UnderlyingType]}";
 }

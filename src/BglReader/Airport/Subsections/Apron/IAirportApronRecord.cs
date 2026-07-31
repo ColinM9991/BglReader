@@ -7,13 +7,13 @@ namespace BglReader.Airport.Subsections.Apron;
 // TODO Validate Apron types being used in P3DV5
 public interface IAirportApronRecord
 {
-    SurfaceType SurfaceType { get; init; }
+    SurfaceType SurfaceType { get; }
     
-    Guid? MaterialSet { get; init; }
+    Guid? MaterialSet { get; }
     
-    Elevation Elevation { get; init; }
+    Elevation Elevation { get; }
 
-    ushort NumberOfVertices { get; init; }
+    ushort NumberOfVertices { get; }
 
-    ICollection<Coordinate> Vertices { get; init; }
+    ICollection<Coordinate> Vertices { get; }
 }
