@@ -6,6 +6,9 @@ public sealed class BinarySerializableAttribute : Attribute;
 [AttributeUsage(AttributeTargets.Property)]
 public class BinaryAttribute(int index) : Attribute;
 
+[AttributeUsage(AttributeTargets.Property)]
+public class BinaryDiscardAttribute(int count) : Attribute;
+
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
 public sealed class BinaryReaderAttribute(Type readerType) : Attribute;
 

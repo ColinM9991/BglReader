@@ -1,9 +1,15 @@
+using System.Linq;
 using Microsoft.CodeAnalysis;
 
 namespace BglReader.SourceGenerators.BinaryGenerators.Instructions;
 
 internal static class PropertySymbolExtensions
 {
+    extension(IPropertySymbol property)
+    {
+        internal AttributeData GetAttribute(string name) => property.GetAttributes().FirstOrDefault(a => a.AttributeClass?.Name == name);
+    }
+    
     extension(INamedTypeSymbol typeSymbol)
     {
         private bool IsCollectionType() => typeSymbol.ConstructedFrom.SpecialType is SpecialType.System_Array

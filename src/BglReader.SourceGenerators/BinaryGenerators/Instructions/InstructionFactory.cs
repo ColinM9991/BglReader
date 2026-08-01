@@ -8,6 +8,7 @@ internal static class InstructionFactory
 {
     private static readonly Func<IPropertySymbol, ITypeSymbol, ReadInstruction>[] Factories =
     [
+        TryCreateDiscardRead,
         TryCreateEnumRead,
         TryCreatePrimitive,
         TryCreateBitField,
@@ -36,9 +37,9 @@ internal static class InstructionFactory
         return instruction;
     }
 
-    private static bool TryGetCollection(IPropertySymbol propertySymbol, out CollectionMetadata collectionMetadata)
+    private static bool TryGetCollection(IPropertySymbol property, out CollectionMetadata collectionMetadata)
     {
-        var attribute = GetAttributeByName(propertySymbol, "BinaryCollectionAttribute");
+        var attribute = property.GetAttribute("BinaryCollectionAttribute");
         if (attribute is null)
         {
             collectionMetadata = null;
@@ -53,7 +54,7 @@ internal static class InstructionFactory
 
     private static bool TryGetCondition(IPropertySymbol property, out Condition condition)
     {
-        var conditionAttribute = GetAttributeByName(property, "BinaryConditionAttribute");
+        var conditionAttribute = property.GetAttribute("BinaryConditionAttribute");
         if (conditionAttribute is null)
         {
             condition = null;
@@ -69,9 +70,21 @@ internal static class InstructionFactory
         return true;
     }
 
+    private static ReadInstruction TryCreateDiscardRead(IPropertySymbol property, ITypeSymbol propertyType)
+    {
+        var attribute = property.GetAttribute("BinaryDiscardAttribute");
+        if (attribute is null)
+        {
+            return null;
+        }
+        
+        var numberOfBytes = (int)attribute.ConstructorArguments[0].Value!;
+        return new DiscardRead(numberOfBytes);
+    }
+
     private static ReadInstruction TryCreatePolymorphicCollectionRead(IPropertySymbol property, ITypeSymbol propertyType)
     {
-        var attribute = GetAttributeByName(property, "BinaryPolymorphicCollectionAttribute");
+        var attribute = property.GetAttribute("BinaryPolymorphicCollectionAttribute");
         if (attribute is null)
         {
             return null;
@@ -129,7 +142,4 @@ internal static class InstructionFactory
     private static ReadInstruction TryCreateNestedObject(IPropertySymbol property, ITypeSymbol propertyType) =>
         new NestedObjectRead(
             propertyType.ToDisplayString());
-
-    private static AttributeData GetAttributeByName(IPropertySymbol property, string attributeName)
-        => property.GetAttributes().FirstOrDefault(x => x.AttributeClass?.Name == attributeName);
 }

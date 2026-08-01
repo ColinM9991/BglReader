@@ -1,18 +1,18 @@
-﻿using BglReader.Generic;
+﻿using BglReader.Attributes.BinaryAttributes;
+using BglReader.Generic;
 
 namespace BglReader.Airport.Subsections.RunwayDetails;
 
-public class AirportMarkingBiasSubReportRecord : BglRecord
+[BinarySerializable]
+public partial class AirportMarkingBiasSubReportRecord : BglRecord
 {
-    public AirportMarkingBiasSubReportRecord(ushort id, BglBinaryReader reader) : base(id, reader)
-    {
-        _ = reader.ReadUInt16();
+    [Binary(1)]
+    [BinaryDiscard(2)]
+    public byte[] Unknown { get; }
 
-        PrimaryMarking = reader.ReadSingle();
-        SecondaryMarking = reader.ReadSingle();
-    }
-
+    [Binary(2)]
     public float PrimaryMarking { get; }
 
+    [Binary(3)]
     public float SecondaryMarking { get; }
 }

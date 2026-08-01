@@ -66,14 +66,11 @@ public static class BglRecordFactory
         airportRecordDataType switch
         {
             AirportRecordDataType.OffsetPrimary or AirportRecordDataType.OffsetSecondary => new
-                AirportSubReportBaseRecord((ushort)airportRecordDataType, reader,
-                    AirportSubReportBaseRecord.SubReportBaseType.OffsetThreshold),
+                AirportSubReportBaseRecord((ushort)airportRecordDataType, reader),
             AirportRecordDataType.BlastPadPrimary or AirportRecordDataType.BlastPadSecondary => new
-                AirportSubReportBaseRecord((ushort)airportRecordDataType, reader,
-                    AirportSubReportBaseRecord.SubReportBaseType.BlastPad),
+                AirportSubReportBaseRecord((ushort)airportRecordDataType, reader),
             AirportRecordDataType.OverrunPrimary or AirportRecordDataType.OverrunSecondary => new
-                AirportSubReportBaseRecord((ushort)airportRecordDataType, reader,
-                    AirportSubReportBaseRecord.SubReportBaseType.Overrun),
+                AirportSubReportBaseRecord((ushort)airportRecordDataType, reader),
             AirportRecordDataType.VasiLeftPrimary or AirportRecordDataType.VasiLeftSecondary
                 or AirportRecordDataType.VasiRightPrimary
                 or AirportRecordDataType.VasiRightSecondary => new AirportVasiSubRecord((ushort)airportRecordDataType,

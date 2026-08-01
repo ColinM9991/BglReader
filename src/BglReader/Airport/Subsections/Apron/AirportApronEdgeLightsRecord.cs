@@ -1,44 +1,41 @@
 ﻿using BglReader.Airport.Subsections.Types;
+using BglReader.Attributes.BinaryAttributes;
 using BglReader.Generic;
 using BglReader.Types;
 
 namespace BglReader.Airport.Subsections.Apron;
 
-public class AirportApronEdgeLightsRecord : BglRecord
+//TODO Validate
+[BinarySerializable]
+public partial class AirportApronEdgeLightsRecord : BglRecord
 {
-    // TODO Validate
-    public AirportApronEdgeLightsRecord(
-        ushort id,
-        BglBinaryReader reader) : base(id, reader)
-    {
-        _ = reader.ReadBytes(2);
+    [Binary(1)]
+    [BinaryDiscard(2)]
+    public byte[] Unknown { get; }
 
-        NumberOfVertices = reader.ReadUInt16();
-        NumberOfEdges = reader.ReadUInt16();
-        LightColor = reader.ReadUInt32();
-        LightIntensity = reader.ReadSingle();
-        MaxRenderAltitude = reader.ReadSingle();
-        
-        Vertices = Enumerable.Range(0, NumberOfVertices)
-            .Select(_ => reader.ReadCoordinates(hasElevation: false))
-            .ToList();
-        
-        Edges = Enumerable.Range(0, NumberOfEdges)
-            .Select(_ => reader.ReadTriangle())
-            .ToList();
-    }
-
+    [Binary(2)]
     public ushort NumberOfVertices { get; }
 
+    [Binary(3)]
     public ushort NumberOfEdges { get; }
 
+    [Binary(4)]
     public uint LightColor { get; }
 
+    [Binary(5)]
     public float LightIntensity { get; }
 
+    [Binary(6)]
     public float MaxRenderAltitude { get; }
 
+    [Binary(7)]
+    [BinaryReader(typeof(TwoDimensionalCoordinateReader))]
+    [BinaryCollection(nameof(NumberOfVertices))]
     public ICollection<Coordinate> Vertices { get; }
 
+    // TODO TriangleReader
+    [Binary(8)]
+    [BinaryReader(typeof(PrecisionTriangleReader))]
+    [BinaryCollection(nameof(NumberOfEdges))]
     public ICollection<Triangle> Edges { get; }
 }
