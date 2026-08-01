@@ -9,10 +9,10 @@ internal static class InstructionFactory
     private static readonly Func<IPropertySymbol, ITypeSymbol, ReadInstruction>[] Factories =
     [
         TryCreateDiscardRead,
+        TryCreateBinaryReader,
         TryCreateEnumRead,
         TryCreatePrimitive,
         TryCreateBitField,
-        TryCreateBinaryReader,
         TryCreatePolymorphicCollectionRead,
         TryCreateNestedObject
     ];

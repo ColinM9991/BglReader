@@ -32,7 +32,6 @@ public partial class AirportApronEdgeLightsRecord : BglRecord
     [BinaryCollection(nameof(NumberOfVertices))]
     public ICollection<Coordinate> Vertices { get; }
 
-    // TODO TriangleReader
     [Binary(8)]
     [BinaryReader(typeof(PrecisionTriangleReader))]
     [BinaryCollection(nameof(NumberOfEdges))]

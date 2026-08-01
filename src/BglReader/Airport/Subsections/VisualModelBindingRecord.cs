@@ -2,17 +2,18 @@
 
 namespace BglReader.Airport.Subsections;
 
-public sealed class VisualModelBindingRecord : BglRecord
+[BinarySerializable]
+public sealed partial class VisualModelBindingRecord : BglRecord
 {
-    public VisualModelBindingRecord(ushort id, BglBinaryReader reader) : base(id, reader)
-    {
-        _ = reader.ReadBytes(2); // TODO Unknown
-        Type = (VisualModelBindingType)reader.ReadUInt32();
-        ModelId = new Guid(reader.ReadBytes(16));
-    }
+    [Binary(1)]
+    [BinaryDiscard(2)]
+    public byte[] Unknown { get; }
     
+    [Binary(2)]
     public VisualModelBindingType Type { get; }
     
+    [Binary(3)]
+    [BinaryReader(typeof(GuidValueReader))]
     public Guid ModelId { get; }
 }
 

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using BglReader.SourceGenerators.BinaryGenerators.Instructions;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace BglReader.SourceGenerators.BinaryGenerators;
 
@@ -14,7 +15,7 @@ public sealed class BinarySerializableSourceGenerator : IIncrementalGenerator
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        context.RegisterPostInitializationOutput(ctx => ctx.AddSource("BinaryReaders.g.cs", """
+        context.RegisterPostInitializationOutput(ctx => ctx.AddSource("BinarySource.g.cs", """
             namespace BglReader.Attributes.BinaryAttributes;
             
             public interface IBinaryRecordReader<out T>
@@ -31,7 +32,7 @@ public sealed class BinarySerializableSourceGenerator : IIncrementalGenerator
             public sealed class BinarySerializableAttribute : Attribute;
             
             [AttributeUsage(AttributeTargets.Property)]
-            public class BinaryAttribute(int index) : Attribute;
+            public class BinaryAttribute(int Order) : Attribute;
             
             [AttributeUsage(AttributeTargets.Property)]
             public class BinaryDiscardAttribute(int count) : Attribute;

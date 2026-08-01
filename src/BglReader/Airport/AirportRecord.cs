@@ -1,82 +1,72 @@
-﻿using BglReader.Airport.Subsections;
-using BglReader.Airport.Subsections.Approach;
-using BglReader.Airport.Subsections.Apron;
-using BglReader.Airport.Subsections.RunwayDetails;
-using BglReader.Generic;
+﻿using BglReader.Generic;
 using BglReader.Types;
+using BglReader.ValueObjects.BitFields;
 
 namespace BglReader.Airport;
 
-public class AirportRecord : BglRecord
+[BinarySerializable]
+public partial class AirportRecord : BglRecord
 {
-    public AirportRecord(
-        ushort id,
-        BglBinaryReader reader) : base(id, reader)
-    {
-        _ = reader.ReadBytes(6); // Number of Runways, Com, Starts, Approaches, Aprons (including Delete Records) and Helipads
-        Coordinates = reader.ReadCoordinates();
-        TowerCoordinates = reader.ReadCoordinates();
-        MagneticVariation = (MagneticVariation)reader.ReadSingle();
-        Identifier = new ShiftedIcaoIdentifier(reader.ReadUInt32());
-        Region = new IcaoIdentifier(reader.ReadUInt32());
-        FuelTypeInfo = reader.ReadUInt32();
-
-        _ = reader.ReadByte();
-        TrafficScalar = reader.ReadByte() / 255.0;
-        IsSloped = reader.ReadUInt16() == 1;
-
-        if (Type is AirportType.P3Dv5)
-        {
-            // P3D number of Approaches appears at end of airport section
-            _ = reader.ReadBytes(4);
-        }
-
-        MapAirportData(reader);
-    }
-
     public AirportType Type => (AirportType)Id;
 
-    public int NumberOfRunways => Subsections.OfType<AirportRunwayRecord>().Count();
+    [Binary(1)]
+    public byte NumberOfRunways { get; }
 
-    public int NumberOfCom => Subsections.OfType<AirportComRecord>().Count();
+    [Binary(2)]
+    public byte NumberOfCom { get; }
 
-    public int NumberOfStarts => Subsections.OfType<AirportRunwayStartRecord>().Count();
+    [Binary(3)]
+    public byte NumberOfStarts { get; }
 
-    public int NumberOfApproaches => Subsections.OfType<AirportApproachRecord>().Count();
+    [Binary(4)]
+    public byte NumberOfApproaches { get; }
 
-    public int NumberOfAprons => Subsections.OfType<AirportApronRecord>().Count();
+    [Binary(5)]
+    public byte NumberOfAprons { get; }
 
-    public int NumberOfDeletes => Subsections.OfType<DeleteAirportRecord>().Count();
+    [Binary(6)]
+    public byte NumberOfHelipads { get; }
 
-    public int NumberOfHelipads => Subsections.OfType<HelipadRecord>().Count();
-
+    [Binary(7)]
+    [BinaryReader(typeof(ThreeDimensionalCoordinateReader))]
     public Coordinate Coordinates { get; }
 
+    [Binary(8)]
+    [BinaryReader(typeof(ThreeDimensionalCoordinateReader))]
     public Coordinate TowerCoordinates { get; }
 
+    [Binary(9)]
+    [BinaryReader(typeof(MagneticVariationReader))]
     public MagneticVariation MagneticVariation { get; }
 
-    public ShiftedIcaoIdentifier Identifier { get; }
+    [Binary(10)]
+    [BinaryReader(typeof(ShiftedIcaoIdentifierReader))]
+    public IcaoIdentifier Identifier { get; }
 
+    [Binary(11)]
+    [BinaryReader(typeof(IcaoIdentifierReader))]
     public IcaoIdentifier Region { get; }
 
-    public uint FuelTypeInfo { get; }
+    [Binary(12)]
+    public AirportFuelFlags FuelTypeInfo { get; }
+    
+    [Binary(13)]
+    public byte Unknown { get; }
 
+    [Binary(14)]
+    [BinaryReader(typeof(TrafficScalarReader))]
     public double TrafficScalar { get; }
 
+    [Binary(15)]
+    [BinaryReader(typeof(IsSlopedValueReader))]
     public bool IsSloped { get; }
+    
+    [Binary(16)]
+    [BinaryDiscard(4)]
+    [BinaryCondition<AirportType>(nameof(Type), BinaryComparison.Equal, AirportType.P3Dv5)]
+    public byte[] Padding { get; }
 
+    [Binary(17)]
+    [BinaryPolymorphicCollection(typeof(BglRecordFactory), typeof(AirportSubsectionDataType))]
     public ICollection<BglRecord> Subsections { get; } = new List<BglRecord>();
-
-    private void MapAirportData(BglBinaryReader reader)
-    {
-        while (reader.Position < EndPosition)
-        {
-            var id = (AirportSubsectionDataType)reader.ReadUInt16();
-            var record = BglRecordFactory.Create(id, Type, reader);
-
-            if (record is null) continue;
-            Subsections.Add(record);
-        }
-    }
 }

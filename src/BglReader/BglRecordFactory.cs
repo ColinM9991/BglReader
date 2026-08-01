@@ -14,7 +14,7 @@ namespace BglReader;
 
 public static class BglRecordFactory
 {
-    public static BglRecord? Create(AirportSubsectionDataType type, AirportType airportType, BglBinaryReader reader) =>
+    public static BglRecord? Create(AirportSubsectionDataType type, BglBinaryReader reader) =>
         type switch
         {
             AirportSubsectionDataType.Name => new NameRecord((ushort)type, reader),
@@ -37,7 +37,7 @@ public static class BglRecordFactory
                     (ushort)type, reader),
             AirportSubsectionDataType.TaxiwayParking or AirportSubsectionDataType.TaxiwayParkingP3DV5
                 or AirportSubsectionDataType.TaxiwayParkingFS9 =>
-                new AirportTaxiwayParkingRecord((ushort)type, reader, airportType),
+                new AirportTaxiwayParkingRecord((ushort)type, reader, /* TODO */AirportType.P3Dv5),
             AirportSubsectionDataType.TaxiPath or AirportSubsectionDataType.TaxiPathP3DV4
                 or AirportSubsectionDataType.TaxiPathP3DV5 => new AirportTaxiPathRecord((ushort)type, reader),
             AirportSubsectionDataType.TaxiName => new AirportTaxiNameRecord((ushort)type, reader),
@@ -58,7 +58,8 @@ public static class BglRecordFactory
         {
             AirportApproachDataType.ApproachLegs => new AirportLegBaseRecord((ushort)approachDataType, reader),
             AirportApproachDataType.MissedApproachLegs => new AirportLegBaseRecord((ushort)approachDataType, reader),
-            AirportApproachDataType.Transition or AirportApproachDataType.TransitionV6 => new AirportTransitionRecord((ushort)approachDataType, reader),
+            AirportApproachDataType.Transition or AirportApproachDataType.TransitionV6 => new AirportTransitionRecord(
+                (ushort)approachDataType, reader),
             _ => null,
         };
 

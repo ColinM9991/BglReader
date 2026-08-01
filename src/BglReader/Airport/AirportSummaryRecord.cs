@@ -4,33 +4,34 @@ using BglReader.ValueObjects.BitFields;
 
 namespace BglReader.Airport;
 
-public class AirportSummaryRecord : BglRecord
+[BinarySerializable]
+public partial class AirportSummaryRecord : BglRecord
 {
-    public AirportSummaryRecord(ushort id, BglBinaryReader reader) : base(id, reader)
-    {
-        ComFlags = new AirportSummaryComFlags(reader.ReadUInt16());
-        Coordinate = reader.ReadCoordinates();
-        Identifier = new ShiftedIcaoIdentifier(reader.ReadUInt32());
-        Region = new IcaoIdentifier(reader.ReadUInt32());
-        MagneticVariation = new MagneticVariation(reader.ReadSingle());
-        LongestRunwayLength = reader.ReadSingle();
-        LongestRunwayHeading = reader.ReadSingle();
-        FuelFlags = new AirportFuelFlags(reader.ReadUInt32());
-    }
-    
+    [Binary(1)]
     public AirportSummaryComFlags ComFlags { get; }
     
+    [Binary(2)]
+    [BinaryReader(typeof(ThreeDimensionalCoordinateReader))]
     public Coordinate Coordinate { get; }
     
-    public ShiftedIcaoIdentifier Identifier { get; }
+    [Binary(3)]
+    [BinaryReader(typeof(ShiftedIcaoIdentifierReader))]
+    public IcaoIdentifier Identifier { get; }
     
+    [Binary(4)]
+    [BinaryReader(typeof(IcaoIdentifierReader))]
     public IcaoIdentifier Region { get; }
     
+    [Binary(5)]
+    [BinaryReader(typeof(MagneticVariationReader))]
     public MagneticVariation MagneticVariation { get; }
     
+    [Binary(6)]
     public float LongestRunwayLength { get; }
     
+    [Binary(7)]
     public float LongestRunwayHeading { get; }
     
+    [Binary(8)]
     public AirportFuelFlags FuelFlags { get; }
 }

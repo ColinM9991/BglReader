@@ -1,11 +1,9 @@
 ﻿namespace BglReader.Airport;
 
-public class AirportSummaryP3DRecord : AirportSummaryRecord
+[BinarySerializable]
+public partial class AirportSummaryP3DRecord : AirportSummaryRecord
 {
-    public AirportSummaryP3DRecord(ushort id, BglBinaryReader reader) : base(id, reader)
-    {
-        MaterialSet = new Guid(reader.ReadBytes(16));
-    }
-    
+    [Binary(1)]
+    [BinaryReader(typeof(GuidValueReader))]
     public Guid? MaterialSet { get; }
 }
