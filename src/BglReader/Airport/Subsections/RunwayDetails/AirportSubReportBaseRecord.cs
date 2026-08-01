@@ -1,5 +1,4 @@
 ﻿using BglReader.Airport.Subsections.Types;
-using BglReader.Attributes.BinaryAttributes;
 using BglReader.Generic;
 
 namespace BglReader.Airport.Subsections.RunwayDetails;

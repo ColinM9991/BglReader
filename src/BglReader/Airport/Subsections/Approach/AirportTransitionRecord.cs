@@ -1,5 +1,4 @@
 using BglReader.Airport.Subsections.Types;
-using BglReader.Attributes.BinaryAttributes;
 using BglReader.Generic;
 using BglReader.Types;
 using BglReader.ValueObjects.BitFields;
@@ -31,20 +30,4 @@ public partial class AirportTransitionRecord : BglRecord
 
     [Binary(6)]
     public AirportLegBaseRecord? LegRecord { get; }
-}
-
-[BinarySerializable]
-public partial class TransitionDmeRecord
-{
-    [Binary(0)]
-    public ShiftedIcaoIdentifier? DmeIdent { get; }
-
-    [Binary(1)]
-    public RegionIdentifierFlags? DmeRegionFlags { get; }
-
-    [Binary(2)]
-    public uint Radial { get; }
-
-    [Binary(3)]
-    public float Distance { get; }
 }

@@ -1,4 +1,3 @@
-using BglReader.Attributes.BinaryAttributes;
 using BglReader.ValueObjects.BitFields;
 
 namespace BglReader.Airport.Subsections.Approach;

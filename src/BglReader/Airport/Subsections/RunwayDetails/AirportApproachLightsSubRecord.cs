@@ -1,5 +1,4 @@
-﻿using BglReader.Attributes.BinaryAttributes;
-using BglReader.Generic;
+﻿using BglReader.Generic;
 using BglReader.ValueObjects.BitFields;
 
 namespace BglReader.Airport.Subsections.RunwayDetails;

@@ -1,5 +1,4 @@
-﻿using BglReader.Attributes.BinaryAttributes;
-using BglReader.Generic;
+﻿using BglReader.Generic;
 
 namespace BglReader.Airport.Subsections.Taxi;
 
