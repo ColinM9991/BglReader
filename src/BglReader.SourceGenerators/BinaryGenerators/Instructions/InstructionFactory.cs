@@ -70,18 +70,6 @@ internal static class InstructionFactory
         return true;
     }
 
-    private static ReadInstruction TryCreateDiscardRead(IPropertySymbol property, ITypeSymbol propertyType)
-    {
-        var attribute = property.GetAttribute("BinaryDiscardAttribute");
-        if (attribute is null)
-        {
-            return null;
-        }
-        
-        var numberOfBytes = (int)attribute.ConstructorArguments[0].Value!;
-        return new DiscardRead(numberOfBytes);
-    }
-
     private static ReadInstruction TryCreatePolymorphicCollectionRead(IPropertySymbol property, ITypeSymbol propertyType)
     {
         var attribute = property.GetAttribute("BinaryPolymorphicCollectionAttribute");
@@ -94,7 +82,19 @@ internal static class InstructionFactory
             attribute.ConstructorArguments[1].Value!.ToString());
     }
 
-    private static ReadInstruction TryCreateEnumRead(IPropertySymbol property, ITypeSymbol propertyType)
+    private static ValueReadInstruction TryCreateDiscardRead(IPropertySymbol property, ITypeSymbol propertyType)
+    {
+        var attribute = property.GetAttribute("BinaryDiscardAttribute");
+        if (attribute is null)
+        {
+            return null;
+        }
+        
+        var numberOfBytes = (int)attribute.ConstructorArguments[0].Value!;
+        return new DiscardRead(numberOfBytes);
+    }
+
+    private static ValueReadInstruction TryCreateEnumRead(IPropertySymbol property, ITypeSymbol propertyType)
     {
         if (propertyType.TypeKind != TypeKind.Enum)
         {
@@ -105,7 +105,7 @@ internal static class InstructionFactory
         return new EnumRead(propertyType.ToDisplayString(), enumType.EnumUnderlyingType!.SpecialType);
     }
 
-    private static ReadInstruction TryCreateBitField(IPropertySymbol property, ITypeSymbol propertyType)
+    private static ValueReadInstruction TryCreateBitField(IPropertySymbol property, ITypeSymbol propertyType)
     {
         var bitField = propertyType.GetAttributes().FirstOrDefault(x =>
             x.AttributeClass?.ToDisplayString() == "BglReader.Attributes.BitFieldAttribute");
@@ -118,14 +118,14 @@ internal static class InstructionFactory
         return new BitFieldRead(propertyType.ToDisplayString(), bitFieldType.SpecialType);
     }
 
-    private static ReadInstruction TryCreatePrimitive(IPropertySymbol property, ITypeSymbol propertyType)
+    private static ValueReadInstruction TryCreatePrimitive(IPropertySymbol property, ITypeSymbol propertyType)
     {
         return PrimitiveMap.Types.TryGetValue(propertyType.SpecialType, out var primitiveRead)
             ? primitiveRead
             : null;
     }
 
-    private static ReadInstruction TryCreateBinaryReader(IPropertySymbol property, ITypeSymbol propertyType)
+    private static ValueReadInstruction TryCreateBinaryReader(IPropertySymbol property, ITypeSymbol propertyType)
     {
         var binaryReaderAttribute = property.GetAttributes()
             .FirstOrDefault(x => x.AttributeClass?.Name == "BinaryReaderAttribute");
@@ -139,7 +139,7 @@ internal static class InstructionFactory
         return new BinaryReaderRead(readerType.Name, readerInterface);
     }
 
-    private static ReadInstruction TryCreateNestedObject(IPropertySymbol property, ITypeSymbol propertyType) =>
+    private static ValueReadInstruction TryCreateNestedObject(IPropertySymbol property, ITypeSymbol propertyType) =>
         new NestedObjectRead(
             propertyType.ToDisplayString());
 }

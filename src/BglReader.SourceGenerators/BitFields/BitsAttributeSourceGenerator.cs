@@ -8,6 +8,27 @@ public sealed class BitsAttributeSourceGenerator : IIncrementalGenerator
 {
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
+        context.RegisterPostInitializationOutput(ctx => ctx.AddSource("BitsAttributes.g.cs", """
+                namespace BglReader.Attributes;
+                
+                [AttributeUsage(AttributeTargets.Class)]
+                public sealed class BitFieldAttribute(Type type) : Attribute
+                {
+                    public Type Type { get; } = type;
+                }
+
+                [AttributeUsage(AttributeTargets.Property)]
+                public sealed class BitsAttribute(
+                    int offset,
+                    int length = 1) : Attribute
+                {
+                    public int Offset { get; } = offset;
+
+                    public int Length { get; } = length;
+                }
+                """
+        ));
+
         var classes = context.SyntaxProvider.ForAttributeWithMetadataName(
             "BglReader.Attributes.BitFieldAttribute",
             static (_, _) => true,
@@ -48,7 +69,7 @@ public sealed class BitsAttributeSourceGenerator : IIncrementalGenerator
                     typeSymbol.BaseType is not null && typeSymbol.BaseType.SpecialType != SpecialType.System_Object,
                     properties)
                 {
-                    UnderlyingType = 
+                    UnderlyingType =
                         underlyingType!.ToDisplayString(),
                 };
             });
@@ -66,7 +87,7 @@ public sealed class BitsAttributeSourceGenerator : IIncrementalGenerator
             .AppendLine($"public partial class {bitField.Name}")
             .AppendLine("{")
             .IncrementIndentation();
-            
+
         if (!bitField.IsInheriting)
         {
             source.AppendLine($"protected readonly {bitField.UnderlyingType} _value;")
@@ -89,7 +110,7 @@ public sealed class BitsAttributeSourceGenerator : IIncrementalGenerator
                 .AppendLine("_value = value;")
                 .DecrementIndentation();
         }
-            
+
         source.AppendLine("}")
             .AppendLine();
 
@@ -142,7 +163,7 @@ public sealed class BitsAttributeSourceGenerator : IIncrementalGenerator
 
 internal sealed record Property(
     string Type,
-    SpecialType ReturnKind, 
+    SpecialType ReturnKind,
     string Name,
     int Offset,
     int Length);

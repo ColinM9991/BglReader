@@ -8,7 +8,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\BglReader.Attributes\BglReader.Attributes.csproj" />
       <ProjectReference Include="..\BglReader.SourceGenerators\BglReader.SourceGenerators.csproj"
                         OutputItemType="Analyzer"
                         ReferenceOutputAssembly="false" />
