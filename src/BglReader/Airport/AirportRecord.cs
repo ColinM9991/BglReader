@@ -67,6 +67,6 @@ public partial class AirportRecord : BglRecord
     public byte[] Padding { get; }
 
     [Binary(17)]
-    [BinaryPolymorphicCollection(typeof(BglRecordFactory), typeof(AirportSubsectionDataType))]
+    [BinaryPolymorphicCollection(typeof(AirportSubsectionDataFactory), typeof(AirportSubsectionDataType))]
     public ICollection<BglRecord> Subsections { get; } = new List<BglRecord>();
 }

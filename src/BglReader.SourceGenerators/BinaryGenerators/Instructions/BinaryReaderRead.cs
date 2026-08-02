@@ -12,7 +12,7 @@ internal sealed record BinaryReaderRead(string ReaderType, string Interface) : V
 
     private string GetParameters() => Interface switch
     {
-        "IBinaryRecordReader" => "Id, reader",
+        "IBinaryRecordReader" => "new BglRecordContext(Id, this), reader",
         "IBinaryValueReader" => "reader",
         _ => throw new ArgumentOutOfRangeException(nameof(Interface), Interface, null)
     };

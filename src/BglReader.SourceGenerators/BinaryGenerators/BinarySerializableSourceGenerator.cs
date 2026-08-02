@@ -20,7 +20,7 @@ public sealed class BinarySerializableSourceGenerator : IIncrementalGenerator
             
             public interface IBinaryRecordReader<out T>
             {
-                T Read(ushort id, BglBinaryReader reader);
+                T Read(BglRecordContext context, BglBinaryReader reader);
             }
 
             public interface IBinaryValueReader<out T>

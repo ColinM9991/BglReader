@@ -66,6 +66,6 @@ public partial class AirportRunwayRecord : BglRecord
     public Guid? Material { get; }
 
     [Binary(18)]
-    [BinaryPolymorphicCollection(typeof(BglRecordFactory), typeof(AirportRecordDataType))]
+    [BinaryPolymorphicCollection(typeof(RunwayDataFactory), typeof(AirportRecordDataType))]
     public ICollection<BglRecord> SubRecords { get; } = new List<BglRecord>();
 }

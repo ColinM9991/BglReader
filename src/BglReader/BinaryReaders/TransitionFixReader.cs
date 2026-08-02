@@ -6,11 +6,11 @@ namespace BglReader.BinaryReaders;
 
 public sealed class TransitionFixReader : FixReaderBase, IBinaryRecordReader<(FixType, IcaoIdentifier)>
 {
-    public (FixType, IcaoIdentifier) Read(ushort id, BglBinaryReader reader) =>
-        (AirportApproachDataType)id switch
+    public (FixType, IcaoIdentifier) Read(BglRecordContext context, BglBinaryReader reader) =>
+        (AirportApproachDataType)context.RecordId switch
         {
             AirportApproachDataType.Transition => PackedRead(reader),
             AirportApproachDataType.TransitionV6 => V6Read(reader),
-            _ => throw new ArgumentOutOfRangeException(nameof(id), id, null)
+            _ => throw new ArgumentOutOfRangeException(nameof(context.RecordId), context, null)
         };
 }

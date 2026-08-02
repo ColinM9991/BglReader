@@ -43,6 +43,6 @@ public partial class AirportApproachRecord : BglRecord
     public float MissedAltitude { get; }
 
     [Binary(11)]
-    [BinaryPolymorphicCollection(typeof(BglRecordFactory), typeof(AirportApproachDataType))]
+    [BinaryPolymorphicCollection(typeof(ApproachDataFactory), typeof(AirportApproachDataType))]
     public ICollection<BglRecord> SubRecords { get; } = [];
 }

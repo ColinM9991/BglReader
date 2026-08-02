@@ -12,10 +12,13 @@ using BglReader.Scenery.TaxiSigns;
 
 namespace BglReader;
 
-public static class BglRecordFactory
+internal static class AirportSubsectionDataFactory
 {
-    public static BglRecord? Create(AirportSubsectionDataType type, BglBinaryReader reader) =>
-        type switch
+    internal static BglRecord? Create(BglRecordContext context, BglBinaryReader reader)
+    {
+        var type = (AirportSubsectionDataType)context.RecordId;
+        
+        return type switch
         {
             AirportSubsectionDataType.Name => new NameRecord((ushort)type, reader),
             AirportSubsectionDataType.TowerSceneryObject => new TowerSceneryObjectRecord((ushort)type, reader),
@@ -37,7 +40,7 @@ public static class BglRecordFactory
                     (ushort)type, reader),
             AirportSubsectionDataType.TaxiwayParking or AirportSubsectionDataType.TaxiwayParkingP3DV5
                 or AirportSubsectionDataType.TaxiwayParkingFS9 =>
-                new AirportTaxiwayParkingRecord((ushort)type, reader, /* TODO */AirportType.P3Dv5),
+                new AirportTaxiwayParkingRecord((ushort)type, reader, (AirportType)context.ParentRecord.Id),
             AirportSubsectionDataType.TaxiPath or AirportSubsectionDataType.TaxiPathP3DV4
                 or AirportSubsectionDataType.TaxiPathP3DV5 => new AirportTaxiPathRecord((ushort)type, reader),
             AirportSubsectionDataType.TaxiName => new AirportTaxiNameRecord((ushort)type, reader),
@@ -52,9 +55,15 @@ public static class BglRecordFactory
                 (ushort)type, reader),
             _ => null,
         };
+    }
+}
 
-    public static BglRecord? Create(AirportApproachDataType approachDataType, BglBinaryReader reader) =>
-        approachDataType switch
+internal static class ApproachDataFactory
+{
+    internal static BglRecord? Create(BglRecordContext context, BglBinaryReader reader)
+    {
+        var approachDataType = (AirportApproachDataType)context.RecordId;
+        return approachDataType switch
         {
             AirportApproachDataType.ApproachLegs => new AirportLegBaseRecord((ushort)approachDataType, reader),
             AirportApproachDataType.MissedApproachLegs => new AirportLegBaseRecord((ushort)approachDataType, reader),
@@ -62,9 +71,15 @@ public static class BglRecordFactory
                 (ushort)approachDataType, reader),
             _ => null,
         };
+    }
+}
 
-    public static BglRecord? Create(AirportRecordDataType airportRecordDataType, BglBinaryReader reader) =>
-        airportRecordDataType switch
+internal static class RunwayDataFactory
+{
+    internal static BglRecord? Create(BglRecordContext context, BglBinaryReader reader)
+    {
+        var airportRecordDataType = (AirportRecordDataType)context.RecordId;
+        return airportRecordDataType switch
         {
             AirportRecordDataType.OffsetPrimary or AirportRecordDataType.OffsetSecondary => new
                 AirportSubReportBaseRecord((ushort)airportRecordDataType, reader),
@@ -84,8 +99,12 @@ public static class BglRecordFactory
                 new ApproachLightsBiasSubRecord((ushort)airportRecordDataType, reader),
             _ => null,
         };
+    }
+}
 
-    public static BglRecord? Create(NavigationDataType navigationDataType, BglBinaryReader reader) =>
+internal static class BglRecordFactory
+{
+    internal static BglRecord? Create(NavigationDataType navigationDataType, BglBinaryReader reader) =>
         navigationDataType switch
         {
             NavigationDataType.Localizer => new LocalizerRecord((ushort)navigationDataType, reader),
@@ -95,7 +114,7 @@ public static class BglRecordFactory
             _ => null
         };
 
-    public static SceneryBglRecord? Create(SceneryObjectType sceneryObjectType, BglBinaryReader reader) =>
+    internal static SceneryBglRecord? Create(SceneryObjectType sceneryObjectType, BglBinaryReader reader) =>
         sceneryObjectType switch
         {
             SceneryObjectType.TaxiSign
