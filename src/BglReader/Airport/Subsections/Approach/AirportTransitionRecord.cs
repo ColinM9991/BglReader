@@ -15,7 +15,7 @@ public partial class AirportTransitionRecord : BglRecord
     public byte NumberOfTransitionLegs { get; }
 
     [Binary(2)]
-    [BinaryReader(typeof(ApproachFixReader))]
+    [BinaryReader(typeof(TransitionFixReader))]
     public (FixType Type, IcaoIdentifier Identifier) Fix { get; }
     
     [Binary(3)]
@@ -29,5 +29,6 @@ public partial class AirportTransitionRecord : BglRecord
     public TransitionDmeRecord? TransitionDme { get; }
 
     [Binary(6)]
+    [BinaryCondition<int>(nameof(NumberOfTransitionLegs), BinaryComparison.GreaterThan, 0)]
     public AirportLegBaseRecord? LegRecord { get; }
 }
