@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BglReader.SourceGenerators.BinaryGenerators.Instructions;
+namespace BglReader.SourceGenerators.BinaryGenerators.Instructions.Primitive;
 
 internal sealed record BinaryReaderRead(string ReaderType, string Interface) : ValueReadInstruction
 {

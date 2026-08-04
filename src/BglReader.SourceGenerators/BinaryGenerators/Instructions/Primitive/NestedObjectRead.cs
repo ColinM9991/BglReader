@@ -1,4 +1,4 @@
-﻿namespace BglReader.SourceGenerators.BinaryGenerators.Instructions;
+﻿namespace BglReader.SourceGenerators.BinaryGenerators.Instructions.Primitive;
 
 internal sealed record NestedObjectRead(
     string TypeName) : ValueReadInstruction

@@ -1,4 +1,4 @@
-﻿namespace BglReader.SourceGenerators.BinaryGenerators.Instructions;
+﻿namespace BglReader.SourceGenerators.BinaryGenerators.Instructions.Primitive;
 
 internal sealed record PolymorphicCollectionRead(string FactoryTypeName, string IdTypeName) : ReadInstruction
 {

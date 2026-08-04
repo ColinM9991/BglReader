@@ -1,4 +1,4 @@
-namespace BglReader.SourceGenerators.BinaryGenerators.Instructions;
+namespace BglReader.SourceGenerators.BinaryGenerators.Instructions.Decorated;
 
 internal sealed record CollectionRead(string CountProperty, ValueReadInstruction ValueReadInstruction) : ReadInstruction
 {

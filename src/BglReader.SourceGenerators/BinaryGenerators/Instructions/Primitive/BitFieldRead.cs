@@ -1,6 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 
-namespace BglReader.SourceGenerators.BinaryGenerators.Instructions;
+namespace BglReader.SourceGenerators.BinaryGenerators.Instructions.Primitive;
 
 internal sealed record BitFieldRead(
     string TypeName,

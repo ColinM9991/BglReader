@@ -22,7 +22,6 @@ public abstract class TaxiSignSceneryRecordBase : LibrarySceneryRecordBase
     
     private TaxiWaySign CreateTaxiWaySign(BglBinaryReader reader)
     {
-        const int memorySizeBytes = 12;
         var longitudeOffset = reader.ReadSingle();
         var latitudeOffset = reader.ReadSingle();
 
@@ -37,14 +36,7 @@ public abstract class TaxiSignSceneryRecordBase : LibrarySceneryRecordBase
         var size = (TaxiSignSize)reader.ReadByte();
         var justification = (TaxiSignJustification)reader.ReadByte();
 
-        var labelBytes = reader.ReadUntilNull();
-
-        var label = Encoding.ASCII.GetString(labelBytes);
-        var labelLength = memorySizeBytes + labelBytes.Length + 1;
-        if ((labelLength & 1) != 0)
-        {
-            reader.ReadByte(); // Consume alignment padding
-        }
+        var label = reader.ReadNullTerminatedString(2);
 
         return new TaxiWaySign(
             coordinates,

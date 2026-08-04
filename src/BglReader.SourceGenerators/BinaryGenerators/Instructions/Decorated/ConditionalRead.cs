@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BglReader.SourceGenerators.BinaryGenerators.Instructions;
+namespace BglReader.SourceGenerators.BinaryGenerators.Instructions.Decorated;
 
 internal sealed record ConditionalRead(Condition Condition, ReadInstruction Instruction) : ReadInstruction
 {

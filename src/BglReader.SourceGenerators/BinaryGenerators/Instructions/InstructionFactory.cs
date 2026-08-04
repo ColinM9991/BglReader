@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using BglReader.SourceGenerators.BinaryGenerators.Instructions.Decorated;
+using BglReader.SourceGenerators.BinaryGenerators.Instructions.Primitive;
 using Microsoft.CodeAnalysis;
 
 namespace BglReader.SourceGenerators.BinaryGenerators.Instructions;
@@ -8,7 +10,7 @@ internal static class InstructionFactory
 {
     private static readonly Func<IPropertySymbol, ITypeSymbol, ReadInstruction>[] Factories =
     [
-        TryCreateDiscardRead,
+        TryCreateConsumingRead,
         TryCreateBinaryReader,
         TryCreateEnumRead,
         TryCreatePrimitive,
@@ -82,20 +84,58 @@ internal static class InstructionFactory
             attribute.ConstructorArguments[1].Value!.ToString());
     }
 
-    private static ValueReadInstruction TryCreateDiscardRead(IPropertySymbol property, ITypeSymbol propertyType)
+    private static ValueReadInstruction TryCreateConsumingRead(
+        IPropertySymbol property,
+        ITypeSymbol propertyType)
     {
-        var attribute = property.GetAttribute("BinaryConsumeAttribute");
-        if (attribute is null)
+        var consume = property.GetAttribute("BinaryConsumeAttribute");
+        var fixedString = property.GetAttribute("BinaryStringAttribute");
+        var nullTerminated =
+            property.GetAttribute("BinaryNullTerminatedStringAttribute");
+
+        var attributes = new[] { consume, fixedString, nullTerminated }
+            .Where(attribute => attribute is not null)
+            .ToArray();
+
+        switch (attributes.Length)
         {
-            return null;
+            case 0:
+                return null;
+            case > 1:
+                throw new InvalidOperationException(
+                    $"Property '{property.Name}' has conflicting binary read attributes.");
         }
-        
-        var arg = attribute.ConstructorArguments[0].Value!;
-        ConsumeLength consumption = arg is string reference
-            ? new ReferencedConsumeLength(reference)
-            : new ConstantConsumeLength((int)arg);
-        
-        return new DiscardRead(consumption);
+
+        var attribute = attributes[0]!;
+
+        return attribute.AttributeClass!.Name switch
+        {
+            "BinaryConsumeAttribute" =>
+                new ByteCountRead(ParseConsumeLength(attribute)),
+
+            "BinaryStringAttribute" =>
+                new FixedByteStringRead(ParseConsumeLength(attribute)),
+
+            "BinaryNullTerminatedStringAttribute" =>
+                new NullTerminatedStringRead(
+                    (int)attribute.ConstructorArguments[0].Value!),
+
+            _ => throw new InvalidOperationException(
+                $"Unsupported binary read attribute '{attribute.AttributeClass.Name}'.")
+        };
+
+        static ConsumeLength ParseConsumeLength(AttributeData attribute)
+        {
+            var value = attribute.ConstructorArguments[0].Value;
+
+            return value switch
+            {
+                int count => new ConstantConsumeLength(count),
+                string propertyName => new ReferencedConsumeLength(propertyName),
+                _ => throw new InvalidOperationException(
+                    $"Invalid byte-count specification: {value}")
+            };
+        }
     }
 
     private static ValueReadInstruction TryCreateEnumRead(IPropertySymbol property, ITypeSymbol propertyType)

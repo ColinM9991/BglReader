@@ -41,13 +41,21 @@ public sealed class BglBinaryReader(BinaryReader reader) : IDisposable
         ? Coordinate.FromBgl(ReadInt32(), ReadInt32(), ReadInt32())
         : Coordinate.FromBgl(ReadInt32(), ReadInt32());
 
-    public Triangle ReadTriangle(bool isP3DTriangle = true) => new(isP3DTriangle ? ReadSingle() : ReadUInt16(), ReadUInt16(), ReadUInt16());
-
     public string ReadString(int bytes) => Encoding.UTF8.GetString(ReadUntilNull(bytes));
 
-    public byte[] ReadUntilNull(int count) => reader.ReadBytes(count).TakeWhile(x => x != 0).ToArray();
+    public string ReadNullTerminatedString(int alignment)
+    {
+        var value = Encoding.ASCII.GetString(ReadUntilNull());
+
+        while (Position % alignment != 0)
+            ReadByte();
+
+        return value;
+    }
     
-    public byte[] ReadUntilNull()
+    private byte[] ReadUntilNull(int count) => [.. reader.ReadBytes(count).TakeWhile(x => x != 0)];
+    
+    private byte[] ReadUntilNull()
     {
         Span<byte> buffer = stackalloc byte[64];
         var length = 0;
