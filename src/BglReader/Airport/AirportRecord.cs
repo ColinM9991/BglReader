@@ -62,7 +62,7 @@ public partial class AirportRecord : BglRecord
     public bool IsSloped { get; }
     
     [Binary(16)]
-    [BinaryDiscard(4)]
+    [BinaryConsume(4)]
     [BinaryCondition<AirportType>(nameof(Type), BinaryComparison.Equal, AirportType.P3Dv5)]
     public byte[] Padding { get; }
 

@@ -25,7 +25,7 @@ public partial class HelipadRecord : BglRecord
     public byte Type { get; }
 
     [Binary(3)]
-    [BinaryDiscard(4)]
+    [BinaryConsume(4)]
     public byte[] Color { get; }
 
     [Binary(4)]

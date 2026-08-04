@@ -9,7 +9,7 @@ namespace BglReader.Airport.Subsections.Apron;
 public partial class AirportApronEdgeLightsRecord : BglRecord
 {
     [Binary(1)]
-    [BinaryDiscard(2)]
+    [BinaryConsume(2)]
     public byte[] Unknown { get; }
 
     [Binary(2)]

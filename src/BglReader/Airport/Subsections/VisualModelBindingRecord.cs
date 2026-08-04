@@ -6,7 +6,7 @@ namespace BglReader.Airport.Subsections;
 public sealed partial class VisualModelBindingRecord : BglRecord
 {
     [Binary(1)]
-    [BinaryDiscard(2)]
+    [BinaryConsume(2)]
     public byte[] Unknown { get; }
     
     [Binary(2)]

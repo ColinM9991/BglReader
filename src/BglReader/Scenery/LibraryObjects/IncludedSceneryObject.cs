@@ -13,6 +13,6 @@ public abstract partial class IncludedSceneryObject : BglRecord
     public SceneryBglRecord? EmbeddedObject { get; }
     
     [Binary(3)]
-    [BinaryDiscard(2)]
+    [BinaryConsume(2)]
     public ICollection<byte> Padding { get; } 
 }

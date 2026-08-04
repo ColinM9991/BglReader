@@ -1,0 +1,48 @@
+namespace BglReader.Attributes.BinaryAttributes;
+
+[AttributeUsage(AttributeTargets.Class)]
+public sealed class BinarySerializableAttribute : Attribute;
+            
+[AttributeUsage(AttributeTargets.Property)]
+public class BinaryAttribute(int Order) : Attribute;
+
+[AttributeUsage(AttributeTargets.Property)]
+public class BinaryConsumeAttribute : Attribute
+{
+    public BinaryConsumeAttribute(int count)
+    {
+        CountReference = count;
+    }
+
+    public BinaryConsumeAttribute(string countProperty)
+    {
+        CountReference = countProperty;
+    }
+    
+    public object CountReference { get; }
+}
+            
+[AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+public sealed class BinaryReaderAttribute(Type readerType) : Attribute;
+            
+[AttributeUsage(AttributeTargets.Property)]
+public sealed class BinaryCollectionAttribute(string countProperty) : Attribute;
+            
+[AttributeUsage(AttributeTargets.Property)]
+public sealed class BinaryPolymorphicCollectionAttribute(Type factoryType, Type idType) : Attribute;
+            
+[AttributeUsage(AttributeTargets.Property)]
+public sealed class BinaryConditionAttribute<TValue>(string property, BinaryComparison comparison, TValue value)
+    : Attribute;
+            
+public enum BinaryComparison
+{
+    Equal = 0,
+    NotEqual = 1,
+                
+    LessThan = 2,
+    LessThanOrEqual = 3,
+                
+    GreaterThan = 4,
+    GreaterThanOrEqual = 5,
+}

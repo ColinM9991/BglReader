@@ -31,7 +31,7 @@ public partial class TaxiPath : ITaxiPath
     public int WeightLimit { get; }
     
     [Binary(9)]
-    [BinaryDiscard(4)]
+    [BinaryConsume(4)]
     public byte[] Unknown { get; }
     
     [Binary(10)]
@@ -52,6 +52,6 @@ public partial class TaxiPath : ITaxiPath
      * Byte 2: Unknown
      */
     [Binary(13)]
-    [BinaryDiscard(2)]
+    [BinaryConsume(2)]
     public byte[] Trailing { get; }
 }

@@ -8,7 +8,7 @@ namespace BglReader.Airport.Subsections;
 public partial class AirportPolygonRecord : BglRecord
 {
     [Binary(1)]
-    [BinaryDiscard(2)]
+    [BinaryConsume(2)]
     public byte[] Unknown { get; }
     
     [Binary(2)]

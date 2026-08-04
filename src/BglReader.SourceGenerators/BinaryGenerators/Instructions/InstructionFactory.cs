@@ -84,14 +84,18 @@ internal static class InstructionFactory
 
     private static ValueReadInstruction TryCreateDiscardRead(IPropertySymbol property, ITypeSymbol propertyType)
     {
-        var attribute = property.GetAttribute("BinaryDiscardAttribute");
+        var attribute = property.GetAttribute("BinaryConsumeAttribute");
         if (attribute is null)
         {
             return null;
         }
         
-        var numberOfBytes = (int)attribute.ConstructorArguments[0].Value!;
-        return new DiscardRead(numberOfBytes);
+        var arg = attribute.ConstructorArguments[0].Value!;
+        ConsumeLength consumption = arg is string reference
+            ? new ReferencedConsumeLength(reference)
+            : new ConstantConsumeLength((int)arg);
+        
+        return new DiscardRead(consumption);
     }
 
     private static ValueReadInstruction TryCreateEnumRead(IPropertySymbol property, ITypeSymbol propertyType)
