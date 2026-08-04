@@ -14,7 +14,7 @@ internal sealed record ByteCountRead(ConsumeLength Consumption) : ValueReadInstr
             _ => throw new InvalidOperationException(),
         };
         
-        return $"reader.ReadBytes({numberOfBytes})";
+        return $"reader.ReadBytes((int){numberOfBytes})";
     }
 }
 
@@ -31,7 +31,7 @@ internal sealed record FixedByteStringRead(ConsumeLength Consumption) : ByteStri
             _ => throw new InvalidOperationException(),
         };
 
-        return $"reader.ReadString({numberOfBytes})";
+        return $"reader.ReadString((int){numberOfBytes})";
     }
 }
 

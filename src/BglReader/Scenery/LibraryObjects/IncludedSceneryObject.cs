@@ -14,5 +14,5 @@ public abstract partial class IncludedSceneryObject : BglRecord
     
     [Binary(3)]
     [BinaryConsume(2)]
-    public ICollection<byte> Padding { get; } 
+    public byte[] Padding { get; } 
 }

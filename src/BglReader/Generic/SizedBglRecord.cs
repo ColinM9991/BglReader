@@ -32,5 +32,7 @@ public abstract class SizedBglRecord<T> : BaseBglRecord where T : IBinaryNumber<
 
     protected override long EndPosition => StartPosition + long.CreateChecked(Size);
 
+    protected long RemainingBytes => EndPosition - Reader.Position;
+    
     protected long GetRemainingBytes() => EndPosition - Reader.Position;
 }

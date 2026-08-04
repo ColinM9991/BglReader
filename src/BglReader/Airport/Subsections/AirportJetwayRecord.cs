@@ -2,20 +2,19 @@
 
 namespace BglReader.Airport.Subsections;
 
-public class AirportJetwayRecord : BglRecord
+[BinarySerializable]
+public partial class AirportJetwayRecord : BglRecord
 {
-    public AirportJetwayRecord(ushort id, BglBinaryReader reader) : base(id, reader)
-    {
-        ParkingNumber = reader.ReadUInt16();
-        GateName = reader.ReadUInt16();
-        SceneryObjectSize = reader.ReadUInt32();
-
-        _ = reader.ReadBytes((int)SceneryObjectSize); // TODO: Scenery Object
-    }
-    
+    [Binary(1)]
     public ushort ParkingNumber { get; }
     
+    [Binary(2)]
     public ushort GateName { get; }
     
+    [Binary(3)]
     public uint SceneryObjectSize { get; }
+    
+    [Binary(4)]
+    [BinaryConsume(nameof(SceneryObjectSize))]
+    public byte[] SceneryObject { get; } = [];
 }

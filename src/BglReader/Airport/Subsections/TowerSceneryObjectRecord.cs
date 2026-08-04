@@ -9,6 +9,6 @@ public partial class TowerSceneryObjectRecord : BglRecord
     public int ScenerySize { get; }
 
     [Binary(2)]
-    [BinaryCollection(nameof(ScenerySize))]
-    public ICollection<byte> EmbeddedObject { get; }
+    [BinaryConsume(nameof(ScenerySize))]
+    public byte[] EmbeddedObject { get; }
 }

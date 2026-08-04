@@ -3,25 +3,21 @@ using BglReader.Generic;
 
 namespace BglReader.Airport.Subsections;
 
-public class AirportComRecord : BglRecord
+[BinarySerializable]
+public partial class AirportComRecord : BglRecord
 {
-    public AirportComRecord(
-        ushort id,
-        BglBinaryReader reader) : base(id, reader)
-    {
-        // P3D uses 2 bytes for the Type.
-        // While the legacy types begin at 0x0001 (ATIS), P3Dv5 adds 0x0700 (0x0701 being ATIS)
-        // Duplication across types can be avoided by taking the first byte and discarding the second, otherwise the enum would require definitions for 0x0001 and 0x0701
-        Type = (ComType)reader.ReadByte();
-        _ = reader.ReadByte();
-        
-        Frequency = (Frequency)reader.ReadUInt32();
-        Name = reader.ReadString((int)GetRemainingBytes());
-    }
-
+    [Binary(1)]
     public ComType Type { get; }
 
+    [Binary(2)]
+    [BinaryConsume(1)]
+    public byte[] TypeHigherByte { get; set; }
+    
+    [Binary(3)]
+    [BinaryReader(typeof(FrequencyValueReader))]
     public Frequency Frequency { get; }
 
+    [Binary(4)]
+    [BinaryString(nameof(RemainingBytes))]
     public string Name { get; }
 }
