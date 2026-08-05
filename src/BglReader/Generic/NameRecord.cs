@@ -1,13 +1,9 @@
 ﻿namespace BglReader.Generic;
 
-public class NameRecord : BglRecord
+[BinarySerializable]
+public partial class NameRecord : BglRecord
 {
-    public NameRecord(
-        ushort id,
-        BglBinaryReader reader) : base(id, reader)
-    {
-        Name = reader.ReadString((int)GetRemainingBytes());
-    }
-
+    [Binary(1)]
+    [BinaryString(nameof(RemainingBytes))]
     public string Name { get; }
 }
