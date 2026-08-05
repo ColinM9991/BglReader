@@ -4,7 +4,7 @@ using BglReader.ValueObjects.BitFields;
 namespace BglReader.Navigation;
 
 [BinarySerializable]
-public partial class WaypointSegment
+public readonly partial struct WaypointSegment
 {
     [Binary(1)]
     public WaypointSegmentFlags Flags { get; }

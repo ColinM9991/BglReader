@@ -2,31 +2,13 @@
 
 namespace BglReader.Airport.Subsections.Taxi;
 
-public class AirportTaxiwayPoint : BglRecord
+[BinarySerializable]
+public partial class AirportTaxiwayPoint : BglRecord
 {
-    public AirportTaxiwayPoint(ushort id, BglBinaryReader reader) : base(id, reader)
-    {
-        NumberOfPoints = reader.ReadUInt16();
-
-        MapTaxiPoints(reader);
-    }
-
+    [Binary(1)]
     public ushort NumberOfPoints { get; }
 
+    [Binary(2)]
+    [BinaryCollection(nameof(NumberOfPoints))]
     public ICollection<TaxiWayPoint> Points { get; } = new List<TaxiWayPoint>();
-
-    public void MapTaxiPoints(BglBinaryReader reader)
-    {
-        if (NumberOfPoints == 0) return;
-
-        for (var point = 0; point < NumberOfPoints; point++)
-        {
-            var type = (TaxiPointType)reader.ReadByte();
-            var flag = (TaxiPointFlag)reader.ReadByte();
-            _ = reader.ReadBytes(2); // TODO Padding?
-            var coordinate = reader.ReadCoordinates();
-
-            Points.Add(new TaxiWayPoint(type, flag, coordinate));
-        }
-    }
 }

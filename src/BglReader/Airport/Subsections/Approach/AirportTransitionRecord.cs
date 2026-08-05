@@ -8,27 +8,27 @@ namespace BglReader.Airport.Subsections.Approach;
 [BinarySerializable]
 public partial class AirportTransitionRecord : BglRecord
 {
-    [Binary(0)]
+    [Binary(1)]
     public TransitionType Type { get; }
 
-    [Binary(1)]
+    [Binary(2)]
     public byte NumberOfTransitionLegs { get; }
 
-    [Binary(2)]
+    [Binary(3)]
     [BinaryReader(typeof(TransitionFixReader))]
     public (FixType Type, IcaoIdentifier Identifier) Fix { get; }
     
-    [Binary(3)]
+    [Binary(4)]
     public RegionIdentifierFlags FixRegionFlags { get; }
 
-    [Binary(4)]
+    [Binary(5)]
     public float Altitude { get; }
 
-    [Binary(5)]
+    [Binary(6)]
     [BinaryCondition<TransitionType>(nameof(Type), BinaryComparison.Equal, TransitionType.Dme)]
     public TransitionDmeRecord? TransitionDme { get; }
 
-    [Binary(6)]
+    [Binary(7)]
     [BinaryCondition<int>(nameof(NumberOfTransitionLegs), BinaryComparison.GreaterThan, 0)]
     public AirportLegBaseRecord? LegRecord { get; }
 }

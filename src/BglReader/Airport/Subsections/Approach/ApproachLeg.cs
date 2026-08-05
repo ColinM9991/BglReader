@@ -5,42 +5,42 @@ namespace BglReader.Airport.Subsections.Approach;
 [BinarySerializable]
 public partial class ApproachLeg
 {
-    [Binary(0)]
+    [Binary(1)]
     public byte Id { get; }
 
-    [Binary(1)]
+    [Binary(2)]
     public byte AltitudeDescriptor { get; }
 
-    [Binary(2)]
+    [Binary(3)]
     public ApproachLegFlags Flags { get; }
 
-    [Binary(3)]
+    [Binary(4)]
     public FixFlags FixFlags { get; }
 
-    [Binary(4)]
+    [Binary(5)]
     public RegionIdentifierFlags IcaoFlags { get; }
 
-    [Binary(5)]
+    [Binary(6)]
     public FixFlags RecommendedIdentFlags { get; }
 
-    [Binary(6)]
+    [Binary(7)]
     public RegionIdentifierFlags RecommendedAirportFlags { get; }
 
-    [Binary(7)]
+    [Binary(8)]
     public float Theta { get; }
 
-    [Binary(8)]
+    [Binary(9)]
     public float Rho { get; }
 
-    [Binary(9)]
+    [Binary(10)]
     public float Course { get; }
 
-    [Binary(10)]
+    [Binary(11)]
     public float DistanceTime { get; }
 
-    [Binary(11)]
+    [Binary(12)]
     public float Altitude1 { get; }
 
-    [Binary(12)]
+    [Binary(13)]
     public float Altitude2 { get; }
 }

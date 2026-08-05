@@ -8,41 +8,41 @@ namespace BglReader.Airport.Subsections.Approach;
 [BinarySerializable]
 public partial class AirportApproachRecord : BglRecord
 {
-    [Binary(0)]
+    [Binary(1)]
     public byte Suffix { get; }
 
-    [Binary(1)]
+    [Binary(2)]
     public byte RunwayNumber { get; }
     
-    [Binary(2)]
+    [Binary(3)]
     public ApproachFlags ApproachFlags { get; }
 
-    [Binary(3)]
+    [Binary(4)]
     public byte NumberOfTransitions { get; }
 
-    [Binary(4)]
+    [Binary(5)]
     public byte NumberOfApproachLegs { get; }
 
-    [Binary(5)]
+    [Binary(6)]
     public byte NumberOfMissedApproachLegs { get; }
     
-    [Binary(6)]
+    [Binary(7)]
     [BinaryReader(typeof(ApproachFixReader))]
     public (FixType Type, IcaoIdentifier Identifier) Fix { get; }
 
-    [Binary(7)]
+    [Binary(8)]
     public RegionIdentifierFlags FixRegionFlags { get; }
 
-    [Binary(8)]
+    [Binary(9)]
     public float Altitude { get; }
 
-    [Binary(9)]
+    [Binary(10)]
     public float Heading { get; }
 
-    [Binary(10)]
+    [Binary(11)]
     public float MissedAltitude { get; }
 
-    [Binary(11)]
+    [Binary(12)]
     [BinaryPolymorphicCollection(typeof(ApproachDataFactory), typeof(AirportApproachDataType))]
     public ICollection<BglRecord> SubRecords { get; } = [];
 }

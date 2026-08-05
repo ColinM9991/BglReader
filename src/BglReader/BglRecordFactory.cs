@@ -40,7 +40,7 @@ internal static class AirportSubsectionDataFactory
                     (ushort)type, reader),
             AirportSubsectionDataType.TaxiwayParking or AirportSubsectionDataType.TaxiwayParkingP3DV5
                 or AirportSubsectionDataType.TaxiwayParkingFS9 =>
-                new AirportTaxiwayParkingRecord((ushort)type, reader, (AirportType)context.ParentRecord.Id),
+                new AirportTaxiwayParkingRecord((ushort)type, reader),
             AirportSubsectionDataType.TaxiPath or AirportSubsectionDataType.TaxiPathP3DV4
                 or AirportSubsectionDataType.TaxiPathP3DV5 => new AirportTaxiPathRecord((ushort)type, reader),
             AirportSubsectionDataType.TaxiName => new AirportTaxiNameRecord((ushort)type, reader),

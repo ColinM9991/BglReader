@@ -64,9 +64,7 @@ public sealed class BitsAttributeSourceGenerator : IIncrementalGenerator
                     .ToArray();
 
                 return new ClassModel<Property>(
-                    typeSymbol.Name,
-                    typeSymbol.ContainingNamespace.ToDisplayString(),
-                    typeSymbol.BaseType is not null && typeSymbol.BaseType.SpecialType != SpecialType.System_Object,
+                    typeSymbol,
                     properties)
                 {
                     UnderlyingType =

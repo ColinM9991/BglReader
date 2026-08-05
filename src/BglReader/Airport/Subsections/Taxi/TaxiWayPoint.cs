@@ -2,14 +2,30 @@
 
 namespace BglReader.Airport.Subsections.Taxi;
 
-public readonly struct TaxiWayPoint(
-    TaxiPointType type,
-    TaxiPointFlag flag,
-    Coordinate coordinate)
+[BinarySerializable]
+public readonly partial struct TaxiWayPoint
 {
-    public TaxiPointType Type { get; } = type;
+    public TaxiWayPoint(
+        TaxiPointType type,
+        TaxiPointFlag flag,
+        Coordinate coordinate)
+    {
+        Type = type;
+        Flag = flag;
+        Coordinate = coordinate;
+    }
+    
+    [Binary(1)]
+    public TaxiPointType Type { get; }
 
-    public TaxiPointFlag Flag { get; } = flag;
+    [Binary(2)]
+    public TaxiPointFlag Flag { get; }
+    
+    [Binary(3)]
+    [BinaryConsume(2)]
+    public byte[] Unknown { get; } = [];
 
-    public Coordinate Coordinate { get; } = coordinate;
+    [Binary(4)]
+    [BinaryReader(typeof(ThreeDimensionalCoordinateReader))]
+    public Coordinate Coordinate { get; }
 }

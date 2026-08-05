@@ -2,15 +2,18 @@ using BglReader.Airport.Subsections.RunwayDetails;
 
 namespace BglReader.Airport.Subsections.Types;
 
-public readonly struct DeleteStart(
-    byte runwayNumber,
-    byte runwayDesignator,
-    byte type,
-    byte _)
+[BinarySerializable]
+public readonly partial struct DeleteStart
 {
-    public byte RunwayNumber { get; } = runwayNumber;
+    [Binary(1)]
+    public byte RunwayNumber { get; }
 
-    public RunwayDesignator RunwayDesignator { get; } = (RunwayDesignator)runwayDesignator;
+    [Binary(2)]
+    public RunwayDesignator RunwayDesignator { get; }
 
-    public StartType StartType { get; } = (StartType)type;
+    [Binary(3)]
+    public StartType StartType { get; }
+    
+    [Binary(4)]
+    public byte Unknown { get; }
 }

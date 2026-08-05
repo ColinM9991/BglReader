@@ -10,8 +10,7 @@ public partial class AirportComRecord : BglRecord
     public ComType Type { get; }
 
     [Binary(2)]
-    [BinaryConsume(1)]
-    public byte[] TypeHigherByte { get; set; }
+    public byte TypeHigherByte { get; set; }
     
     [Binary(3)]
     [BinaryReader(typeof(FrequencyValueReader))]

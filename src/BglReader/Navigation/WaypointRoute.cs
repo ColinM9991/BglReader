@@ -1,7 +1,7 @@
 namespace BglReader.Navigation;
 
 [BinarySerializable]
-public sealed partial class WaypointRoute
+public readonly partial struct WaypointRoute
 {
     [Binary(1)]
     public RouteType Type { get; }

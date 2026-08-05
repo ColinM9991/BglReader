@@ -1,7 +1,7 @@
 // ReSharper disable UnusedMember.Global
 namespace BglReader.Attributes.BinaryAttributes;
 
-[AttributeUsage(AttributeTargets.Class)]
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
 public sealed class BinarySerializableAttribute : Attribute;
 
 [AttributeUsage(AttributeTargets.Property)]

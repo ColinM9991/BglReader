@@ -9,9 +9,10 @@ public partial class AirportLegBaseRecord : BglRecord
     {
     }
 
-    [Binary(0)] public ushort NumberOfLegs { get; }
-
     [Binary(1)]
+    public ushort NumberOfLegs { get; }
+
+    [Binary(2)]
     [BinaryCollection(nameof(NumberOfLegs))]
     public ICollection<ApproachLeg> Legs { get; } = [];
 }

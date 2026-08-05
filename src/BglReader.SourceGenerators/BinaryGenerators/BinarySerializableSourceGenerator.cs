@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading;
 using BglReader.SourceGenerators.BinaryGenerators.Instructions;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace BglReader.SourceGenerators.BinaryGenerators;
 
@@ -17,7 +16,7 @@ public sealed class BinarySerializableSourceGenerator : IIncrementalGenerator
     {
         context.RegisterPostInitializationOutput(ctx => ctx.AddSource("BinarySource.g.cs", """
             namespace BglReader.Attributes.BinaryAttributes;
-            
+
             public interface IBinaryRecordReader<out T>
             {
                 static abstract T Read(BglRecordContext context, BglBinaryReader reader);
@@ -53,10 +52,7 @@ public sealed class BinarySerializableSourceGenerator : IIncrementalGenerator
             .ToList();
 
         return new ClassModel<BinaryProperty>(
-            typeSymbol.Name,
-            typeSymbol.ContainingNamespace.ToDisplayString(),
-            typeSymbol.BaseType is not null && typeSymbol.BaseType.SpecialType != SpecialType.System_Object,
-            properties);
+            typeSymbol, properties);
     }
 
     private static BinaryProperty BuildProperty(
@@ -83,7 +79,7 @@ public sealed class BinarySerializableSourceGenerator : IIncrementalGenerator
         sb
             .AppendLine($"namespace {record.Namespace};")
             .AppendLine()
-            .AppendLine($"public partial class {record.Name}")
+            .AppendLine(record.ToDeclaration())
             .AppendLine("{")
             .IncrementIndentation();
 

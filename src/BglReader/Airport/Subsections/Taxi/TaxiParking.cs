@@ -3,7 +3,8 @@ using BglReader.ValueObjects.BitFields;
 
 namespace BglReader.Airport.Subsections.Taxi;
 
-public readonly record struct TaxiParking
+[BinarySerializable]
+public readonly partial record struct TaxiParking
 {
     public TaxiParking(TaxiParkingFlags flags,
         float radius,
@@ -26,39 +27,35 @@ public readonly record struct TaxiParking
         AirlineDesignators = airlineDesignators.ToList();
     }
 
+    [Binary(1)]
     public TaxiParkingFlags Flags { get; }
+    
+    private int NumberOfAirlineDesignators => Flags.NumberOfAirlineCodes;
 
+    [Binary(2)]
     public float Radius { get; }
 
+    [Binary(3)]
     public float Heading { get; }
 
+    [Binary(4)]
     public float TeeOffset { get; }
 
+    [Binary(5)]
     public float TeeOffset2 { get; }
 
+    [Binary(6)]
     public float TeeOffset3 { get; }
 
+    [Binary(7)]
     public float TeeOffset4 { get; }
 
+    [Binary(8)]
+    [BinaryReader(typeof(ThreeDimensionalCoordinateReader))]
     public Coordinate Coordinate { get; }
 
-    public ICollection<string> AirlineDesignators { get; } = new List<string>();
-
-    public static TaxiParking FromBgl(BglBinaryReader reader, AirportType airportType)
-    {
-        var flags = new TaxiParkingFlags(reader.ReadUInt32());
-        var radius = reader.ReadSingle();
-        var heading = reader.ReadSingle();
-        var teeOffset = reader.ReadSingle();
-        var teeOffset2 = reader.ReadSingle();
-        var teeOffset3 = reader.ReadSingle();
-        var teeOffset4 = reader.ReadSingle();
-        var coordinate = reader.ReadCoordinates(hasElevation: airportType is AirportType.P3Dv5);
-
-        var airlineDesignators = Enumerable.Range(0, flags.NumberOfAirlineCodes)
-            .Select(_ => reader.ReadString(4));
-
-        return new TaxiParking(flags, radius, heading, teeOffset, teeOffset2, teeOffset3, teeOffset4, coordinate,
-            airlineDesignators);
-    }
+    [Binary(9)]
+    [BinaryString(4)]
+    [BinaryCollection(nameof(NumberOfAirlineDesignators))]
+    public ICollection<string> AirlineDesignators { get; } = [];
 }
