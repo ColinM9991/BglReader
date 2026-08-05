@@ -1,10 +1,14 @@
+// ReSharper disable UnusedMember.Global
 namespace BglReader.Attributes.BinaryAttributes;
 
 [AttributeUsage(AttributeTargets.Class)]
 public sealed class BinarySerializableAttribute : Attribute;
 
 [AttributeUsage(AttributeTargets.Property)]
-public class BinaryAttribute(int Order) : Attribute;
+public class BinaryAttribute(int order) : Attribute
+{
+    public int Order { get; } = order;
+}
 
 public abstract class BinaryByteCountAttribute(object specification) : Attribute
 {
@@ -47,17 +51,35 @@ public sealed class BinaryNullTerminatedStringAttribute(int alignment)
 }
 
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
-public sealed class BinaryReaderAttribute(Type readerType) : Attribute;
+public sealed class BinaryReaderAttribute(Type readerType) : Attribute
+{
+    public Type ReaderType { get; } = readerType;
+}
 
 [AttributeUsage(AttributeTargets.Property)]
-public sealed class BinaryCollectionAttribute(string countProperty) : Attribute;
+public sealed class BinaryCollectionAttribute(string countProperty) : Attribute
+{
+    public string CountProperty { get; } = countProperty;
+}
 
 [AttributeUsage(AttributeTargets.Property)]
-public sealed class BinaryPolymorphicCollectionAttribute(Type factoryType, Type idType) : Attribute;
+public sealed class BinaryPolymorphicCollectionAttribute(Type factoryType, Type idType) : Attribute
+{
+    public Type FactoryType { get; } = factoryType;
+    
+    public Type IdType { get; } = idType;
+}
 
 [AttributeUsage(AttributeTargets.Property)]
 public sealed class BinaryConditionAttribute<TValue>(string property, BinaryComparison comparison, TValue value)
-    : Attribute;
+    : Attribute
+{
+    public string Property { get; } = property;
+    
+    public BinaryComparison Comparison { get; } = comparison;
+    
+    public TValue Value { get; } = value;
+}
 
 public enum BinaryComparison
 {

@@ -102,10 +102,12 @@ internal static class RunwayDataFactory
     }
 }
 
-internal static class BglRecordFactory
+internal static class NavigationDataFactory
 {
-    internal static BglRecord? Create(NavigationDataType navigationDataType, BglBinaryReader reader) =>
-        navigationDataType switch
+    internal static BglRecord? Create(BglRecordContext context, BglBinaryReader reader)
+    {
+        var navigationDataType = (NavigationDataType)context.RecordId;
+        return navigationDataType switch
         {
             NavigationDataType.Localizer => new LocalizerRecord((ushort)navigationDataType, reader),
             NavigationDataType.GlideSlope => new GlideslopeRecord((ushort)navigationDataType, reader),
@@ -113,7 +115,11 @@ internal static class BglRecordFactory
             NavigationDataType.Name => new NameRecord((ushort)navigationDataType, reader),
             _ => null
         };
+    }
+}
 
+internal static class BglRecordFactory
+{
     internal static SceneryBglRecord? Create(SceneryObjectType sceneryObjectType, BglBinaryReader reader) =>
         sceneryObjectType switch
         {

@@ -5,53 +5,38 @@ using BglReader.ValueObjects.BitFields;
 
 namespace BglReader.Navigation;
 
-public class IlsVorRecord : BglRecord
+[BinarySerializable]
+public partial class IlsVorRecord : BglRecord
 {
-    public IlsVorRecord(ushort id, BglBinaryReader reader) : base(id, reader)
-    {
-        Type = (IlsVorType)reader.ReadByte();
-
-        Flags = new IlsVorFlag(reader.ReadByte());
-        
-        Coordinates = reader.ReadCoordinates();
-
-        Frequency = (Frequency)reader.ReadUInt32();
-        Range = reader.ReadSingle();
-        MagneticVariation = (MagneticVariation)reader.ReadSingle();
-        Identifier = new ShiftedIcaoIdentifier(reader.ReadUInt32());
-
-        RegionFlags = new RegionIdentifierFlags(reader.ReadUInt32());
-        
-        MapSubRecords(reader);
-    }
-    
+    [Binary(1)]
     public IlsVorType Type { get; }
     
+    [Binary(2)]
     public IlsVorFlag Flags { get; }
     
+    [Binary(3)]
+    [BinaryReader(typeof(ThreeDimensionalCoordinateReader))]
     public Coordinate Coordinates { get; }
     
+    [Binary(4)]
+    [BinaryReader(typeof(FrequencyValueReader))]
     public Frequency Frequency { get; }
     
+    [Binary(5)]
     public float Range { get; }
     
+    [Binary(6)]
+    [BinaryReader(typeof(MagneticVariationReader))]
     public MagneticVariation MagneticVariation { get; }
     
-    public ShiftedIcaoIdentifier Identifier { get; }
+    [Binary(7)]
+    [BinaryReader(typeof(ShiftedIcaoIdentifierReader))]
+    public IcaoIdentifier Identifier { get; }
     
+    [Binary(8)]
     public RegionIdentifierFlags RegionFlags { get; }
 
+    [Binary(9)]
+    [BinaryPolymorphicCollection(typeof(NavigationDataFactory), typeof(NavigationDataType))]
     public ICollection<BglRecord> SubRecords { get; } = new List<BglRecord>();
-    
-    public void MapSubRecords(BglBinaryReader reader)
-    {
-        while (reader.Position < EndPosition)
-        {
-            var id = (NavigationDataType)reader.ReadUInt16();
-
-            var record = BglRecordFactory.Create(id, reader);
-            
-            if (record is not null) SubRecords.Add(record);
-        }
-    }
 }

@@ -11,7 +11,7 @@ public partial class TaxiSignSceneryRecord : LibrarySceneryRecordBase
     [Binary(2)]
     [BinaryConsume(32)]
     [BinaryCondition<SceneryObjectType>(nameof(Id), BinaryComparison.Equal, SceneryObjectType.TaxiSignP3DV6)]
-    public byte[] Unknown { get; }
+    public byte[] UnknownV6 { get; }
     
     [Binary(3)]
     [BinaryReader(typeof(TaxiWaySignReader))]
