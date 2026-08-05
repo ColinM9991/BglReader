@@ -4,5 +4,5 @@ namespace BglReader.BinaryReaders;
 
 public sealed class FrequencyValueReader : IBinaryValueReader<Frequency>
 {
-    public Frequency Read(BglBinaryReader reader) => new Frequency(reader.ReadUInt32());
+    public static Frequency Read(BglBinaryReader reader) => new Frequency(reader.ReadUInt32());
 }

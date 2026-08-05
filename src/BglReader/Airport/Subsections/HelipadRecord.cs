@@ -7,17 +7,6 @@ namespace BglReader.Airport.Subsections;
 [BinarySerializable]
 public partial class HelipadRecord : BglRecord
 {
-    // public HelipadRecord(ushort id, BglBinaryReader reader) : base(id, reader)
-    // {
-    //     SurfaceType = (SurfaceType)reader.ReadByte();
-    //     Type = reader.ReadByte();
-    //     Color = reader.ReadBytes(4);
-    //     Coordinate = reader.ReadCoordinates();
-    //     Length = reader.ReadSingle();
-    //     Width = reader.ReadSingle();
-    //     Heading = reader.ReadSingle();
-    // }
-
     [Binary(1)]
     public SurfaceType SurfaceType { get; }
 

@@ -6,7 +6,7 @@ namespace BglReader.BinaryReaders;
 
 public sealed class TransitionFixReader : FixReaderBase, IBinaryRecordReader<(FixType, IcaoIdentifier)>
 {
-    public (FixType, IcaoIdentifier) Read(BglRecordContext context, BglBinaryReader reader) =>
+    public static (FixType, IcaoIdentifier) Read(BglRecordContext context, BglBinaryReader reader) =>
         (AirportApproachDataType)context.RecordId switch
         {
             AirportApproachDataType.Transition => PackedRead(reader),

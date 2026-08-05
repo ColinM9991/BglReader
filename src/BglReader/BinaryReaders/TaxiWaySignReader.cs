@@ -5,7 +5,7 @@ namespace BglReader.BinaryReaders;
 
 public sealed class TaxiWaySignReader : IBinaryRecordReader<TaxiWaySign>
 {
-    public TaxiWaySign Read(BglRecordContext context, BglBinaryReader reader)
+    public static TaxiWaySign Read(BglRecordContext context, BglBinaryReader reader)
     {
         if (context.ParentRecord is not TaxiSignSceneryRecord record)
         {

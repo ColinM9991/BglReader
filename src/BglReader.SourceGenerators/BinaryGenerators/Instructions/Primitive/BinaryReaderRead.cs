@@ -7,7 +7,7 @@ internal sealed record BinaryReaderRead(string ReaderType, string Interface) : V
     internal override string EmitValue()
     {
         var parametersExpression = GetParameters();
-        return $"new {ReaderType}().Read({parametersExpression})";
+        return $"{ReaderType}.Read({parametersExpression})";
     }
 
     private string GetParameters() => Interface switch

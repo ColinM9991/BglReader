@@ -20,12 +20,12 @@ public sealed class BinarySerializableSourceGenerator : IIncrementalGenerator
             
             public interface IBinaryRecordReader<out T>
             {
-                T Read(BglRecordContext context, BglBinaryReader reader);
+                static abstract T Read(BglRecordContext context, BglBinaryReader reader);
             }
 
             public interface IBinaryValueReader<out T>
             {
-                T Read(BglBinaryReader reader);
+                static abstract T Read(BglBinaryReader reader);
             }
             """));
 

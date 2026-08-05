@@ -6,7 +6,7 @@ namespace BglReader.BinaryReaders;
 
 public sealed class ApproachFixReader : FixReaderBase, IBinaryRecordReader<(FixType, IcaoIdentifier)>
 {
-    public (FixType, IcaoIdentifier) Read(BglRecordContext context, BglBinaryReader reader) =>
+    public static (FixType, IcaoIdentifier) Read(BglRecordContext context, BglBinaryReader reader) =>
         (AirportSubsectionDataType)context.RecordId switch
         {
             AirportSubsectionDataType.Approach => PackedRead(reader),

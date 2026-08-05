@@ -21,7 +21,7 @@ public partial class MarkerRecord : BglRecord
     public IcaoIdentifier Identifier { get; }
     
     [Binary(5)]
-    [BinaryReader(typeof(IcaoIdentifierReader))]
+    [BinaryReader(typeof(HalfIcaoIdentifierReader))]
     public IcaoIdentifier Region { get; }
     
     [Binary(6)]
