@@ -1,6 +1,6 @@
 ﻿namespace BglReader.Scenery.TaxiSigns;
 
-public enum TaxiSignJustification
+public enum TaxiSignJustification : byte
 {
     None = 0,
     Left = 1,

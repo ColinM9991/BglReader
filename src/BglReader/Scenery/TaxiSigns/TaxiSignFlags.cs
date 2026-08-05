@@ -1,7 +1,7 @@
 ﻿namespace BglReader.Scenery.TaxiSigns;
 
 [Flags]
-public enum TaxiSignFlags
+public enum TaxiSignFlags : ushort
 {
     None = 0,
     IsAgl = 1,

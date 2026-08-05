@@ -17,7 +17,7 @@ internal static class AirportSubsectionDataFactory
     internal static BglRecord? Create(BglRecordContext context, BglBinaryReader reader)
     {
         var type = (AirportSubsectionDataType)context.RecordId;
-        
+
         return type switch
         {
             AirportSubsectionDataType.Name => new NameRecord((ushort)type, reader),
@@ -119,8 +119,8 @@ internal static class BglRecordFactory
         {
             SceneryObjectType.TaxiSign
                 or SceneryObjectType.TaxiSignFS9
-                or SceneryObjectType.TaxiSignP3D => new TaxiSignSceneryRecordV5((ushort)sceneryObjectType, reader),
-            SceneryObjectType.TaxiSignP3DV6 => new TaxiSignSceneryRecordV6((ushort)sceneryObjectType, reader),
+                or SceneryObjectType.TaxiSignP3D
+                or SceneryObjectType.TaxiSignP3DV6 => new TaxiSignSceneryRecord((ushort)sceneryObjectType, reader),
             SceneryObjectType.LibraryObject
                 or SceneryObjectType.LibraryObjectFS9 => new LibrarySceneryRecord((ushort)sceneryObjectType, reader),
             _ => null,

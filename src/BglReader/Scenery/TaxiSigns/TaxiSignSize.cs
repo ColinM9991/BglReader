@@ -1,6 +1,6 @@
 ﻿namespace BglReader.Scenery.TaxiSigns;
 
-public enum TaxiSignSize
+public enum TaxiSignSize : byte
 {
     Size1 = 1,
     Size2 = 2,

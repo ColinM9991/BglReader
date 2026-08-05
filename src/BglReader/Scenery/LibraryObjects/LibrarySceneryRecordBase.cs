@@ -2,34 +2,36 @@ using BglReader.Types;
 
 namespace BglReader.Scenery.LibraryObjects;
 
-public abstract class LibrarySceneryRecordBase : SceneryBglRecord
+[BinarySerializable]
+public abstract partial class LibrarySceneryRecordBase : SceneryBglRecord
 {
-    protected LibrarySceneryRecordBase(ushort id, BglBinaryReader reader) : base(id, reader)
-    {
-        Coordinates = reader.ReadCoordinates();
-
-        Flags = (LibraryObjectFlags)reader.ReadUInt16();
-        Pitch = new Angle(reader.ReadUInt16());
-        Bank = new Angle(reader.ReadUInt16());
-        Heading = new Angle(reader.ReadUInt16());
-        ImageComplexity = (ImageComplexity)reader.ReadUInt16();
-        Unknown = reader.ReadBytes(2);
-        Instance = new Guid(reader.ReadBytes(16));
-    }
-    
+    [Binary(1)]
+    [BinaryReader(typeof(ThreeDimensionalCoordinateReader))]
     public Coordinate Coordinates { get; }
     
+    [Binary(2)]
     public LibraryObjectFlags Flags { get; }
     
+    [Binary(3)]
+    [BinaryReader(typeof(AngleValueReader))]
     public Angle Pitch { get; }
     
+    [Binary(4)]
+    [BinaryReader(typeof(AngleValueReader))]
     public Angle Bank { get; }
     
+    [Binary(5)]
+    [BinaryReader(typeof(AngleValueReader))]
     public Angle Heading { get; }
     
+    [Binary(6)]
     public ImageComplexity ImageComplexity { get; }
     
+    [Binary(7)]
+    [BinaryConsume(2)]
     public byte[] Unknown { get; }
     
+    [Binary(8)]
+    [BinaryReader(typeof(GuidValueReader))]
     public Guid Instance { get; }
 }

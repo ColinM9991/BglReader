@@ -1,6 +1,6 @@
 namespace BglReader.Scenery;
 
-public enum ImageComplexity
+public enum ImageComplexity : ushort
 {
     VerySparse = 0,
     Sparse = 1,

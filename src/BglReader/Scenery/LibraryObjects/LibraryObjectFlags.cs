@@ -1,7 +1,7 @@
 namespace BglReader.Scenery.LibraryObjects;
 
 [Flags]
-public enum LibraryObjectFlags
+public enum LibraryObjectFlags : ushort
 {
     AboveGroundLevel = 1,
     NoAutogenSuppression = 2,
