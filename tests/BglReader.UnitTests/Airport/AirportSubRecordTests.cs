@@ -45,7 +45,7 @@ public class AirportSubRecordTests : TestBase
 
         airport.ShouldNotBeNull();
 
-        var comRecords = airport.Subsections.OfType<AirportComRecord>().ToList();
+        var comRecords = airport.SubRecords.OfType<AirportComRecord>().ToList();
 
         comRecords.Count.ShouldBe(4);
 

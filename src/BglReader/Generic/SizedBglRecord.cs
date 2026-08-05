@@ -30,7 +30,7 @@ public abstract class SizedBglRecord<T> : BaseBglRecord where T : IBinaryNumber<
 
     private T Size { get; }
 
-    protected override long EndPosition => StartPosition + long.CreateChecked(Size);
+    internal override long EndPosition => StartPosition + long.CreateChecked(Size);
 
     protected long RemainingBytes => EndPosition - Reader.Position;
     

@@ -45,7 +45,7 @@ public class NameListRecord : BglRecord
 
     public ushort NumberOfIdentifiers { get; }
 
-    protected override long EndPosition => StartPosition + FixedSize;
+    internal override long EndPosition => StartPosition + FixedSize;
 
     public IDictionary<NameListItemType, string[]> Names { get; } = new Dictionary<NameListItemType, string[]>();
 

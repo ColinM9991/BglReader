@@ -68,5 +68,5 @@ public partial class AirportRecord : BglRecord
 
     [Binary(17)]
     [BinaryPolymorphicCollection(typeof(AirportSubsectionDataFactory), typeof(AirportSubsectionDataType))]
-    public ICollection<BglRecord> Subsections { get; } = new List<BglRecord>();
+    public ICollection<BglRecord> SubRecords { get; } = new List<BglRecord>();
 }

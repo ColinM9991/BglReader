@@ -1,21 +1,18 @@
 namespace BglReader.Navigation;
 
-public struct WaypointRoute
+[BinarySerializable]
+public sealed partial class WaypointRoute
 {
-    public WaypointRoute(BglBinaryReader reader)
-    {
-        Type = (RouteType)reader.ReadByte();
-        Name = reader.ReadString(8);
-
-        Next = WaypointSegment.Parse(reader);
-        Previous = WaypointSegment.Parse(reader);
-    }
-
+    [Binary(1)]
     public RouteType Type { get; }
 
+    [Binary(2)]
+    [BinaryString(8)]
     public string Name { get; }
     
+    [Binary(3)]
     public WaypointSegment? Next { get; }
     
+    [Binary(4)]
     public WaypointSegment? Previous { get; }
 }

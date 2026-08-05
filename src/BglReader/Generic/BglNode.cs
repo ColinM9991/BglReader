@@ -12,7 +12,7 @@ public abstract class BglNode(BglBinaryReader reader)
 
     protected long StartPosition { get; init; } = reader.Position;
 
-    protected abstract long EndPosition { get; }
+    internal abstract long EndPosition { get; }
 
     internal void AssertEndPosition()
     {

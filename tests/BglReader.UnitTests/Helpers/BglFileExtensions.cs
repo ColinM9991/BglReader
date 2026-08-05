@@ -40,7 +40,7 @@ public static class BglFileExtensions
 
         public ICollection<AirportRunwayStartRecord> GetRunwayStarts() => subsection.GetSubRecordByType<AirportRunwayStartRecord>().ToList();
 
-        public ICollection<T> GetSubRecordByType<T>() => subsection.Subsections.OfType<T>().ToList();
+        public ICollection<T> GetSubRecordByType<T>() => subsection.SubRecords.OfType<T>().ToList();
     }
 
     extension(AirportRunwayRecord runway)

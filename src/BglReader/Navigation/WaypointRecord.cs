@@ -4,44 +4,34 @@ using BglReader.ValueObjects.BitFields;
 
 namespace BglReader.Navigation;
 
-public class WaypointRecord : BglRecord
+/// <summary>
+/// TODO: Additional 2 bytes missing from certain records
+/// </summary>
+[BinarySerializable]
+public partial class WaypointRecord : BglRecord
 {
-    public WaypointRecord(ushort id, BglBinaryReader reader) : base(id, reader)
-    {
-        Type = (WaypointType)reader.ReadByte();
-        NumberOfRoutes = reader.ReadByte();
-        Coordinate = reader.ReadCoordinates(hasElevation: false);
-        MagneticVariation = (MagneticVariation)reader.ReadSingle();
-        Identifier = new ShiftedIcaoIdentifier(reader.ReadUInt32());
-
-        RegionFlags = new RegionIdentifierFlags(reader.ReadUInt32());
-
-        MapRoutes(reader);
-
-        reader.Position = EndPosition; // TODO Missing information?
-    }
-    
+    [Binary(1)]
     public WaypointType Type { get; }
     
+    [Binary(2)]
     public byte NumberOfRoutes { get; }
     
+    [Binary(3)]
+    [BinaryReader(typeof(TwoDimensionalCoordinateReader))]
     public Coordinate Coordinate { get; }
     
+    [Binary(4)]
+    [BinaryReader(typeof(MagneticVariationReader))]
     public MagneticVariation MagneticVariation { get; }
     
-    public ShiftedIcaoIdentifier Identifier { get; }
+    [Binary(5)]
+    [BinaryReader(typeof(ShiftedIcaoIdentifierReader))]
+    public IcaoIdentifier Identifier { get; }
     
+    [Binary(6)]
     public RegionFlags RegionFlags { get; }
 
-    public ICollection<WaypointRoute> Routes { get; } = new List<WaypointRoute>();
-    
-    private void MapRoutes(BglBinaryReader reader)
-    {
-        if (NumberOfRoutes == 0) return;
-
-        for (var i = 0; i < NumberOfRoutes; i++)
-        {
-            Routes.Add(new WaypointRoute(reader));
-        }
-    }
+    [Binary(7)]
+    [BinaryCollection(nameof(NumberOfRoutes))]
+    public ICollection<WaypointRoute> Routes { get; } = [];
 }
