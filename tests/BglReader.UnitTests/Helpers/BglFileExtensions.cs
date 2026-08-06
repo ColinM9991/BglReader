@@ -19,8 +19,8 @@ public static class BglFileExtensions
             .GetSubsectionDataByType<IlsVorRecord>(SectionType.IlsVor)
             .Single(x => string.Equals(identifier, x.Identifier.ToString(), StringComparison.OrdinalIgnoreCase));
 
-        public IEnumerable<TaxiSignSceneryRecordV5> GetTaxiSignObjectRecords() =>
-            bglFile.GetSubsectionDataByType<TaxiSignSceneryRecordV5>(SectionType.SceneryObject);
+        public IEnumerable<TaxiSignSceneryRecord> GetTaxiSignObjectRecords() =>
+            bglFile.GetSubsectionDataByType<TaxiSignSceneryRecord>(SectionType.SceneryObject);
 
         public NameListRecord? GetNameLists() =>
             bglFile.GetSubsectionDataByType<NameListRecord>(SectionType.NameList).FirstOrDefault();
@@ -40,7 +40,7 @@ public static class BglFileExtensions
 
         public ICollection<AirportRunwayStartRecord> GetRunwayStarts() => subsection.GetSubRecordByType<AirportRunwayStartRecord>().ToList();
 
-        public ICollection<T> GetSubRecordByType<T>() => subsection.Subsections.OfType<T>().ToList();
+        public ICollection<T> GetSubRecordByType<T>() => subsection.SubRecords.OfType<T>().ToList();
     }
 
     extension(AirportRunwayRecord runway)

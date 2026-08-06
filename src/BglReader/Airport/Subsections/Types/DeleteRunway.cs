@@ -1,21 +1,21 @@
 using BglReader.Airport.Subsections.RunwayDetails;
-using BglReader.Attributes;
 
 namespace BglReader.Airport.Subsections.Types;
 
-public readonly struct DeleteRunway(
-    byte surface,
-    byte runwayNumberPrimary,
-    byte runwayNumberSecondary,
-    byte runwayDesignator)
+[BinarySerializable]
+public readonly partial struct DeleteRunway
 {
-    public SurfaceType SurfaceType { get; } = (SurfaceType)surface;
+    [Binary(1)]
+    public SurfaceType SurfaceType { get; }
 
-    public byte PrimaryRunway { get; } = runwayNumberPrimary;
+    [Binary(2)]
+    public byte PrimaryRunway { get; }
 
-    public byte SecondaryRunway { get; } = runwayNumberSecondary;
+    [Binary(3)]
+    public byte SecondaryRunway { get; }
 
-    public DeleteRunwayFlags Flags { get; } = new(runwayDesignator);
+    [Binary(4)]
+    public DeleteRunwayFlags Flags { get; }
 }
 
 [BitField(typeof(byte))]

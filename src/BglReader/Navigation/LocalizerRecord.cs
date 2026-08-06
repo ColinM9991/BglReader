@@ -3,22 +3,18 @@ using BglReader.Generic;
 
 namespace BglReader.Navigation;
 
-public class LocalizerRecord : BglRecord
+[BinarySerializable]
+public partial class LocalizerRecord : BglRecord
 {
-    public LocalizerRecord(ushort id, BglBinaryReader reader) : base(id, reader)
-    {
-        RunwayNumber = reader.ReadByte();
-        Designator = (RunwayDesignator)reader.ReadByte();
-
-        Heading = reader.ReadSingle();
-        BeamWidthDegrees = reader.ReadSingle();
-    }
-    
+    [Binary(1)]
     public byte RunwayNumber { get; }
     
+    [Binary(2)]
     public RunwayDesignator Designator { get; }
     
+    [Binary(3)]
     public float Heading { get; }
     
+    [Binary(4)]
     public float BeamWidthDegrees { get; }
 }

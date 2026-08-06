@@ -6,78 +6,66 @@ using BglReader.ValueObjects.BitFields;
 
 namespace BglReader.Airport.Subsections.RunwayDetails;
 
-public class AirportRunwayRecord : BglRecord
+[BinarySerializable]
+public partial class AirportRunwayRecord : BglRecord
 {
-    public AirportRunwayRecord(
-        ushort id,
-        BglBinaryReader reader) : base(id, reader)
-    {
-        SurfaceType = (SurfaceType)reader.ReadUInt16();
-        RunwayNumber = reader.ReadByte();
-        Designator = (RunwayDesignator)reader.ReadByte();
-        SecondaryRunwayNumber = reader.ReadByte();
-        SecondaryRunwayDesignator = (RunwayDesignator)reader.ReadByte();
-        PrimaryIlsIdentifier = new IcaoIdentifier(reader.ReadUInt32());
-        SecondaryIlsIdentifier = new IcaoIdentifier(reader.ReadUInt32());
-        Coordinates = reader.ReadCoordinates();
-        Length = reader.ReadSingle();
-        Width = reader.ReadSingle();
-        Heading = reader.ReadSingle();
-        PatternAltitude = reader.ReadSingle();
-        MarkingFlags = (RunwayMarkingFlags)reader.ReadUInt16();
-        LightsFlags = new RunwayLightFlags(reader.ReadByte());
-        PatternFlags = new RunwayPatternFlags(reader.ReadByte());
-
-        if ((AirportSubsectionDataType)Id is not AirportSubsectionDataType.Runway)
-            Material = new Guid(reader.ReadBytes(16));
-
-        MapSubRecords(reader);
-    }
-
+    [Binary(1)]
     public SurfaceType SurfaceType { get; }
+    
+    [Binary(2)]
+    public byte Unknown { get; }
 
+    [Binary(3)]
     public byte RunwayNumber { get; }
 
+    [Binary(4)]
     public RunwayDesignator Designator { get; }
 
+    [Binary(5)]
     public byte SecondaryRunwayNumber { get; }
 
+    [Binary(6)]
     public RunwayDesignator SecondaryRunwayDesignator { get; }
 
+    [Binary(7)]
+    [BinaryReader(typeof(IcaoIdentifierReader))]
     public IcaoIdentifier PrimaryIlsIdentifier { get; }
 
+    [Binary(8)]
+    [BinaryReader(typeof(IcaoIdentifierReader))]
     public IcaoIdentifier SecondaryIlsIdentifier { get; }
 
+    [Binary(9)]
+    [BinaryReader(typeof(ThreeDimensionalCoordinateReader))]
     public Coordinate Coordinates { get; }
 
+    [Binary(10)]
     public float Length { get; }
 
+    [Binary(11)]
     public float Width { get; }
 
+    [Binary(12)]
     public float Heading { get; }
 
+    [Binary(13)]
     public float PatternAltitude { get; }
 
+    [Binary(14)]
     public RunwayMarkingFlags MarkingFlags { get; }
 
+    [Binary(15)]
     public RunwayLightFlags LightsFlags { get; }
 
+    [Binary(16)]
     public RunwayPatternFlags PatternFlags { get; }
 
+    [Binary(17)]
+    [BinaryReader(typeof(GuidValueReader))]
+    [BinaryCondition<AirportSubsectionDataType>(nameof(Id), BinaryComparison.NotEqual, AirportSubsectionDataType.Runway)]
     public Guid? Material { get; }
 
+    [Binary(18)]
+    [BinaryPolymorphicCollection(typeof(RunwayDataFactory), typeof(AirportRecordDataType))]
     public ICollection<BglRecord> SubRecords { get; } = new List<BglRecord>();
-
-    private void MapSubRecords(BglBinaryReader reader)
-    {
-        while (reader.Position < EndPosition)
-        {
-            var id = reader.ReadUInt16();
-            
-            var record = BglRecordFactory.Create((AirportRecordDataType)id, reader);
-            if (record is null) continue;
-            
-            SubRecords.Add(record);
-        }
-    }
 }

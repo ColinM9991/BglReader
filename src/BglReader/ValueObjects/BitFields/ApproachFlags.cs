@@ -1,6 +1,5 @@
 ﻿using BglReader.Airport.Subsections.Approach;
 using BglReader.Airport.Subsections.RunwayDetails;
-using BglReader.Attributes;
 
 namespace BglReader.ValueObjects.BitFields;
 

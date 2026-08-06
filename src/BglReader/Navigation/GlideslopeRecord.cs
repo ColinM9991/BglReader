@@ -3,20 +3,20 @@ using BglReader.Types;
 
 namespace BglReader.Navigation;
 
-public class GlideslopeRecord : BglRecord
+[BinarySerializable]
+public partial class GlideslopeRecord : BglRecord
 {
-    public GlideslopeRecord(ushort id, BglBinaryReader reader) : base(id, reader)
-    {
-        _ = reader.ReadBytes(2); // TODO Unknown
-        Coordinates = reader.ReadCoordinates();
+    [Binary(1)]
+    [BinaryConsume(2)]
+    public byte[] Unknown { get; }
 
-        Range = reader.ReadSingle();
-        Pitch = reader.ReadSingle();
-    }
-
+    [Binary(2)]
+    [BinaryReader(typeof(ThreeDimensionalCoordinateReader))]
     public Coordinate Coordinates { get; }
 
+    [Binary(3)]
     public float Range { get; }
 
+    [Binary(4)]
     public float Pitch { get; }
 }

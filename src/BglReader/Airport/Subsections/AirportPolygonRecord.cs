@@ -4,25 +4,26 @@ using BglReader.Types;
 
 namespace BglReader.Airport.Subsections;
 
-public class AirportPolygonRecord : BglRecord
+[BinarySerializable]
+public partial class AirportPolygonRecord : BglRecord
 {
-    public AirportPolygonRecord(ushort id, BglBinaryReader reader) : base(id, reader)
-    {
-        _ = reader.ReadBytes(2);
-
-        var numberOfVertices = reader.ReadUInt16();
-        var numberOfTriangles = reader.ReadUInt16();
-        
-        Vertices = Enumerable.Range(0, numberOfVertices)
-            .Select(_ => reader.ReadCoordinates(hasElevation: false))
-            .ToList();
-        
-        Triangles = Enumerable.Range(0, numberOfTriangles)
-            .Select(_ => reader.ReadTriangle(false))
-            .ToList();
-    }
+    [Binary(1)]
+    [BinaryConsume(2)]
+    public byte[] Unknown { get; }
     
+    [Binary(2)]
+    public ushort NumberOfVertices { get; }
+    
+    [Binary(3)]
+    public ushort NumberOfTriangles { get; }
+    
+    [Binary(4)]
+    [BinaryReader(typeof(TwoDimensionalCoordinateReader))]
+    [BinaryCollection(nameof(NumberOfVertices))]
     public ICollection<Coordinate> Vertices { get; }
     
+    [Binary(5)]
+    [BinaryReader(typeof(TriangleReader))]
+    [BinaryCollection(nameof(NumberOfTriangles))]
     public ICollection<Triangle> Triangles { get; }
 }

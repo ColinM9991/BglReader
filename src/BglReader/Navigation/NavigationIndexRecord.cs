@@ -25,5 +25,5 @@ public class NavigationIndexRecord : BglNode
 
     public Qmid Qmid { get; }
 
-    protected override long EndPosition => StartPosition + 12;
+    internal override long EndPosition => StartPosition + 12;
 }

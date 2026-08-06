@@ -5,27 +5,24 @@ using BglReader.ValueObjects.BitFields;
 
 namespace BglReader.Navigation;
 
-public class BoundaryRecord : BglRecord
+[BinarySerializable]
+public partial class BoundaryRecord : BglRecord
 {
-    public BoundaryRecord(ushort id, BglBinaryReader reader) : base(id, reader)
-    {
-        Type = reader.ReadByte();
-
-        Flags = new BoundaryFlags(reader.ReadByte());
-
-        MinimumCoordinates = reader.ReadCoordinates();
-        MaximumCoordinates = reader.ReadCoordinates();
-
-        Name = new NameRecord((ushort)AirportSubsectionDataType.Name, reader);
-    }
-
+    [Binary(1)]
     public byte Type { get; }
 
+    [Binary(2)]
     public BoundaryFlags Flags { get; }
 
+    [Binary(3)]
+    [BinaryReader(typeof(ThreeDimensionalCoordinateReader))]
     public Coordinate MinimumCoordinates { get; }
 
+    [Binary(4)]
+    [BinaryReader(typeof(ThreeDimensionalCoordinateReader))]
     public Coordinate MaximumCoordinates { get; }
 
-    public NameRecord Name { get; }
+    [Binary(5)]
+    [BinaryPolymorphicCollection(typeof(NavigationDataFactory), typeof(NavigationDataType))]
+    public ICollection<BglRecord> SubRecords { get; } = [];
 }

@@ -1,6 +1,6 @@
 namespace BglReader.Navigation;
 
-public enum MarkerType
+public enum MarkerType : byte
 {
     Inner = 0,
     Middle = 1,

@@ -1,4 +1,5 @@
 ﻿using BglReader.Generic;
+using BglReader.Navigation;
 
 namespace BglReader;
 
@@ -41,7 +42,7 @@ public class Subsection : BglNode
 
     public uint Offset { get; }
 
-    protected override long EndPosition => StartPosition + Size;
+    internal override long EndPosition => StartPosition + Size;
 
     public uint Size { get; }
 
@@ -55,7 +56,11 @@ public class Subsection : BglNode
         {
             var data = BglNodeFactory.Create(Type, reader);
             if (data is null) continue;
-
+            if (data is WaypointRecord record)
+            {
+                reader.Position = record.EndPosition;
+            }
+            
             data.AssertEndPosition();
             Data.Add(data);
         }

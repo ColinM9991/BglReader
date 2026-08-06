@@ -1,6 +1,6 @@
 ﻿namespace BglReader.Airport.Subsections.Types;
 
-public enum SurfaceType : ushort
+public enum SurfaceType : byte
 {
     Concrete = 0x0000,
     Grass = 0x0001,

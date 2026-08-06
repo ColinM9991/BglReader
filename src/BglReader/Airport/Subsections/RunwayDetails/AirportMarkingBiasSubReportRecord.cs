@@ -2,17 +2,16 @@
 
 namespace BglReader.Airport.Subsections.RunwayDetails;
 
-public class AirportMarkingBiasSubReportRecord : BglRecord
+[BinarySerializable]
+public partial class AirportMarkingBiasSubReportRecord : BglRecord
 {
-    public AirportMarkingBiasSubReportRecord(ushort id, BglBinaryReader reader) : base(id, reader)
-    {
-        _ = reader.ReadUInt16();
+    [Binary(1)]
+    [BinaryConsume(2)]
+    public byte[] Unknown { get; }
 
-        PrimaryMarking = reader.ReadSingle();
-        SecondaryMarking = reader.ReadSingle();
-    }
-
+    [Binary(2)]
     public float PrimaryMarking { get; }
 
+    [Binary(3)]
     public float SecondaryMarking { get; }
 }

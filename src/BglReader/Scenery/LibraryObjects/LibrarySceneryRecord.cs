@@ -1,16 +1,13 @@
 namespace BglReader.Scenery.LibraryObjects;
 
-public class LibrarySceneryRecord : LibrarySceneryRecordBase
+[BinarySerializable]
+public partial class LibrarySceneryRecord : LibrarySceneryRecordBase
 {
-    public LibrarySceneryRecord(ushort id, BglBinaryReader reader) : base(id, reader)
-    {
-        Name = new Guid(reader.ReadBytes(16));
-        Scale = reader.ReadSingle();
-        
-        // TODO Map attached record
-    }
-
+    [Binary(1)]
+    [BinaryReader(typeof(GuidValueReader))]
     public Guid Name { get; }
     
+    [Binary(2)]
     public float Scale { get; }
+    // TODO Map attached record
 }

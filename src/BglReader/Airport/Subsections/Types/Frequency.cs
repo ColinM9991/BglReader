@@ -1,13 +1,8 @@
 ﻿namespace BglReader.Airport.Subsections.Types;
 
-public readonly struct Frequency : IEquatable<Frequency>
+public readonly struct Frequency(uint frequency) : IEquatable<Frequency>
 {
-    private Frequency(uint frequency)
-    {
-        Value = frequency / 1000;
-    }
-
-    public uint Value { get; }
+    public uint Value { get; } = frequency / 1000;
 
     public override string ToString() => $"{Value / 1000}.{Value % 1000:000}";
 

@@ -4,18 +4,16 @@ using BglReader.ValueObjects.BitFields;
 
 namespace BglReader.Airport.Subsections.RunwayDetails;
 
-public sealed class ApproachLightsBiasSubRecord : BglRecord
+[BinarySerializable]
+public sealed partial class ApproachLightsBiasSubRecord : BglRecord
 {
-    public ApproachLightsBiasSubRecord(ushort id, BglBinaryReader reader) : base(id, reader)
-    {
-        Flags = new ApproachLightsFlags(reader.ReadByte());
-        NumberOfStrobes = reader.ReadByte();
-        Coordinate = reader.ReadCoordinates(false);
-    }
-    
+    [Binary(1)]
     public ApproachLightsFlags Flags { get; }
     
-    public int NumberOfStrobes { get; }
+    [Binary(2)]
+    public byte NumberOfStrobes { get; }
     
+    [Binary(3)]
+    [BinaryReader(typeof(TwoDimensionalCoordinateReader))]
     public Coordinate Coordinate { get; }
 }

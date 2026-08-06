@@ -10,25 +10,21 @@ public class RunwaySubRecordTests : TestBase
     [Theory]
     [InlineData(
         AirportRecordDataType.OffsetPrimary,
-        AirportSubReportBaseRecord.SubReportBaseType.OffsetThreshold,
         SurfaceType.Concrete,
         76.2f,
         30.48f)]
     [InlineData(
         AirportRecordDataType.BlastPadSecondary,
-        AirportSubReportBaseRecord.SubReportBaseType.BlastPad,
         SurfaceType.Gravel,
         60.96f,
         36.576f)]
     [InlineData(
         AirportRecordDataType.OverrunSecondary,
-        AirportSubReportBaseRecord.SubReportBaseType.Overrun,
         SurfaceType.Dirt,
         91.44f,
         27.432f)]
     public void RunwaySubRecord_Offset_Parsed(
         AirportRecordDataType type,
-        AirportSubReportBaseRecord.SubReportBaseType expectedSubReportType,
         SurfaceType expectedSurfaceType,
         float expectedLength,
         float expectedWidth)
@@ -43,7 +39,6 @@ public class RunwaySubRecordTests : TestBase
 
         offset.ShouldNotBeNull();
 
-        offset.Type.ShouldBe(expectedSubReportType);
         offset.SurfaceType.ShouldBe(expectedSurfaceType);
         offset.Length.ShouldBe(expectedLength);
         offset.Width.ShouldBe(expectedWidth);

@@ -2,9 +2,4 @@
 
 namespace BglReader.Airport.Subsections;
 
-public sealed class HelipadSceneryObjectRecord : IncludedSceneryObject
-{
-    public HelipadSceneryObjectRecord(ushort id, BglBinaryReader reader) : base(id, reader)
-    {
-    }
-}
+public sealed class HelipadSceneryObjectRecord(ushort id, BglBinaryReader reader) : IncludedSceneryObject(id, reader);

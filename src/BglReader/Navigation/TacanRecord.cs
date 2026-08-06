@@ -4,48 +4,34 @@ using BglReader.ValueObjects.BitFields;
 
 namespace BglReader.Navigation;
 
-public class TacanRecord : BglRecord
+[BinarySerializable]
+public partial class TacanRecord : BglRecord
 {
-    public TacanRecord(ushort id, BglBinaryReader reader) : base(id, reader)
-    {
-        Coordinates = reader.ReadCoordinates();
-        Channel = reader.ReadUInt32();
-
-        Flags = new TacanFlags(reader.ReadByte());
-
-        Range = reader.ReadSingle();
-        MagneticVariation = (MagneticVariation)reader.ReadSingle();
-        Identifier = new ShiftedIcaoIdentifier(reader.ReadUInt32());
-
-        RegionFlags = new RegionFlags(reader.ReadUInt32());
-        MapSubRecords(reader);
-    }
-    
+    [Binary(1)]
+    [BinaryReader(typeof(ThreeDimensionalCoordinateReader))]
     public Coordinate Coordinates { get; }
     
+    [Binary(2)]
     public uint Channel { get; }
     
+    [Binary(3)]
     public TacanFlags Flags { get; }
     
+    [Binary(4)]
     public float Range { get; }
     
+    [Binary(5)]
+    [BinaryReader(typeof(MagneticVariationReader))]
     public MagneticVariation MagneticVariation { get; }
     
-    public ShiftedIcaoIdentifier Identifier { get; }
+    [Binary(6)]
+    [BinaryReader(typeof(ShiftedIcaoIdentifierReader))]
+    public IcaoIdentifier Identifier { get; }
     
+    [Binary(7)]
     public RegionFlags RegionFlags { get; }
     
+    [Binary(8)]
+    [BinaryPolymorphicCollection(typeof(NavigationDataFactory), typeof(NavigationDataType))]
     public ICollection<BglRecord> SubRecords { get; } = new List<BglRecord>();
-    
-    public void MapSubRecords(BglBinaryReader reader)
-    {
-        while (reader.Position < EndPosition)
-        {
-            var id = (NavigationDataType)reader.ReadUInt16();
-
-            var record = BglRecordFactory.Create(id, reader);
-            
-            if (record is not null) SubRecords.Add(record);
-        }
-    }
 }

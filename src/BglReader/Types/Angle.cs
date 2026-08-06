@@ -2,7 +2,7 @@
 
 public readonly struct Angle
 {
-    public Angle(uint value)
+    public Angle(ushort value)
     {
         Value = ((double)value * 360) / 65535;
     }

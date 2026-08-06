@@ -4,50 +4,33 @@ using BglReader.ValueObjects;
 
 namespace BglReader.Airport.Subsections;
 
-public class DeleteAirportRecord : BglRecord
+[BinarySerializable]
+public partial class DeleteAirportRecord : BglRecord
 {
-    public DeleteAirportRecord(ushort id, BglBinaryReader reader) : base(id, reader)
-    {
-        DeleteFlags = (DeleteFlags)reader.ReadUInt16();
-        NumberOfRunways = reader.ReadByte();
-        NumberOfStarts = reader.ReadByte();
-        NumberOfFrequencies = reader.ReadByte();
-
-        Runways = [.. MapRunways(reader)];
-        Starts = [.. MapStarts(reader)];
-        Frequencies = [.. MapFrequencies(reader)];
-
-        _ = reader.ReadByte(); // Unused
-    }
-
+    [Binary(1)]
     public DeleteFlags DeleteFlags { get; }
 
+    [Binary(2)]
     public byte NumberOfRunways { get; }
 
+    [Binary(3)]
     public byte NumberOfStarts { get; }
 
+    [Binary(4)]
     public byte NumberOfFrequencies { get; }
 
+    [Binary(5)]
+    [BinaryCollection(nameof(NumberOfRunways))]
     public ICollection<DeleteRunway> Runways { get; }
 
+    [Binary(6)]
+    [BinaryCollection(nameof(NumberOfStarts))]
     public ICollection<DeleteStart> Starts { get; }
 
+    [Binary(7)]
+    [BinaryCollection(nameof(NumberOfFrequencies))]
     public ICollection<DeleteFrequency> Frequencies { get; }
-
-    private IEnumerable<DeleteRunway> MapRunways(BglBinaryReader reader) => Enumerable.Range(0, NumberOfRunways)
-        .Select(_ => new DeleteRunway(
-            reader.ReadByte(),
-            reader.ReadByte(),
-            reader.ReadByte(),
-            reader.ReadByte()));
-
-    private IEnumerable<DeleteStart> MapStarts(BglBinaryReader reader) => Enumerable.Range(0, NumberOfStarts).Select(_ =>
-        new DeleteStart(
-            reader.ReadByte(),
-            reader.ReadByte(),
-            reader.ReadByte(),
-            reader.ReadByte()));
-
-    private IEnumerable<DeleteFrequency> MapFrequencies(BglBinaryReader reader) => Enumerable.Range(0, NumberOfFrequencies)
-        .Select(x => new DeleteFrequency(reader.ReadUInt32()));
+    
+    [Binary(8)]
+    public byte Unknown { get; }
 }

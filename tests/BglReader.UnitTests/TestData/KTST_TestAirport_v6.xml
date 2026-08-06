@@ -234,9 +234,40 @@
                                    theta="179.58"
                                    rho="0.0"
                                    distance="5"
-                                   magneticCourse="179.58" />
+                                   magneticCourse="179.58"
+                                   altitudeDescriptor="B"
+                                   altitude1="4000"
+                                   altitude2="5000" />
 
                      </ApproachLegs>
+
+                     <Transition
+                            transitionType="FULL"
+                            fixType="WAYPOINT"
+                            fixRegion="K9"
+                            fixIdent="IDENT"
+                            altitude="20">
+                            <TransitionLegs>
+
+                            <Leg
+                                   type="CF"
+                                   fixType="RUNWAY"
+                                   fixRegion="K1"
+                                   fixIdent="RW18"
+                                   flyOver="FALSE"
+                                   turnDirection="E"
+                                   recommendedType="LOCALIZER"
+                                   recommendedRegion="K1"
+                                   recommendedIdent="ITST"
+                                   theta="179.58"
+                                   rho="0.0"
+                                   distance="5"
+                                   magneticCourse="179.58"
+                                   altitudeDescriptor="B"
+                                   altitude1="4000"
+                                   altitude2="5000" />
+                            </TransitionLegs>
+                     </Transition>
 
               </Approach>
               <Helipad

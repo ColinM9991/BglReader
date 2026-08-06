@@ -1,6 +1,6 @@
 namespace BglReader.Airport.Subsections.Approach;
 
-public enum TransitionType
+public enum TransitionType : byte
 {
     Full = 1,
     Dme = 2

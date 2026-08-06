@@ -3,18 +3,17 @@ using BglReader.Types;
 
 namespace BglReader.Navigation;
 
-public class DmeRecord : BglRecord
+[BinarySerializable]
+public partial class DmeRecord : BglRecord
 {
-    public DmeRecord(ushort id, BglBinaryReader reader)
-        : base(id, reader)
-    {
-        _ = reader.ReadBytes(2); // TODO unknown
-        
-        Coordinates = reader.ReadCoordinates();
-        Range = reader.ReadSingle();
-    }
+    [Binary(1)]
+    [BinaryConsume(2)]
+    public byte[] Unknown { get; }
     
+    [Binary(2)]
+    [BinaryReader(typeof(ThreeDimensionalCoordinateReader))]
     public Coordinate Coordinates { get; }
     
+    [Binary(3)]
     public float Range { get; }
 }

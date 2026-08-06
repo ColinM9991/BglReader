@@ -3,25 +3,28 @@ using BglReader.Types;
 
 namespace BglReader.Navigation;
 
-public class MarkerRecord : BglRecord
+[BinarySerializable]
+public partial class MarkerRecord : BglRecord
 {
-    public MarkerRecord(ushort id, BglBinaryReader reader) : base(id, reader)
-    {
-        Heading = reader.ReadByte();
-        Type = (MarkerType)reader.ReadByte();
-        Coordinates = reader.ReadCoordinates();
-        Identifier = new ShiftedIcaoIdentifier(reader.ReadUInt32());
-        Region = new IcaoIdentifier(reader.ReadUInt16());
-        _ = reader.ReadBytes(2); // TODO Unknown
-    }
+    [Binary(1)]
+    public byte Heading { get; }
     
-    public ushort Heading { get; }
-    
+    [Binary(2)]
     public MarkerType Type { get; }
     
+    [Binary(3)]
+    [BinaryReader(typeof(ThreeDimensionalCoordinateReader))]
     public Coordinate Coordinates { get; }
     
-    public ShiftedIcaoIdentifier Identifier { get; }
+    [Binary(4)]
+    [BinaryReader(typeof(ShiftedIcaoIdentifierReader))]
+    public IcaoIdentifier Identifier { get; }
     
+    [Binary(5)]
+    [BinaryReader(typeof(HalfIcaoIdentifierReader))]
     public IcaoIdentifier Region { get; }
+    
+    [Binary(6)]
+    [BinaryConsume(2)]
+    public byte[] Unknown { get; }
 }

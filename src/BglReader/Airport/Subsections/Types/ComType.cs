@@ -1,6 +1,6 @@
 ﻿namespace BglReader.Airport.Subsections.Types;
 
-public enum ComType : ushort
+public enum ComType : byte
 {
     Atis = 0x0001,
     Multicom = 0x0002,

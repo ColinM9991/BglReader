@@ -2,16 +2,13 @@
 
 namespace BglReader.Airport.Subsections.Taxi;
 
-public class AirportTaxiPathRecord : BglRecord
+[BinarySerializable]
+public partial class AirportTaxiPathRecord : BglRecord
 {
-    public AirportTaxiPathRecord(ushort id, BglBinaryReader reader) : base(id, reader)
-    {
-        NumberOfPaths = reader.ReadUInt16();
-
-        Paths = Enumerable.Range(0, NumberOfPaths).Select(x => new TaxiPathP3D(reader)).ToList();
-    }
-
+    [Binary(1)]
     public ushort NumberOfPaths { get; }
 
-    public ICollection<TaxiPathP3D> Paths { get; }
+    [Binary(2)]
+    [BinaryCollection(nameof(NumberOfPaths))]
+    public ICollection<TaxiPath> Paths { get; }
 }

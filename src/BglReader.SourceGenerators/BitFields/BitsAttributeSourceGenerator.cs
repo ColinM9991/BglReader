@@ -1,0 +1,167 @@
+﻿using System.Linq;
+using Microsoft.CodeAnalysis;
+
+namespace BglReader.SourceGenerators.BitFields;
+
+[Generator]
+public sealed class BitsAttributeSourceGenerator : IIncrementalGenerator
+{
+    public void Initialize(IncrementalGeneratorInitializationContext context)
+    {
+        context.RegisterPostInitializationOutput(ctx => ctx.AddSource("BitsAttributes.g.cs", """
+                namespace BglReader.Attributes;
+                
+                [AttributeUsage(AttributeTargets.Class)]
+                public sealed class BitFieldAttribute(Type type) : Attribute
+                {
+                    public Type Type { get; } = type;
+                }
+
+                [AttributeUsage(AttributeTargets.Property)]
+                public sealed class BitsAttribute(
+                    int offset,
+                    int length = 1) : Attribute
+                {
+                    public int Offset { get; } = offset;
+
+                    public int Length { get; } = length;
+                }
+                """
+        ));
+
+        var classes = context.SyntaxProvider.ForAttributeWithMetadataName(
+            "BglReader.Attributes.BitFieldAttribute",
+            static (_, _) => true,
+            static (ctx, token) =>
+            {
+                token.ThrowIfCancellationRequested();
+
+                var attribute = ctx.Attributes[0];
+
+                var underlyingType = attribute.ConstructorArguments[0]
+                    .Value as ITypeSymbol;
+
+                var typeSymbol = (INamedTypeSymbol)ctx.TargetSymbol;
+
+                var properties = typeSymbol
+                    .GetMembers()
+                    .OfType<IPropertySymbol>()
+                    .Where(static x => x.GetAttributes()
+                        .Any(static a =>
+                            a.AttributeClass?.Name == "BitsAttribute"))
+                    .Select(static property =>
+                    {
+                        var bits = property.GetAttributes()
+                            .First(a => a.AttributeClass?.Name == "BitsAttribute");
+
+                        return new Property(
+                            property.Type.ToDisplayString(),
+                            property.Type.SpecialType,
+                            property.Name,
+                            (int)bits.ConstructorArguments[0].Value!,
+                            (int)bits.ConstructorArguments[1].Value!);
+                    })
+                    .ToArray();
+
+                return new ClassModel<Property>(
+                    typeSymbol,
+                    properties)
+                {
+                    UnderlyingType =
+                        underlyingType!.ToDisplayString(),
+                };
+            });
+        context.RegisterSourceOutput(classes, Generate);
+    }
+
+    private static void Generate(
+        SourceProductionContext context,
+        ClassModel<Property> bitField)
+    {
+        var source = new IndentingStringBuilder();
+
+        source.AppendLine($"namespace {bitField.Namespace};")
+            .AppendLine()
+            .AppendLine($"public partial class {bitField.Name}")
+            .AppendLine("{")
+            .IncrementIndentation();
+
+        if (!bitField.IsInheriting)
+        {
+            source.AppendLine($"protected readonly {bitField.UnderlyingType} _value;")
+                .AppendLine();
+        }
+
+        source.AppendLine($"public {bitField.Name}({bitField.UnderlyingType} value)");
+
+        if (bitField.IsInheriting)
+        {
+            source.IncrementIndentation()
+                .AppendLine(": base(value)")
+                .DecrementIndentation();
+        }
+
+        source.AppendLine("{");
+        if (!bitField.IsInheriting)
+        {
+            source.IncrementIndentation()
+                .AppendLine("_value = value;")
+                .DecrementIndentation();
+        }
+
+        source.AppendLine("}")
+            .AppendLine();
+
+        foreach (var property in bitField.Properties)
+        {
+            var mask = CreateMask(property.Length);
+
+            source.AppendLine($"public partial {property.Type} {property.Name}")
+                .AppendLine("{")
+                .IncrementIndentation()
+                .AppendLine("get")
+                .AppendLine("{")
+                .IncrementIndentation()
+                .Append("return ");
+
+            if (property.ReturnKind is not SpecialType.System_Boolean)
+                source.Append($"({property.Type})");
+
+            var bitmask = property.Offset == 0
+                ? $"(_value & {mask})"
+                : $"((_value >> {property.Offset}) & {mask})";
+
+            source.Append(bitmask);
+
+            if (property.ReturnKind is SpecialType.System_Boolean)
+                source.Append(" != 0");
+
+            source
+                .AppendLine(";")
+                .DecrementIndentation()
+                .AppendLine("}")
+                .DecrementIndentation()
+                .AppendLine("}");
+        }
+
+        source
+            .DecrementIndentation()
+            .AppendLine("}");
+
+        context.AddSource(
+            $"{bitField.Name}.g.cs",
+            source.ToString());
+    }
+
+    private static string CreateMask(int length)
+    {
+        return length == 32 ? "0xFFFFFFFF" : $"0x{((1u << length) - 1):X}";
+    }
+}
+
+internal sealed record Property(
+    string Type,
+    SpecialType ReturnKind,
+    string Name,
+    int Offset,
+    int Length);

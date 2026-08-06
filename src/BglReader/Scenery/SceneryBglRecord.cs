@@ -3,7 +3,7 @@ using BglReader.Generic;
 namespace BglReader.Scenery;
 
 /// <inheritdoc/>
-public class SceneryBglRecord : BaseBglRecord<ushort>
+public class SceneryBglRecord : SizedBglRecord<ushort>
 {
     protected SceneryBglRecord(ushort id, BglBinaryReader reader) : base(id, reader)
     {
@@ -31,6 +31,6 @@ public class SceneryBglRecord : BaseBglRecord<ushort>
     {
         var sceneryType = (SceneryObjectType)id;
         
-        return BglRecordFactory.Create(sceneryType, reader);
+        return SceneryBglRecordFactory.Create(sceneryType, reader);
     }
 }

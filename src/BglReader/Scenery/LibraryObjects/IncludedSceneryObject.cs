@@ -2,17 +2,17 @@
 
 namespace BglReader.Scenery.LibraryObjects;
 
-public abstract class IncludedSceneryObject : BglRecord
+[BinarySerializable]
+public abstract partial class IncludedSceneryObject : BglRecord
 {
-    public IncludedSceneryObject(ushort id, BglBinaryReader reader) : base(id, reader)
-    {
-        ScenerySize = reader.ReadUInt32();
-        EmbeddedObject = SceneryBglRecord.Read(reader);
-
-        _ = reader.ReadBytes(2); // Padding for scenery objects
-    }
-
+    [Binary(1)]
     public uint ScenerySize { get; }
 
+    [Binary(2)]
+    [BinaryReader(typeof(SceneryReader))]
     public SceneryBglRecord? EmbeddedObject { get; }
+    
+    [Binary(3)]
+    [BinaryConsume(2)]
+    public byte[] Padding { get; } 
 }

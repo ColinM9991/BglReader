@@ -2,15 +2,13 @@
 
 namespace BglReader.Airport.Subsections;
 
-public class TowerSceneryObjectRecord : BglRecord
+[BinarySerializable]
+public partial class TowerSceneryObjectRecord : BglRecord
 {
-    public TowerSceneryObjectRecord(ushort id, BglBinaryReader reader) : base(id, reader)
-    {
-        ScenerySize = reader.ReadUInt32();
-        EmbeddedObject = reader.ReadBytes((int)ScenerySize);
-    }
+    [Binary(1)]
+    public int ScenerySize { get; }
 
-    public uint ScenerySize { get; }
-
+    [Binary(2)]
+    [BinaryConsume(nameof(ScenerySize))]
     public byte[] EmbeddedObject { get; }
 }

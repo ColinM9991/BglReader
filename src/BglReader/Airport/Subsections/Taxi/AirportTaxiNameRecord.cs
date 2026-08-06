@@ -2,18 +2,14 @@
 
 namespace BglReader.Airport.Subsections.Taxi;
 
-public class AirportTaxiNameRecord : BglRecord
+[BinarySerializable]
+public partial class AirportTaxiNameRecord : BglRecord
 {
-    public AirportTaxiNameRecord(ushort id, BglBinaryReader reader) : base(id, reader)
-    {
-        NumberOfRecords = reader.ReadUInt16();
-
-        Records = Enumerable.Range(0, NumberOfRecords)
-            .Select(i => reader.ReadString(8))
-            .ToList();
-    }
-
+    [Binary(1)]
     public ushort NumberOfRecords { get; }
 
+    [Binary(2)]
+    [BinaryReader(typeof(TaxiNameReader))]
+    [BinaryCollection(nameof(NumberOfRecords))]
     public ICollection<string> Records { get; }
 }

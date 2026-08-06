@@ -3,32 +3,22 @@ using BglReader.Types;
 
 namespace BglReader.Airport.Subsections;
 
-public class AirportFenceRecord : BglRecord
+[BinarySerializable]
+public partial class AirportFenceRecord : BglRecord
 {
-    public AirportFenceRecord(ushort id, BglBinaryReader reader) : base(id, reader)
-    {
-        NumberOfVertices = reader.ReadUInt16();
-        Instance = new Guid(reader.ReadBytes(16));
-        Profile = new Guid(reader.ReadBytes(16));
-        
-        MapVertices(reader);
-    }
-    
+    [Binary(1)]
     public ushort NumberOfVertices { get; }
     
+    [Binary(2)]
+    [BinaryReader(typeof(GuidValueReader))]
     public Guid Instance { get; }
     
+    [Binary(3)]
+    [BinaryReader(typeof(GuidValueReader))]
     public Guid Profile { get; }
-    
-    public ICollection<Coordinate> Vertices { get; } = new List<Coordinate>();
 
-    private void MapVertices(BglBinaryReader reader)
-    {
-        if (NumberOfVertices == 0) return;
-
-        for (var i = 0; i < NumberOfVertices; i++)
-        {
-            Vertices.Add(reader.ReadCoordinates(hasElevation: false));
-        }
-    }
+    [Binary(4)]
+    [BinaryReader(typeof(TwoDimensionalCoordinateReader))]
+    [BinaryCollection(nameof(NumberOfVertices))]
+    public ICollection<Coordinate> Vertices { get; } = [];
 }

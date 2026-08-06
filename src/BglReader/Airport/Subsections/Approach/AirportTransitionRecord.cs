@@ -5,63 +5,30 @@ using BglReader.ValueObjects.BitFields;
 
 namespace BglReader.Airport.Subsections.Approach;
 
-public class AirportTransitionRecord : BglRecord
+[BinarySerializable]
+public partial class AirportTransitionRecord : BglRecord
 {
-    public AirportTransitionRecord(ushort id, BglBinaryReader reader) : base(id, reader)
-    {
-        Type = (TransitionType)reader.ReadByte();
-        NumberOfTransitionLegs = reader.ReadByte();
-
-        (FixType, FixIdentifier) = (AirportApproachDataType)Id == AirportApproachDataType.TransitionV6
-            ? ReadV6FixFlags(reader)
-            : ReadPackedFixFlags(reader);
-        FixRegionFlags = new RegionIdentifierFlags(reader.ReadUInt32());
-
-        Altitude = reader.ReadSingle();
-
-        if (Type == TransitionType.Dme)
-        {
-            DmeIdent = new ShiftedIcaoIdentifier(reader.ReadUInt32());
-
-            DmeRegionFlags = new RegionIdentifierFlags(reader.ReadUInt32());
-
-            Radial = reader.ReadUInt32();
-            Distance = reader.ReadSingle();
-        }
-
-        LegRecord = NumberOfTransitionLegs > 0
-            ? new AirportLegBaseRecord(reader)
-            : null;
-    }
-
+    [Binary(1)]
     public TransitionType Type { get; }
 
+    [Binary(2)]
     public byte NumberOfTransitionLegs { get; }
 
-    public FixType FixType { get; }
-
-    public IcaoIdentifier FixIdentifier { get; }
-
+    [Binary(3)]
+    [BinaryReader(typeof(TransitionFixReader))]
+    public (FixType Type, IcaoIdentifier Identifier) Fix { get; }
+    
+    [Binary(4)]
     public RegionIdentifierFlags FixRegionFlags { get; }
 
+    [Binary(5)]
     public float Altitude { get; }
 
-    public ShiftedIcaoIdentifier? DmeIdent { get; }
+    [Binary(6)]
+    [BinaryCondition<TransitionType>(nameof(Type), BinaryComparison.Equal, TransitionType.Dme)]
+    public TransitionDmeRecord? TransitionDme { get; }
 
-    public RegionIdentifierFlags? DmeRegionFlags { get; }
-
-    public uint Radial { get; }
-
-    public float Distance { get; }
-
+    [Binary(7)]
+    [BinaryCondition<int>(nameof(NumberOfTransitionLegs), BinaryComparison.GreaterThan, 0)]
     public AirportLegBaseRecord? LegRecord { get; }
-
-    private static (FixType FixType, IcaoIdentifier IcaoIdentifier) ReadV6FixFlags(BglBinaryReader reader) =>
-        ((FixType)reader.ReadUInt32(), new IcaoIdentifier(reader.ReadUInt32()));
-
-    private static (FixType FixType, IcaoIdentifier IcaoIdentifier) ReadPackedFixFlags(BglBinaryReader reader)
-    {
-        var fixFlags = new FixFlags(reader.ReadUInt32());
-        return (fixFlags.Type, fixFlags.Identifier);
-    }
 }

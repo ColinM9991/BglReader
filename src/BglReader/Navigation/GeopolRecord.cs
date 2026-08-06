@@ -4,27 +4,25 @@ using BglReader.ValueObjects.BitFields;
 
 namespace BglReader.Navigation;
 
-public class GeopolRecord : BglRecord
+[BinarySerializable]
+public partial class GeopolRecord : BglRecord
 {
-    public GeopolRecord(ushort id, BglBinaryReader reader) : base(id, reader)
-    {
-        Flags = new GeoPolFlags(reader.ReadUInt16());
-        
-        MinimumCoordinates = reader.ReadCoordinates(hasElevation: false);
-        MaximumCoordinates = reader.ReadCoordinates(hasElevation: false);
-
-        for (var i = 0; i < Flags.NumberOfVertices; i++)
-        {
-            Vertices.Add(reader.ReadCoordinates(hasElevation: false));
-        }
-    }
-    
+    [Binary(1)]
     public GeoPolFlags Flags { get; }
     
+    private int NumberOfVertices => Flags.NumberOfVertices;
+    
+    [Binary(2)]
+    [BinaryReader(typeof(TwoDimensionalCoordinateReader))]
     public Coordinate MinimumCoordinates { get; }
     
+    [Binary(3)]
+    [BinaryReader(typeof(TwoDimensionalCoordinateReader))]
     public Coordinate MaximumCoordinates { get; }
     
+    [Binary(4)]
+    [BinaryReader(typeof(TwoDimensionalCoordinateReader))]
+    [BinaryCollection(nameof(NumberOfVertices))]
     public ICollection<Coordinate> Vertices { get; } = new List<Coordinate>();
 }
 

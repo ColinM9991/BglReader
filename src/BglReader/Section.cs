@@ -26,7 +26,7 @@ public class Section : BglNode
 
     public uint TotalSizeOfSubsections { get; }
 
-    protected override long EndPosition => StartPosition + SubsectionSize;
+    internal override long EndPosition => StartPosition + SubsectionSize;
 
     public Subsection[] Subsections { get; }
 
