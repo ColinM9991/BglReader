@@ -118,7 +118,7 @@ internal static class NavigationDataFactory
     }
 }
 
-internal static class BglRecordFactory
+internal static class SceneryBglRecordFactory
 {
     internal static SceneryBglRecord? Create(SceneryObjectType sceneryObjectType, BglBinaryReader reader) =>
         sceneryObjectType switch

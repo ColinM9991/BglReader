@@ -31,6 +31,6 @@ public class SceneryBglRecord : SizedBglRecord<ushort>
     {
         var sceneryType = (SceneryObjectType)id;
         
-        return BglRecordFactory.Create(sceneryType, reader);
+        return SceneryBglRecordFactory.Create(sceneryType, reader);
     }
 }

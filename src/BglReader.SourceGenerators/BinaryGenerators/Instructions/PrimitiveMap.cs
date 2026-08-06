@@ -15,7 +15,7 @@ internal static class PrimitiveMap
             [SpecialType.System_Int32] = new(SpecialType.System_Int32),
             [SpecialType.System_UInt32] = new(SpecialType.System_UInt32),
             [SpecialType.System_Single] = new(SpecialType.System_Single),
-            [SpecialType.System_Double] = new(SpecialType.System_Single),
+            [SpecialType.System_Double] = new(SpecialType.System_Double),
         };
     internal static readonly IReadOnlyDictionary<SpecialType, string> Readers =
         new Dictionary<SpecialType, string>
@@ -26,6 +26,6 @@ internal static class PrimitiveMap
             [SpecialType.System_Int32] = "reader.ReadInt32()",
             [SpecialType.System_UInt32] = "reader.ReadUInt32()",
             [SpecialType.System_Single] = "reader.ReadSingle()",
-            [SpecialType.System_Double] = "reader.ReadSingle()",
+            [SpecialType.System_Double] = "reader.ReadDouble()",
         };
 }
